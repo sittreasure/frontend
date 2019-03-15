@@ -1,0 +1,43 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
+    },
+    "extends": [
+        "standard",
+        "standard-react",
+        "eslint:recommended"
+    ],
+    "rules": {
+        "object-curly-spacing": ["error", "always"],
+        "eol-last": ["error", "always"],
+        "semi": ["error", "never"],
+        "no-console": "warn",
+        "import/no-extraneous-dependencies": {
+            "moduleDirectories": ["./"]
+        },
+        "no-restricted-syntax": "warn",
+        "react/prop-types": "error",
+        "react/no-unescaped-entities": ["error", {
+            "forbid": [">", "\"", "}"]
+        }],
+        "comma-dangle": ["error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline"
+        }],
+        "no-unused-vars": ["error", {
+            "vars": "all",
+            "args": "after-used",
+            "ignoreRestSiblings": false
+        }]
+    },
+    "overrides": [
+        {
+          "files": ["*.test.js","*.spec.js"],
+          "rules": {
+            "no-undef": "off"
+          }
+        }
+    ]
+}
