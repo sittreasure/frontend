@@ -1,16 +1,29 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+// import styled from 'styled-components'
+import { ReflexContainer, ReflexSplitter, ReflexElement } from 'react-reflex'
 
-const Container = styled.h1`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+import Directory from './Directory'
 
 class Playground extends Component {
   render() {
     return (
-      <Container>Welcome to Playground Page</Container>
+      <ReflexContainer orientation="vertical">
+        <ReflexElement
+          className="left-pane"
+          flex={0.2}
+        >
+          <Directory />
+        </ReflexElement>
+        <ReflexSplitter />
+        <ReflexElement
+          className="right-pane"
+          flex={0.8}
+        >
+          <div className="pane-content">
+            Right Pane (resizeable)
+          </div>
+        </ReflexElement>
+      </ReflexContainer>
     )
   }
 }
