@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import Playground from './playground'
+import Playground from './features/playground'
 
 class App extends Component {
   render() {
