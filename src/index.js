@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'react-reflex/styles.css'
 
 import App from './App'
-import './static/styles.css'
+import './static/css/styles.css'
 
 ReactDOM.render(
   <App />,
