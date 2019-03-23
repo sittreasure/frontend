@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import { SideTab, Tab } from '../../utilities'
-// import Directory from './Directory'
+import Directory from './Directory'
 
 const Wrappper = styled.div`
   display: flex;
@@ -49,7 +49,9 @@ class Playground extends Component {
             <Icon src={require('../../assets/images/folder.png')} />
           </Tab>
         </SideTab>
-        <Container />
+        <Container>
+          <Directory show={this.state.directory} />
+        </Container>
       </Wrappper>
     )
   }
