@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Label from './Label'
 
 const DirectoryContainer = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: column;
-  background-color: #eee;
+  background-color: #141414;
   height: 100%;
+  width: 297px;
+  position: relative;
+  z-index: 10;
+  top: 0px;
+  left: ${props => props.show ? -9 : -359}px;
 `
 
 class Directory extends Component {
@@ -61,11 +66,15 @@ class Directory extends Component {
   
   render() {
     return (
-      <DirectoryContainer>
+      <DirectoryContainer show={this.props.show} className="transition">
         {this.showLabel(this.state.data).map(data => data)}
       </DirectoryContainer>
     )
   }
+}
+
+Directory.propTypes = {
+  show: PropTypes.bool,
 }
 
 export default Directory
