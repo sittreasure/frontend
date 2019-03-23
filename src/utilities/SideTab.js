@@ -8,12 +8,23 @@ const Container = styled.div`
   background-color: #141414;
   padding: 0px;
   margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const Logo = styled.div`
+  height: 40px;
+  width: 40px;
+  background-color: #C4C4C4;
+  margin-top: 9px;
 `
 
 class SideTab extends Component {
   render() {
     return (
       <Container>
+        <Logo />
         {this.props.children}
       </Container>
     )
@@ -21,7 +32,10 @@ class SideTab extends Component {
 }
 
 SideTab.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.element,
+  ]),
 }
 
 export default SideTab
