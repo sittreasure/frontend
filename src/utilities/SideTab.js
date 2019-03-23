@@ -11,6 +11,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 999;
 `
 
 const Logo = styled.div`
