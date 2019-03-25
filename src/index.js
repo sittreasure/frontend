@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 import App from './App'
 import reduxStore from './redux'
+import './assets/css/font.css'
 import './assets/css/styles.css'
 
 const store = reduxStore()
