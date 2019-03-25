@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import LabelGroup from './LabelGroup'
 import Label from './Label'
 
 const DirectoryContainer = styled.div`
@@ -14,6 +15,18 @@ const DirectoryContainer = styled.div`
   z-index: 10;
   top: 0px;
   left: ${props => props.show ? -9 : -359}px;
+`
+
+const Title = styled.div`
+  font-family: "ThaiSans Neue";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 23px;
+  line-height: normal;
+  color: #61D0FF;
+  margin-top: 12px;
+  margin-left: 17px;
+  cursor: default;
 `
 
 class Directory extends Component {
@@ -67,7 +80,11 @@ class Directory extends Component {
   render() {
     return (
       <DirectoryContainer show={this.props.show} className="transition">
-        {this.showLabel(this.state.data).map(data => data)}
+        <Title>File Editor</Title>
+        <LabelGroup title="Open Tabs" height="30%" />
+        <LabelGroup title="Files" height="100%">
+          {this.showLabel(this.state.data).map(data => data)}
+        </LabelGroup>
       </DirectoryContainer>
     )
   }
