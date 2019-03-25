@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import LabelGroup from './LabelGroup'
 import Label from './Label'
+import LabelFolder from './LabelFolder'
 
 const DirectoryContainer = styled.div`
   display: flex;
@@ -46,6 +47,19 @@ class Directory extends Component {
           isDir: true,
           data: [
             {
+              id: 'dir/dir2',
+              objectName: 'dir2',
+              isDir: true,
+              data: [
+                {
+                  id: 'dir/dir2/Sample.java',
+                  objectName: 'Sample.java',
+                  isDir: false,
+                  data: null,
+                },
+              ],
+            },
+            {
               id: 'dir/Sample.java',
               objectName: 'Sample.java',
               isDir: false,
@@ -58,23 +72,37 @@ class Directory extends Component {
   }
   
   showLabel(data) {
-    let result = []
-    for (let i = 0; i < data.length; i++) {      
-      let element = (
-        <Label
-          key={data[i].id}
-          name={data[i].objectName}
-          isDir={data[i].isDir}
-          dept={data[i].id.split('/').length}
-        />
-      )
-      result.push(element)
-      if (data[i].isDir) {
-        let element = this.showLabel(data[i].data)
-        result = [...result, ...element]
+    return (
+      <Label
+        key={data.id}
+        name={data.objectName}
+        dept={data.id.split('/').length}
+      />
+    )
+  }
+
+  showLabelFolder(data) {
+    let children = []
+    let inside = data.data
+    let element
+    inside.map(data => {
+      if (data.isDir) {
+        element = this.showLabelFolder(data)
       }
-    }
-    return result
+      else {
+        element = this.showLabel(data)
+      }
+      children = [...children, element]
+    })
+    return (
+      <LabelFolder
+        key={data.id}
+        name={data.objectName}
+        dept={data.id.split('/').length}
+      >
+        {children.map(data => data)}
+      </LabelFolder>
+    )
   }
   
   render() {
@@ -83,7 +111,12 @@ class Directory extends Component {
         <Title>File Editor</Title>
         <LabelGroup title="Open Tabs" height="30%" />
         <LabelGroup title="Files" height="100%">
-          {this.showLabel(this.state.data).map(data => data)}
+          {this.state.data.map(data => {
+            if(data.isDir) {
+              return this.showLabelFolder(data)
+            }
+            return this.showLabel(data)
+          })}
         </LabelGroup>
       </DirectoryContainer>
     )
