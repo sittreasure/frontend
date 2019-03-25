@@ -2,50 +2,37 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { Styled } from './utilities'
+
 const Container = styled.div`
   display: flex;
   align-items: center;
-  align-self: flex-start;
   height: 36px;
-
   padding-top: 2px;
   padding-bottom: 2px;
 `
 
-const Idel = styled.div`
-  width: ${props => (props.dept * 17) + 17}px;
-  height: 1px;
-`
-
-const TitleWrapper = styled.div`
-  display: flex;
-  cursor: pointer;
-`
-
-const Icon = styled.img`
-  width: 17px;
-  height: 19px;
-  margin-right: 10px;
-`
-
-const Title = styled.div`
-  font-family: "ThaiSans Neue";
-  font-style: normal;
-  font-weight: bold;
-  font-size: 21px;
-  line-height: normal;
-  color: #C4C4C4;
-`
-
 class Label extends Component {
+
+  renderIcon(name) {
+    name = name.split('.')
+    const type = name[name.length - 1]
+    switch (type) {
+      case 'java':
+        return require('../../assets/images/java.png')
+      default:
+        return require('../../assets/images/dropdown.png')
+    }
+  }
+
   render() {
     return (
       <Container>
-        <Idel dept={this.props.dept || 1} />
-        <TitleWrapper>
-          <Icon src={require('../../assets/images/java.png')} />
-          <Title>{this.props.name}</Title>
-        </TitleWrapper>
+        <Styled.Idel dept={this.props.dept || 1} />
+        <Styled.TitleWrapper>
+          <Styled.Icon src={this.renderIcon(this.props.name)} />
+          <Styled.Title>{this.props.name}</Styled.Title>
+        </Styled.TitleWrapper>
       </Container>
     )
   }
@@ -53,7 +40,6 @@ class Label extends Component {
 
 Label.propTypes = {
   name: PropTypes.string,
-  // isDir: PropTypes.bool,
   dept: PropTypes.number,
 }
 
