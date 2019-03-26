@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import LabelGroup from './LabelGroup'
 import Label from './Label'
 import LabelFolder from './LabelFolder'
+import DirectoryActions from '../../redux/directoryStore'
 
 const DirectoryContainer = styled.div`
   display: flex;
@@ -31,50 +33,15 @@ const Title = styled.div`
 `
 
 class Directory extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: [
-        {
-          id: 'Sample.java',
-          objectName: 'Sample.java',
-          isDir: false,
-          data: null,
-        },
-        {
-          id: 'dir',
-          objectName: 'dir',
-          isDir: true,
-          data: [
-            {
-              id: 'dir/dir2',
-              objectName: 'dir2',
-              isDir: true,
-              data: [
-                {
-                  id: 'dir/dir2/Sample.java',
-                  objectName: 'Sample.java',
-                  isDir: false,
-                  data: null,
-                },
-              ],
-            },
-            {
-              id: 'dir/Sample.java',
-              objectName: 'Sample.java',
-              isDir: false,
-              data: null,
-            },
-          ],
-        },
-      ],
-    }
+  componentDidMount() {
+    this.props.dispatch(DirectoryActions.getMetadata('playground/'))
   }
   
   showLabel(data) {
     return (
       <Label
         key={data.id}
+        id={data.id}
         name={data.objectName}
         dept={data.id.split('/').length}
       />
@@ -97,8 +64,10 @@ class Directory extends Component {
     return (
       <LabelFolder
         key={data.id}
+        id={data.id}
         name={data.objectName}
-        dept={data.id.split('/').length}
+        insideSize={inside.length}
+        dept={data.id.split('/').length - 1}
       >
         {children.map(data => data)}
       </LabelFolder>
@@ -111,7 +80,7 @@ class Directory extends Component {
         <Title>File Editor</Title>
         <LabelGroup title="Open Tabs" height="30%" />
         <LabelGroup title="Files" height="100%">
-          {this.state.data.map(data => {
+          {this.props.directory.map(data => {
             if(data.isDir) {
               return this.showLabelFolder(data)
             }
@@ -125,6 +94,12 @@ class Directory extends Component {
 
 Directory.propTypes = {
   show: PropTypes.bool,
+  dispatch: PropTypes.func,
+  directory: PropTypes.array,
 }
 
-export default Directory
+const mapStateToProps = state => ({
+  directory: state.directoryStore.directory,
+})
+
+export default connect(mapStateToProps)(Directory)
