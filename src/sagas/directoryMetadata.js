@@ -10,7 +10,6 @@ function* getMetadata({ prefix = '' }) {
       const { data } = await axios.get(`minios/file?prefix_name=${prefix}`)
       metadata = data
     })
-    console.log('>>> [directoryMetadata.js:13] metadata : ', metadata)
     yield put(DirectoryActions.setMetadata(metadata))
   } catch (error) {
     console.log('>>> [directoryMetadata.js:15] error : ', error)
