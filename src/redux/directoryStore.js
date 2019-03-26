@@ -3,7 +3,7 @@ import Immutable from 'seamless-immutable'
 
 const { Types, Creators } = createActions({
   getMetadata: ['prefix'],
-  setMetadata: ['id', 'data'],
+  setMetadata: ['datas'],
   getData: null,
   setData: ['id', 'data'],
 })
@@ -15,10 +15,35 @@ const INITIAL_STATE = Immutable({
   directory: [],
 })
 
-const setMetadata = () => ({})
-// const setMetadata = (state = INITIAL_STATE, { id, data }) => ({
-//   ...state
-// })
+// const findDirectory = (id, data) => {
+
+// }
+
+const setMetadata = (state = INITIAL_STATE, { datas }) => {
+  let directory = []
+  datas.map(data => {
+    let name = data.object_name.split('/')
+    name.shift()
+    let metadata = {
+      id: data.object_name,
+      objectName: name.join('/'),
+      isDir: false,
+      data: null,
+    }
+    if (data.is_dir) {
+      metadata.isDir = true
+      metadata.data = []
+    }
+    directory.push(metadata)
+  })
+  if (state.directory.length === 0) {
+    return {
+      ...state,
+      directory: directory,
+    }
+  }
+
+}
 
 const setData = () => ({})
 // const setData = (state = INITIAL_STATE, { id, data }) => ({
