@@ -11,7 +11,7 @@ function* getMetadata({ prefix = '' }) {
       metadata = data
     })
     console.log('>>> [directoryMetadata.js:13] metadata : ', metadata)
-    yield put(DirectoryActions.setMetadata(metadata.object_name, metadata))
+    yield put(DirectoryActions.setMetadata(metadata))
   } catch (error) {
     console.log('>>> [directoryMetadata.js:15] error : ', error)
   }
