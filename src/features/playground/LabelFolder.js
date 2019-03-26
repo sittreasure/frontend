@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import { Styled, functions } from './utilities'
+import DirectoryActions from '../../redux/directoryStore'
 
 const Container = styled.div`
   display: flex;
@@ -33,7 +35,14 @@ class LabelFolder extends Component {
       <Container show={this.state.show} className="transition">
         <TitleWrapper>
           <Styled.Idel dept={this.props.dept || 1} />
-          <Styled.TitleWrapper onClick={e => functions.toggleShow(e, this)}>
+          <Styled.TitleWrapper
+            onClick={e => {
+              if (this.props.insideSize === 0) {
+                this.props.dispatch(DirectoryActions.getMetadata(this.props.id))
+              }
+              functions.toggleShow(e, this)
+            }}
+          >
             <Styled.Icon src={require('../../assets/images/folder.png')} />
             <Styled.Title>{this.props.name}</Styled.Title>
           </Styled.TitleWrapper>
@@ -49,8 +58,11 @@ LabelFolder.propTypes = {
     PropTypes.array,
     PropTypes.element,
   ]),
+  id: PropTypes.string,
   name: PropTypes.string,
   dept: PropTypes.number,
+  insideSize: PropTypes.number,
+  dispatch: PropTypes.func,
 }
 
-export default LabelFolder
+export default connect()(LabelFolder)
