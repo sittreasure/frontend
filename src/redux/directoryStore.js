@@ -15,15 +15,13 @@ const INITIAL_STATE = Immutable({
   directory: [],
 })
 
-// const findDirectory = (id, data) => {
-
-// }
-
-const setMetadata = (state = INITIAL_STATE, { datas }) => {
+const patternMetadatas = (datas, prefixName) => {
   let directory = []
+  prefixName = prefixName.split('/')
+  prefixName.pop()
   datas.map(data => {
     let name = data.object_name.split('/')
-    name.shift()
+    prefixName.map(() => name.shift())
     let metadata = {
       id: data.object_name,
       objectName: name.join('/'),
@@ -36,13 +34,37 @@ const setMetadata = (state = INITIAL_STATE, { datas }) => {
     }
     directory.push(metadata)
   })
+  return directory
+}
+
+const addMetadata = (parents, metadatas) => {
+  parents.map(data => {
+    if (data.isDir) {
+      if (metadatas[0].object_name.search(data.id) !== -1) {
+        let inside = data.data
+        if (inside.length === 0) {
+          data.data = patternMetadatas(metadatas, data.id)
+        }
+        else {
+          addMetadata(inside, metadatas)
+        }
+      }
+    }
+  })
+  return [...parents]
+}
+
+const setMetadata = (state = INITIAL_STATE, { datas }) => {
   if (state.directory.length === 0) {
     return {
       ...state,
-      directory: directory,
+      directory: patternMetadatas(datas, 'playground/'),
     }
   }
-
+  return {
+    ...state,
+    directory: addMetadata(state.directory, datas),
+  }
 }
 
 const setData = () => ({})
