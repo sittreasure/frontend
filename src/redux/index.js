@@ -5,7 +5,7 @@ import rootSaga from '../sagas'
 
 const createRedux = () => {
   const rootReducer = combineReducers({
-    directory: require('./directoryStore').reducer,
+    directoryStore: require('./directoryStore').reducer,
   })
 
   return createStore(rootReducer, rootSaga)
