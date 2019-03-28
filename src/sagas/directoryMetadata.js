@@ -1,4 +1,4 @@
-import { call, put, fork, takeLatest } from 'redux-saga/effects'
+import { call, put, fork, takeEvery } from 'redux-saga/effects'
 
 import axios from '../libs/axios'
 import DirectoryActions, { DirectoryTypes } from '../redux/directoryStore'
@@ -17,7 +17,7 @@ function* getMetadata({ prefix = '' }) {
 }
 
 function* getMetadataListener() {
-  yield takeLatest(DirectoryTypes.GET_METADATA, getMetadata)
+  yield takeEvery(DirectoryTypes.GET_METADATA, getMetadata)
 }
 
 export default function* metadatasaga() {
