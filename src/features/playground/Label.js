@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import { Styled } from './utilities'
+import DirectoryActions from '../../redux/directoryStore'
 
 const Container = styled.div`
   display: flex;
@@ -20,6 +22,10 @@ class Label extends Component {
     switch (type) {
       case 'java':
         return require('../../assets/images/java.png')
+      case 'html':
+        return require('../../assets/images/html5.png')
+      case 'xml':
+        return require('../../assets/images/xml.png')
       default:
         return require('../../assets/images/dropdown.png')
     }
@@ -29,7 +35,14 @@ class Label extends Component {
     return (
       <Container>
         <Styled.Idel dept={this.props.dept || 1} />
-        <Styled.TitleWrapper>
+        <Styled.TitleWrapper
+          onClick={e => {
+            e.preventDefault()
+            if (!this.props.data) {
+              this.props.dispatch(DirectoryActions.getData(this.props.id))
+            }
+          }}
+        >
           <Styled.Icon src={this.renderIcon(this.props.name)} />
           <Styled.Title>{this.props.name}</Styled.Title>
         </Styled.TitleWrapper>
@@ -39,8 +52,11 @@ class Label extends Component {
 }
 
 Label.propTypes = {
+  id: PropTypes.string,
   name: PropTypes.string,
+  data: PropTypes.string,
   dept: PropTypes.number,
+  dispatch: PropTypes.func,
 }
 
-export default Label
+export default connect()(Label)
