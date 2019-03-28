@@ -29,6 +29,13 @@ class LabelFolder extends Component {
       show: false,
     }
   }
+
+  renderIcon() {
+    if (this.state.show) {
+      return require('../../assets/images/folder-open.png')
+    }
+    return require('../../assets/images/folder-close.png')
+  }
   
   render() {
     return (
@@ -43,7 +50,7 @@ class LabelFolder extends Component {
               functions.toggleShow(e, this)
             }}
           >
-            <Styled.Icon src={require('../../assets/images/folder.png')} />
+            <Styled.Icon src={this.renderIcon()} />
             <Styled.Title>{this.props.name}</Styled.Title>
           </Styled.TitleWrapper>
         </TitleWrapper>
