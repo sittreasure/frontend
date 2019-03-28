@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   getMetadata: ['prefix'],
   setMetadata: ['datas'],
-  getData: null,
+  getData: ['id'],
   setData: ['id', 'data'],
 })
 
@@ -27,6 +27,7 @@ const patternMetadatas = (datas, prefixName) => {
       objectName: name.join('/'),
       isDir: false,
       data: null,
+      save: true,
     }
     if (data.is_dir) {
       metadata.isDir = true
@@ -39,15 +40,26 @@ const patternMetadatas = (datas, prefixName) => {
 
 const addMetadata = (parents, metadatas) => {
   parents.map(data => {
-    if (data.isDir) {
-      if (metadatas[0].object_name.search(data.id) !== -1) {
-        let inside = data.data
-        if (inside.length === 0) {
-          data.data = patternMetadatas(metadatas, data.id)
-        }
-        else {
-          addMetadata(inside, metadatas)
-        }
+    if (metadatas[0].object_name.search(data.id) !== -1) {
+      if (data.data.length === 0) {
+        data.data = patternMetadatas(metadatas, data.id)
+      }
+      else {
+        addMetadata(data.data, metadatas)
+      }
+    }
+  })
+  return [...parents]
+}
+
+const addData = (parents, id, data) => {
+  parents.map(child => {
+    if (child.id === id) {
+      child.data = data.object_data
+    }
+    else {
+      if (child.id.search(id) !== -1) {
+        addData(child.data, id, data)
       }
     }
   })
@@ -67,10 +79,10 @@ const setMetadata = (state = INITIAL_STATE, { datas }) => {
   }
 }
 
-const setData = () => ({})
-// const setData = (state = INITIAL_STATE, { id, data }) => ({
-//   ...state,
-// })
+const setData = (state = INITIAL_STATE, { id, data }) => ({
+  ...state,
+  directory: addData(state.directory, id, data),
+})
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
