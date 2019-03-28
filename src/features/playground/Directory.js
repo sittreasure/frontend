@@ -43,6 +43,7 @@ class Directory extends Component {
         key={data.id}
         id={data.id}
         name={data.objectName}
+        data={data.data}
         dept={data.id.split('/').length}
       />
     )
