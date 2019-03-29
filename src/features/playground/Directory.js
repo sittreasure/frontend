@@ -17,7 +17,7 @@ const DirectoryContainer = styled.div`
   position: absolute;
   z-index: 10;
   top: 0px;
-  left: ${props => props.show ? -9 : -359}px;
+  left: ${props => props.show ? 53 : -350}px;
 `
 
 const Title = styled.div`
