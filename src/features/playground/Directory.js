@@ -14,7 +14,7 @@ const DirectoryContainer = styled.div`
   background-color: #141414;
   height: 100%;
   width: 297px;
-  position: relative;
+  position: absolute;
   z-index: 10;
   top: 0px;
   left: ${props => props.show ? -9 : -359}px;
