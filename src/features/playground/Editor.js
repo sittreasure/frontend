@@ -3,11 +3,19 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import AceEditor from 'react-ace'
+import 'brace/mode/java'
+import 'brace/mode/jsp'
+import 'brace/mode/html'
+import 'brace/mode/css'
+import 'brace/mode/javascript'
 import 'brace/mode/xml'
-import 'brace/snippets/xml'
+import 'brace/mode/text'
+import 'brace/theme/monokai'
 import 'brace/ext/language_tools'
 
 import { Styled, functions } from './utilities'
+// import DirectoryActions from '../../redux/directoryStore'
+import '../../assets/css/theme.css'
 
 const Container = styled.div`
   display: flex;
@@ -55,17 +63,50 @@ const TextEditor = styled.div`
   flex: 0.8;
 `
 
+// const findData = (parents, id, callback) => {
+//   for (let i = 0; i < parents.length; i++) {
+//     const child = parents[i]
+//     if (child.id === id) {
+//       return child.data
+//     }
+//     else {
+//       if (child.isDir && id.search(child.id) !== -1) {
+//         findData(child.data, id, callback)
+//       }
+//     }
+//   }
+// }
+
 class Editor extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: null,
+    }
+  }
+
+  // componentDidUpdate() {
+  //   if (this.state.data === null && this.props.openFile.id !== null) {
+  //     const data = findData(this.props.directory, this.props.openFile.id)
+  //     this.setState({
+  //       data: data,
+  //     })
+  //   }
+  // }
+
   renderMode(name) {
     const type = name
     switch (type) {
       case 'java':
-        return 'java'
+      case 'jsp':
       case 'html':
-        return 'html'
       case 'css':
-        return 'css'
+        return type
+      case 'js':
+        return 'javascript'
       case 'xml':
+      case 'tld':
+      case 'tag':
         return 'xml'
       default:
         return 'text'
@@ -105,6 +146,7 @@ class Editor extends Component {
             ? (
               <AceEditor
                 mode={this.renderMode(this.props.openFile.name.split('.')[1])}
+                theme='monokai'
                 fontSize={15}
                 tabSize={2}
                 width='100%'
@@ -112,7 +154,6 @@ class Editor extends Component {
                 setOptions={{
                   enableBasicAutocompletion: true,
                   enableLiveAutocompletion: true,
-                  enableSnippets: true,
                 }}
               />
             )
