@@ -27,7 +27,7 @@ class Label extends Component {
       case 'xml':
         return require('../../assets/images/xml.png')
       default:
-        return require('../../assets/images/dropdown.png')
+        return require('../../assets/images/info.png')
     }
   }
 
