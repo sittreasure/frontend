@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import { Styled } from './utilities'
+import { Styled, functions } from './utilities'
 import DirectoryActions from '../../redux/directoryStore'
+import PlaygroundActions from '../../redux/playgroundStore'
 
 const Container = styled.div`
   display: flex;
@@ -15,22 +16,6 @@ const Container = styled.div`
 `
 
 class Label extends Component {
-
-  renderIcon(name) {
-    name = name.split('.')
-    const type = name[name.length - 1]
-    switch (type) {
-      case 'java':
-        return require('../../assets/images/java.png')
-      case 'html':
-        return require('../../assets/images/html5.png')
-      case 'xml':
-        return require('../../assets/images/xml.png')
-      default:
-        return require('../../assets/images/info.png')
-    }
-  }
-
   render() {
     return (
       <Container>
@@ -41,9 +26,11 @@ class Label extends Component {
             if (!this.props.data) {
               this.props.dispatch(DirectoryActions.getData(this.props.id))
             }
+            this.props.dispatch(PlaygroundActions.setOpen(this.props.id))
+            this.props.dispatch(PlaygroundActions.toggleDirectory())
           }}
         >
-          <Styled.Icon src={this.renderIcon(this.props.name)} />
+          <Styled.Icon src={functions.showIcon(this.props.name.split('.')[1])} />
           <Styled.Title>{this.props.name}</Styled.Title>
         </Styled.TitleWrapper>
       </Container>
