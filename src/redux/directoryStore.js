@@ -56,7 +56,7 @@ const addData = (parents, id, data) => {
   for (let i = 0; i < parents.length; i++) {
     const child = parents[i]
     if (child.id === id) {
-      child.data = data.object_data
+      child.data = data
       break
     }
     else {
