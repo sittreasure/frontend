@@ -1,20 +1,25 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
-import { SideTab, Tab } from '../../utilities'
+import PlaygroundActions from '../../redux/playgroundStore'
+import { SideTab, Tab, Nav } from '../../utilities'
 import Directory from './Directory'
+import Editor from './Editor'
 
 const Wrappper = styled.div`
   display: flex;
   flex: 1;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
   background-color: #272727;
   overflow: hidden;
 `
 
 const Container = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
   padding: 0px 9px;
 `
 
@@ -24,20 +29,6 @@ const Icon = styled.img`
 `
 
 class Playground extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      directory: false,
-    }
-  }
-
-  toggleDirectory(event) {
-    event.preventDefault()
-    this.setState({
-      directory: !this.state.directory,
-    })
-  }
-
   render() {
     return (
       <Wrappper>
@@ -45,16 +36,30 @@ class Playground extends Component {
           <Tab>
             <Icon src={require('../../assets/images/info.png')} />
           </Tab>
-          <Tab onClick={e => this.toggleDirectory(e)}>
+          <Tab onClick={e => {
+            e.preventDefault()
+            this.props.dispatch(PlaygroundActions.toggleDirectory())
+          }}>
             <Icon src={require('../../assets/images/folder.png')} />
           </Tab>
         </SideTab>
         <Container>
-          <Directory show={this.state.directory} />
+          <Directory show={this.props.directory} />
+          <Nav title="Playground" />
+          <Editor />
         </Container>
       </Wrappper>
     )
   }
 }
 
-export default Playground
+Playground.propTypes = {
+  dispatch: PropTypes.func,
+  directory: PropTypes.bool,
+}
+
+const mapStateToProps = state => ({
+  directory: state.playgroundStore.directory,
+})
+
+export default connect(mapStateToProps)(Playground)
