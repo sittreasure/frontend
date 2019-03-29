@@ -53,16 +53,18 @@ const addMetadata = (parents, metadatas) => {
 }
 
 const addData = (parents, id, data) => {
-  parents.map(child => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
     if (child.id === id) {
       child.data = data.object_data
+      break
     }
     else {
-      if (child.id.search(id) !== -1) {
+      if (child.isDir && id.search(child.id) !== -1) {
         addData(child.data, id, data)
       }
     }
-  })
+  }
   return [...parents]
 }
 
