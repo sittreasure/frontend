@@ -1,0 +1,27 @@
+.ace-monokai {
+  color: #C4C4C4 !important;
+  font-size: 14px;
+  background-color: #1F1F1F !important;
+}
+
+.ace_editor.ace_autocomplete {
+  color: #444 !important;
+  background-color: #CCC !important;
+}
+
+.ace_gutter {
+  background-color: #1F1F1F !important;
+}
+
+.ace_gutter-cell {
+  color: #C4C4C4 !important;
+  font-size: 15.5px;
+}
+
+.ace_keyword {
+  color: #61D0FF !important;
+}
+
+.ace_identifier {
+  color: #ed6964 !important;
+}
