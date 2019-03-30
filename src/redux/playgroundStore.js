@@ -31,6 +31,6 @@ const setOpen = (state = INITIAL_STATE, { id }) => ({
 })
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.SET_OPEN]: setOpen,
   [Types.TOGGLE_DIRECTORY]: toggleDirectory,
+  [Types.SET_OPEN]: setOpen,
 })
