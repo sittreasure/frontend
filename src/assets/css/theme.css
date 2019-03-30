@@ -25,3 +25,7 @@
 .ace_identifier {
   color: #ed6964 !important;
 }
+
+.ace_print-margin {
+  width: 0px !important;
+}
