@@ -63,37 +63,21 @@ const TextEditor = styled.div`
   flex: 0.8;
 `
 
-// const findData = (parents, id, callback) => {
-//   for (let i = 0; i < parents.length; i++) {
-//     const child = parents[i]
-//     if (child.id === id) {
-//       return child.data
-//     }
-//     else {
-//       if (child.isDir && id.search(child.id) !== -1) {
-//         findData(child.data, id, callback)
-//       }
-//     }
-//   }
-// }
-
-class Editor extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: null,
+const findData = (parents, id) => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
+    if (child.id === id) {
+      return child.data
+    }
+    else {
+      if (child.isDir && id.search(child.id) !== -1) {
+        return findData(child.data, id)
+      }
     }
   }
+}
 
-  // componentDidUpdate() {
-  //   if (this.state.data === null && this.props.openFile.id !== null) {
-  //     const data = findData(this.props.directory, this.props.openFile.id)
-  //     this.setState({
-  //       data: data,
-  //     })
-  //   }
-  // }
-
+class Editor extends Component {
   renderMode(name) {
     const type = name
     switch (type) {
@@ -146,6 +130,10 @@ class Editor extends Component {
             ? (
               <AceEditor
                 mode={this.renderMode(this.props.openFile.name.split('.')[1])}
+                value={this.props.openFile.id
+                  ? findData(this.props.directory, this.props.openFile.id) || 'loading...'
+                  : ''
+                }
                 theme='monokai'
                 fontSize={15}
                 tabSize={2}
@@ -168,7 +156,7 @@ class Editor extends Component {
 Editor.propTypes = {
   // dispatch: PropTypes.func,
   openFile: PropTypes.object,
-  // directory: PropTypes.array,
+  directory: PropTypes.array,
 }
 
 const mapStateToProps = state => ({
