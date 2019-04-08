@@ -10,7 +10,7 @@ function* getData({ id = '' }) {
       const { data } = await axios.get(`minios/file?object_name=${id}`)
       objectData = data
     })
-    yield put(DirectoryActions.setData(id, objectData.object_data))
+    yield put(DirectoryActions.setData(id, objectData.data))
   } catch (error) {
     console.log('>>> [directoryData.js:15] error : ', error)
   }

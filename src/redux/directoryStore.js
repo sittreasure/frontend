@@ -20,16 +20,16 @@ const patternMetadatas = (datas, prefixName) => {
   prefixName = prefixName.split('/')
   prefixName.pop()
   datas.map(data => {
-    let name = data.object_name.split('/')
+    let name = data.name.split('/')
     prefixName.map(() => name.shift())
     let metadata = {
-      id: data.object_name,
-      objectName: name.join('/'),
+      id: data.name,
+      name: name.join('/'),
       isDir: false,
       data: null,
       save: true,
     }
-    if (data.is_dir) {
+    if (data.isDir) {
       metadata.isDir = true
       metadata.data = []
     }
@@ -40,7 +40,7 @@ const patternMetadatas = (datas, prefixName) => {
 
 const addMetadata = (parents, metadatas) => {
   parents.map(data => {
-    if (metadatas[0].object_name.search(data.id) !== -1) {
+    if (metadatas[0].name.search(data.id) !== -1) {
       if (data.data.length === 0) {
         data.data = patternMetadatas(metadatas, data.id)
       }
