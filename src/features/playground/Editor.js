@@ -14,6 +14,7 @@ import 'brace/theme/monokai'
 import 'brace/ext/language_tools'
 
 import { Styled, functions } from './utilities'
+import PlaygroundActions from '../../redux/playgroundStore'
 // import DirectoryActions from '../../redux/directoryStore'
 import '../../assets/css/theme.css'
 
@@ -51,6 +52,7 @@ const ButtonWrapper = styled.div`
   align-items: center;
   width: 43px;
   height: 100%;
+  cursor: pointer;
 `
 
 const Button = styled.img`
@@ -97,6 +99,12 @@ class Editor extends Component {
     }
   }
 
+  compile(event) {
+    event.preventDefault()
+    const name = 'playground'
+    this.props.dispatch(PlaygroundActions.compile(name))
+  }
+
   render() {
     return (
       <Container>
@@ -117,7 +125,7 @@ class Editor extends Component {
             <ButtonWrapper>
               <Button src={require('../../assets/images/save.png')} />
             </ButtonWrapper>
-            <ButtonWrapper>
+            <ButtonWrapper onClick={e => this.compile(e)}>
               <Button src={require('../../assets/images/play.png')} />
             </ButtonWrapper>
             <ButtonWrapper>
@@ -154,7 +162,7 @@ class Editor extends Component {
 }
 
 Editor.propTypes = {
-  // dispatch: PropTypes.func,
+  dispatch: PropTypes.func,
   openFile: PropTypes.object,
   directory: PropTypes.array,
 }
