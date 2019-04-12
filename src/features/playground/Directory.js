@@ -42,7 +42,7 @@ class Directory extends Component {
       <Label
         key={data.id}
         id={data.id}
-        name={data.objectName}
+        name={data.name}
         data={data.data}
         dept={data.id.split('/').length}
       />
@@ -66,7 +66,7 @@ class Directory extends Component {
       <LabelFolder
         key={data.id}
         id={data.id}
-        name={data.objectName}
+        name={data.name}
         insideSize={inside.length}
         dept={data.id.split('/').length - 1}
       >
