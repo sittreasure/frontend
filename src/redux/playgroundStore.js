@@ -4,6 +4,8 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   toggleDirectory: null,
   setOpen: ['id'],
+  setIsCompile: ['isCompile'],
+  compile: ['name'],
 })
 
 export const PlaygroundTypes = Types
@@ -15,6 +17,7 @@ const INITIAL_STATE = Immutable({
     id: null,
     name: null,
   },
+  isCompile: null,
 })
 
 const toggleDirectory = (state = INITIAL_STATE) => ({
@@ -30,7 +33,13 @@ const setOpen = (state = INITIAL_STATE, { id }) => ({
   },
 })
 
+const setIsCompile = (state = INITIAL_STATE, { isCompile }) => ({
+  ...state,
+  isCompile: isCompile,
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.TOGGLE_DIRECTORY]: toggleDirectory,
   [Types.SET_OPEN]: setOpen,
+  [Types.SET_IS_COMPILE]: setIsCompile,
 })
