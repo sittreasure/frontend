@@ -7,7 +7,7 @@ function* getMetadata({ prefix = '' }) {
   try {
     let metadata
     yield call(async () => {
-      const { data } = await axios.get(`minios/file?prefix_name=${prefix}`)
+      const { data } = await axios.get(`/fileapi/v1/minios/file?prefix_name=${prefix}`)
       metadata = data
     })
     yield put(DirectoryActions.setMetadata(metadata))

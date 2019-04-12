@@ -7,7 +7,7 @@ function* getData({ id = '' }) {
   try {
     let objectData
     yield call(async () => {
-      const { data } = await axios.get(`minios/file?object_name=${id}`)
+      const { data } = await axios.get(`/fileapi/v1/minios/file?object_name=${id}`)
       objectData = data
     })
     yield put(DirectoryActions.setData(id, objectData.data))
