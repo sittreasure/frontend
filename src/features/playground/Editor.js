@@ -87,13 +87,15 @@ class Editor extends Component {
   }
 
   componentDidUpdate() {
-    console.log('>>> [Editor.js:84] this.props.isCompile : ', this.props.isCompile)
+    const name = this.props.jobName
     if (this.props.isCompile) {
       this.checkCompile()
     }
     else {
-      console.log('>>> [Editor.js:95] clear interval ')
       clearInterval(this.checkCompileId)
+      if (this.props.isCompile === false) {
+        this.props.dispatch(PlaygroundActions.getCompileLog(name))
+      }
     }
   }
 
