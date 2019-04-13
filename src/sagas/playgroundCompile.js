@@ -10,7 +10,7 @@ function* compile({ name }) {
       const body = {
         jobName: name,
       }
-      const { data } = await axios.post('/mainapi/v1/jenkins', body)
+      const { data } = await axios.post('/mainapi/v1/jenkins/', body)
       jenkinsResult = data
     })
     yield put(PlaygroundActions.setIsCompile(jenkinsResult.result))
@@ -23,6 +23,6 @@ function* compileListener() {
   yield takeEvery(PlaygroundTypes.COMPILE, compile)
 }
 
-export default function* metadatasaga() {
+export default function* compilesaga() {
   yield fork(compileListener)
 }
