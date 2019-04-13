@@ -8,6 +8,8 @@ const { Types, Creators } = createActions({
   setIsCompile: ['isCompile'],
   compile: ['name'],
   checkCompile: ['name'],
+  getCompileLog: ['name'],
+  setCompileLog: ['log'],
 })
 
 export const PlaygroundTypes = Types
@@ -21,6 +23,7 @@ const INITIAL_STATE = Immutable({
   },
   name: null,
   isCompile: null,
+  compileLog: null,
 })
 
 const toggleDirectory = (state = INITIAL_STATE) => ({
@@ -46,9 +49,15 @@ const setIsCompile = (state = INITIAL_STATE, { isCompile }) => ({
   isCompile: isCompile,
 })
 
+const setCompileLog = (state = INITIAL_STATE, { log }) => ({
+  ...state,
+  compileLog: log,
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.TOGGLE_DIRECTORY]: toggleDirectory,
   [Types.SET_OPEN]: setOpen,
   [Types.SET_NAME]: setName,
   [Types.SET_IS_COMPILE]: setIsCompile,
+  [Types.SET_COMPILE_LOG]: setCompileLog,
 })
