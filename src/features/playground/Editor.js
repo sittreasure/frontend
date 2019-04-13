@@ -15,7 +15,6 @@ import 'brace/ext/language_tools'
 
 import { Styled, functions } from './utilities'
 import PlaygroundActions from '../../redux/playgroundStore'
-// import DirectoryActions from '../../redux/directoryStore'
 import '../../assets/css/theme.css'
 
 const Container = styled.div`
@@ -62,7 +61,30 @@ const Button = styled.img`
 
 const TextEditor = styled.div`
   display: flex;
-  flex: 0.8;
+  flex: 0.7;
+`
+
+const Console = styled.div`
+  display: flex;
+  flex: 0.3;
+  flex-direction: column;
+  background-color: #1B1B1B;
+`
+
+const ConsoleTitle = styled.div`
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: 100%;
+  padding: 0px 25px;
+`
+
+const Log = styled(Styled.Title)`
+  display: flex;
+  flex: 1;
+  background-color: #1F1F1F;
+  padding: 0px 17px;
+  overflow: scroll;
 `
 
 const findData = (parents, id) => {
@@ -128,12 +150,10 @@ class Editor extends Component {
     const name = this.props.jobName
     this.checkCompileId = setInterval(
       () => {
-        console.log('>>> [Editor.js:129] interval ')
         this.props.dispatch(PlaygroundActions.checkCompile(name))
       },
       5000
     )
-    console.log('>>> [Editor.js:134] this.checkCompileId : ', this.checkCompileId)
   }
 
   render() {
@@ -187,6 +207,14 @@ class Editor extends Component {
             : ''
           }
         </TextEditor>
+        <Console>
+          <Header>
+            <ConsoleTitle>
+              <Styled.Title>Console</Styled.Title>
+            </ConsoleTitle>
+          </Header>
+          <Log>{this.props.compileLog}</Log>
+        </Console>
       </Container>
     )
   }
@@ -197,6 +225,7 @@ Editor.propTypes = {
   openFile: PropTypes.object,
   jobName: PropTypes.string,
   isCompile: PropTypes.bool,
+  compileLog: PropTypes.string,
   directory: PropTypes.array,
 }
 
@@ -204,6 +233,7 @@ const mapStateToProps = state => ({
   openFile: state.playgroundStore.open,
   jobName: state.playgroundStore.name,
   isCompile: state.playgroundStore.isCompile,
+  compileLog: state.playgroundStore.compileLog,
   directory: state.directoryStore.directory,
 })
 
