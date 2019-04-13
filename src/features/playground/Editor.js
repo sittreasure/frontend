@@ -80,6 +80,23 @@ const findData = (parents, id) => {
 }
 
 class Editor extends Component {
+  componentDidMount() {
+    if (!this.props.jobName) {
+      this.props.dispatch(PlaygroundActions.setName('playground'))
+    }
+  }
+
+  componentDidUpdate() {
+    console.log('>>> [Editor.js:84] this.props.isCompile : ', this.props.isCompile)
+    if (this.props.isCompile) {
+      this.checkCompile()
+    }
+    else {
+      console.log('>>> [Editor.js:95] clear interval ')
+      clearInterval(this.checkCompileId)
+    }
+  }
+
   renderMode(name) {
     const type = name
     switch (type) {
@@ -101,8 +118,20 @@ class Editor extends Component {
 
   compile(event) {
     event.preventDefault()
-    const name = 'playground'
+    const name = this.props.jobName
     this.props.dispatch(PlaygroundActions.compile(name))
+  }
+
+  checkCompile() {
+    const name = this.props.jobName
+    this.checkCompileId = setInterval(
+      () => {
+        console.log('>>> [Editor.js:129] interval ')
+        this.props.dispatch(PlaygroundActions.checkCompile(name))
+      },
+      5000
+    )
+    console.log('>>> [Editor.js:134] this.checkCompileId : ', this.checkCompileId)
   }
 
   render() {
@@ -164,11 +193,15 @@ class Editor extends Component {
 Editor.propTypes = {
   dispatch: PropTypes.func,
   openFile: PropTypes.object,
+  jobName: PropTypes.string,
+  isCompile: PropTypes.bool,
   directory: PropTypes.array,
 }
 
 const mapStateToProps = state => ({
   openFile: state.playgroundStore.open,
+  jobName: state.playgroundStore.name,
+  isCompile: state.playgroundStore.isCompile,
   directory: state.directoryStore.directory,
 })
 
