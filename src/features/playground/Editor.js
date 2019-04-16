@@ -156,6 +156,13 @@ class Editor extends Component {
     )
   }
 
+  openWeb(event) {
+    event.preventDefault()
+    let url = process.env.REACT_APP_TOMCAT_URL
+    url += this.props.jobName
+    window.open(url)
+  }
+
   render() {
     return (
       <Container>
@@ -170,7 +177,7 @@ class Editor extends Component {
             : <div />
           }
           <ButtonContainer>
-            <ButtonWrapper>
+            <ButtonWrapper onClick={e => this.openWeb(e)}>
               <Button src={require('../../assets/images/preview.png')} />
             </ButtonWrapper>
             <ButtonWrapper>
