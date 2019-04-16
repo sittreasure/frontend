@@ -6,6 +6,7 @@ const { Types, Creators } = createActions({
   setMetadata: ['datas'],
   getData: ['id'],
   setData: ['id', 'data'],
+  setSave: ['id', 'save'],
 })
 
 export const DirectoryTypes = Types
@@ -68,6 +69,22 @@ const addData = (parents, id, data) => {
   return [...parents]
 }
 
+const addSave = (parents, id, data) => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
+    if (child.id === id) {
+      child.save = data
+      break
+    }
+    else {
+      if (child.isDir && id.search(child.id) !== -1) {
+        addData(child.data, id, data)
+      }
+    }
+  }
+  return [...parents]
+}
+
 const setMetadata = (state = INITIAL_STATE, { datas }) => {
   if (state.directory.length === 0) {
     return {
@@ -86,7 +103,13 @@ const setData = (state = INITIAL_STATE, { id, data }) => ({
   directory: addData(state.directory, id, data),
 })
 
+const setSave = (state = INITIAL_STATE, { id, save }) => ({
+  ...state,
+  directory: addSave(state.directory, id, save),
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
   [Types.SET_DATA]: setData,
+  [Types.SET_SAVE]: setSave,
 })
