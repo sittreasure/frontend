@@ -3,19 +3,28 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import AceEditor from 'react-ace'
-import 'brace/mode/java'
-import 'brace/mode/jsp'
-import 'brace/mode/html'
-import 'brace/mode/css'
-import 'brace/mode/javascript'
-import 'brace/mode/xml'
-import 'brace/mode/text'
 import 'brace/theme/monokai'
 import 'brace/ext/language_tools'
 
 import { Styled, functions } from './utilities'
 import PlaygroundActions from '../../redux/playgroundStore'
+import DirectoryActions from '../../redux/directoryStore'
 import '../../assets/css/theme.css'
+
+const languages = [
+  'java',
+  'jsp',
+  'html',
+  'css',
+  'javascript',
+  'xml',
+  'text',
+]
+
+languages.map(language => {
+  require(`brace/mode/${language}`)
+  require(`brace/snippets/${language}`)
+})
 
 const Container = styled.div`
   display: flex;
@@ -163,6 +172,12 @@ class Editor extends Component {
     window.open(url)
   }
 
+  changeCode(value) {
+    const id = this.props.openFile.id
+    this.props.dispatch(DirectoryActions.setData(id, value))
+    this.props.dispatch(DirectoryActions.setSave(id, false))
+  }
+
   render() {
     return (
       <Container>
@@ -200,6 +215,7 @@ class Editor extends Component {
                   ? findData(this.props.directory, this.props.openFile.id) || 'loading...'
                   : ''
                 }
+                onChange={value => this.changeCode(value)}
                 theme='monokai'
                 fontSize={15}
                 tabSize={2}
