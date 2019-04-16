@@ -225,6 +225,9 @@ class Editor extends Component {
                   enableBasicAutocompletion: true,
                   enableLiveAutocompletion: true,
                 }}
+                editorProps={{
+                  $blockScrolling: Infinity,
+                }}
               />
             )
             : ''
