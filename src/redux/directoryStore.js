@@ -78,7 +78,7 @@ const addSave = (parents, id, data) => {
     }
     else {
       if (child.isDir && id.search(child.id) !== -1) {
-        addData(child.data, id, data)
+        addSave(child.data, id, data)
       }
     }
   }

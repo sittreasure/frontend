@@ -10,6 +10,7 @@ const { Types, Creators } = createActions({
   checkCompile: ['name'],
   getCompileLog: ['name'],
   setCompileLog: ['log'],
+  save: ['id', 'objectData'],
 })
 
 export const PlaygroundTypes = Types

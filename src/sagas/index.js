@@ -5,6 +5,7 @@ import directoryData from './directoryData'
 import playgroundCompile from './playgroundCompile'
 import playgroundCheckCompile from './playgroundCheckCompile'
 import playgroundCompileLog from './playgroundCompileLog'
+import playgroundSave from './playgroundSave'
 
 export default function* () {
   yield all([
@@ -13,5 +14,6 @@ export default function* () {
     playgroundCompile(),
     playgroundCheckCompile(),
     playgroundCompileLog(),
+    playgroundSave(),
   ])
 }
