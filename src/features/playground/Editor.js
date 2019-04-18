@@ -167,15 +167,21 @@ class Editor extends Component {
 
   openWeb(event) {
     event.preventDefault()
-    let url = process.env.REACT_APP_TOMCAT_URL
-    url += this.props.jobName
-    window.open(url)
+    const url = process.env.REACT_APP_TOMCAT_URL
+    window.open(`${url}/${this.props.jobName}`)
   }
 
   changeCode(value) {
     const id = this.props.openFile.id
     this.props.dispatch(DirectoryActions.setData(id, value))
     this.props.dispatch(DirectoryActions.setSave(id, false))
+  }
+
+  saveCode(event) {
+    event.preventDefault()
+    const { directory, openFile: { id } } = this.props
+    const data = findData(directory, id)
+    this.props.dispatch(PlaygroundActions.save(id, data))
   }
 
   render() {
@@ -195,7 +201,7 @@ class Editor extends Component {
             <ButtonWrapper onClick={e => this.openWeb(e)}>
               <Button src={require('../../assets/images/preview.png')} />
             </ButtonWrapper>
-            <ButtonWrapper>
+            <ButtonWrapper onClick={e => this.saveCode(e)}>
               <Button src={require('../../assets/images/save.png')} />
             </ButtonWrapper>
             <ButtonWrapper onClick={e => this.compile(e)}>
