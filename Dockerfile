@@ -8,7 +8,7 @@ COPY package.json .
 
 COPY yarn.lock .
 
-RUN yarn install --ignore-platform
+RUN yarn install
 
 COPY . .
 
