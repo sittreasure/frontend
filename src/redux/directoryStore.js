@@ -7,6 +7,8 @@ const { Types, Creators } = createActions({
   getData: ['id'],
   setData: ['id', 'data'],
   setSave: ['id', 'save'],
+  getFileType: null,
+  setFileType: ['fileTypes'],
 })
 
 export const DirectoryTypes = Types
@@ -14,6 +16,7 @@ export default Creators
 
 const INITIAL_STATE = Immutable({
   directory: [],
+  fileType: [],
 })
 
 const patternMetadatas = (datas, prefixName) => {
@@ -108,8 +111,15 @@ const setSave = (state = INITIAL_STATE, { id, save }) => ({
   directory: addSave(state.directory, id, save),
 })
 
+
+const setFileType = (state = INITIAL_STATE, { fileTypes }) => ({
+  ...state,
+  fileType: fileTypes,
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
   [Types.SET_DATA]: setData,
   [Types.SET_SAVE]: setSave,
+  [Types.SET_FILE_TYPE]: setFileType,
 })
