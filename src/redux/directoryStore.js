@@ -9,6 +9,7 @@ const { Types, Creators } = createActions({
   setSave: ['id', 'save'],
   getFileType: null,
   setFileType: ['fileTypes'],
+  setContextMenu: ['isOpen', 'x', 'y', 'overflow'],
 })
 
 export const DirectoryTypes = Types
@@ -17,6 +18,12 @@ export default Creators
 const INITIAL_STATE = Immutable({
   directory: [],
   fileType: [],
+  contextMenu: {
+    isOpen: false,
+    x: 0,
+    y: 0,
+    overflow: false,
+  },
 })
 
 const patternMetadatas = (datas, prefixName) => {
@@ -117,9 +124,20 @@ const setFileType = (state = INITIAL_STATE, { fileTypes }) => ({
   fileType: fileTypes,
 })
 
+const setContextMenu = (state = INITIAL_STATE, { isOpen, x, y, overflow }) => ({
+  ...state,
+  contextMenu: {
+    isOpen,
+    x,
+    y,
+    overflow,
+  },
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
   [Types.SET_DATA]: setData,
   [Types.SET_SAVE]: setSave,
   [Types.SET_FILE_TYPE]: setFileType,
+  [Types.SET_CONTEXT_MENU]: setContextMenu,
 })
