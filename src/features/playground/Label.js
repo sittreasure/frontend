@@ -18,7 +18,7 @@ const Container = styled.div`
 class Label extends Component {
   render() {
     return (
-      <Container>
+      <Container onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, DirectoryActions)}>
         <Styled.Idel dept={this.props.dept || 1} />
         <Styled.TitleWrapper
           onClick={e => {
