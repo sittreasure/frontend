@@ -35,6 +35,7 @@ const Title = styled.div`
 class Directory extends Component {
   componentDidMount() {
     this.props.dispatch(DirectoryActions.getMetadata('playground/'))
+    this.props.dispatch(DirectoryActions.getFileType())
   }
   
   showLabel(data) {
