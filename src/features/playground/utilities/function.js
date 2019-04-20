@@ -18,9 +18,27 @@ const showIcon = type => {
   }
 }
 
+const openContextMenu = (event, dispatch, action) => {
+  event.preventDefault()
+  const clickX = event.clientX
+  const clickY = event.clientY
+  const windowHeight = window.innerHeight
+  const overflow = clickY + 100 >= windowHeight
+  
+  let x = clickX + 5
+  let y
+  if (overflow) {
+    y = windowHeight - clickY - 5
+  } else {
+    y = clickY + 5
+  }
+  dispatch(action.setContextMenu(true, x, y, overflow))
+}
+
 const functions = {
   toggleShow,
   showIcon,
+  openContextMenu,
 }
 
 export default functions
