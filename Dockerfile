@@ -4,6 +4,10 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
+ENV REACT_APP_API_URL=https://api-gateway-dev.treasure-hunter.dev
+
+ENV REACT_APP_TOMCAT_URL=http://10.4.56.86:8080
+
 COPY package.json .
 
 COPY yarn.lock .
