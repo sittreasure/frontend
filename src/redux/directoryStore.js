@@ -6,10 +6,13 @@ const { Types, Creators } = createActions({
   setMetadata: ['datas'],
   getData: ['id'],
   setData: ['id', 'data'],
+  addFile: ['id', 'data'],
   setSave: ['id', 'save'],
   getFileType: null,
   setFileType: ['fileTypes'],
-  setContextMenu: ['isOpen', 'x', 'y', 'overflow'],
+  setContextMenu: ['show', 'x', 'y', 'overflow'],
+  setContextMenuId: ['id'],
+  setContextMenuFileType: ['show'],
 })
 
 export const DirectoryTypes = Types
@@ -19,10 +22,12 @@ const INITIAL_STATE = Immutable({
   directory: [],
   fileType: [],
   contextMenu: {
-    isOpen: false,
+    show: false,
     x: 0,
     y: 0,
     overflow: false,
+    id: null,
+    showFileType: false,
   },
 })
 
@@ -36,13 +41,13 @@ const patternMetadatas = (datas, prefixName) => {
     let metadata = {
       id: data.name,
       name: name.join('/'),
-      isDir: false,
       data: null,
       save: true,
     }
     if (data.isDir) {
       metadata.isDir = true
       metadata.data = []
+      delete metadata.save
     }
     directory.push(metadata)
   })
@@ -73,6 +78,25 @@ const addData = (parents, id, data) => {
     else {
       if (child.isDir && id.search(child.id) !== -1) {
         addData(child.data, id, data)
+      }
+    }
+  }
+  return [...parents]
+}
+
+const createFile = (parents, id, data) => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
+    if (child.isDir && child.id === id) {
+      child.data = [
+        ...child.data,
+        data,
+      ]
+      break
+    }
+    else {
+      if (child.isDir && id.search(child.id) !== -1) {
+        createFile(child.data, id, data)
       }
     }
   }
@@ -113,6 +137,22 @@ const setData = (state = INITIAL_STATE, { id, data }) => ({
   directory: addData(state.directory, id, data),
 })
 
+const addFile = (state = INITIAL_STATE, { id, data }) => {
+  if (id === 'playground/') {
+    return {
+      ...state,
+      directory: [
+        ...state.directory,
+        data,
+      ],
+    }
+  }
+  return {
+    ...state,
+    directory: createFile(state.directory, id, data),
+  }
+}
+
 const setSave = (state = INITIAL_STATE, { id, save }) => ({
   ...state,
   directory: addSave(state.directory, id, save),
@@ -124,20 +164,40 @@ const setFileType = (state = INITIAL_STATE, { fileTypes }) => ({
   fileType: fileTypes,
 })
 
-const setContextMenu = (state = INITIAL_STATE, { isOpen, x, y, overflow }) => ({
+const setContextMenu = (state = INITIAL_STATE, { show, x, y, overflow }) => ({
   ...state,
   contextMenu: {
-    isOpen,
+    ...state.contextMenu,
+    show,
     x,
     y,
     overflow,
   },
 })
 
+const setContextMenuId = (state = INITIAL_STATE, { id }) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    id,
+  },
+})
+
+const setContextMenuFileType = (state = INITIAL_STATE, { show }) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    showFileType: show,
+  },
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
   [Types.SET_DATA]: setData,
+  [Types.ADD_FILE]: addFile,
   [Types.SET_SAVE]: setSave,
   [Types.SET_FILE_TYPE]: setFileType,
   [Types.SET_CONTEXT_MENU]: setContextMenu,
+  [Types.SET_CONTEXT_MENU_ID]: setContextMenuId,
+  [Types.SET_CONTEXT_MENU_FILE_TYPE]: setContextMenuFileType,
 })
