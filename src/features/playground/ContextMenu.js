@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import DirectoryActions from '../../redux/directoryStore'
 
 const Background = styled.div`
-  display: ${props => props.isOpen ? 'block' : 'none'};
+  display: ${props => props.show ? 'block' : 'none'};
   position: absolute;
   z-index: 200;
   width: 100%;
@@ -16,12 +16,12 @@ const Background = styled.div`
 `
 
 const Container = styled.div`
-  display: ${props => props.isOpen ? 'block' : 'none'};
+  display: ${props => props.show ? 'block' : 'none'};
   position: absolute;
   left: ${props => `${props.x}px`};
-  top: ${props => props.overflow ? 'auto' : `${props.y}px`};
-  bottom: ${props => props.overflow ? `${props.y}px` : 'auto'};
-  z-index: 200;
+  top: ${props => props.isOverflow ? 'auto' : `${props.y}px`};
+  bottom: ${props => props.isOverflow ? `${props.y}px` : 'auto'};
+  z-index: 201;
   background-color: #FFF;
 `
 
@@ -34,25 +34,30 @@ const Option = styled.div`
 class ContextMenu extends Component {
   closeContextMenu(event) {
     event.preventDefault()
-    this.props.dispatch(DirectoryActions.setContextMenu(false, 0, 0))
+    this.props.dispatch(DirectoryActions.setContextMenu(false, 0, 0, false))
+  }
+
+  openFileType(event) {
+    this.closeContextMenu(event)
+    this.props.dispatch(DirectoryActions.setContextMenuFileType(true))
   }
 
   render() {
-    const { isOpen, x, y, overflow } = this.props.contextMenu
+    const { show, x, y, overflow } = this.props.contextMenu
     return (
       <Fragment>
         <Background
-          isOpen={isOpen}
+          show={show}
           onClick={e => this.closeContextMenu(e)}
         />
         <Container
-          isOpen={isOpen}
+          show={show}
           x={x}
           y={y}
-          overflow={overflow}
+          isOverflow={overflow}
         >
           <Option>New Folder</Option>
-          <Option>New File</Option>
+          <Option onClick={e => this.openFileType(e)}>New File</Option>
           <Option>Remove</Option>
         </Container>
       </Fragment>
