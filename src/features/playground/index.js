@@ -8,6 +8,7 @@ import { SideTab, Tab, Nav } from '../../utilities'
 import Directory from './Directory'
 import Editor from './Editor'
 import ContextMenu from './ContextMenu'
+import FileType from './FileType'
 
 const Wrappper = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ class Playground extends Component {
           <Editor />
         </Container>
         <ContextMenu />
+        <FileType />
       </Wrappper>
     )
   }
