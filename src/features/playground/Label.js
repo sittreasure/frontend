@@ -25,7 +25,7 @@ class Label extends Component {
 
   render() {
     return (
-      <Container onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, false, this.renderId())}>
+      <Container onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, this.renderId())}>
         <Styled.Idel dept={this.props.dept || 1} />
         <Styled.TitleWrapper
           onClick={e => {
