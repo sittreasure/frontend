@@ -3,17 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
+import { Styled } from './utilities'
 import DirectoryActions from '../../redux/directoryStore'
 import PlaygroundActions from '../../redux/playgroundStore'
-
-const Background = styled.div`
-  display: ${props => props.show ? 'block' : 'none'};
-  position: absolute;
-  z-index: 200;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
-`
 
 const Wrapper = styled.div`
   display: ${props => props.show ? 'flex' : 'none'};
@@ -157,7 +149,7 @@ class FileType extends Component {
     const { showFileType } = this.props.contextMenu
     return (
       <Fragment>
-        <Background show={showFileType} />
+        <Styled.OverlayBackground show={showFileType} />
         <Wrapper show={showFileType}>
           <Container>
             <InputContainer>
