@@ -39,7 +39,23 @@ class ContextMenu extends Component {
 
   openFileType(event) {
     this.closeContextMenu(event)
+    this.changeId()
     this.props.dispatch(DirectoryActions.setContextMenuFileType(true))
+  }
+
+  openRemove(event) {
+    this.closeContextMenu(event)
+    this.props.dispatch(DirectoryActions.setContextMenuRemove(true))
+  }
+
+  changeId() {
+    let { id } = this.props.contextMenu
+    if (id.search('.') !== -1) {
+      id = id.split('/')
+      id[id.length - 1] = ''
+      id = id.join('/')
+    }
+    this.props.dispatch(DirectoryActions.setContextMenuId(id))
   }
 
   render() {
@@ -58,7 +74,7 @@ class ContextMenu extends Component {
         >
           <Option>New Folder</Option>
           <Option onClick={e => this.openFileType(e)}>New File</Option>
-          <Option>Remove</Option>
+          <Option onClick={e => this.openRemove(e)}>Remove</Option>
         </Container>
       </Fragment>
     )
