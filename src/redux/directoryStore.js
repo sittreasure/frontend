@@ -6,13 +6,16 @@ const { Types, Creators } = createActions({
   setMetadata: ['datas'],
   getData: ['id'],
   setData: ['id', 'data'],
-  addFile: ['id', 'data'],
   setSave: ['id', 'save'],
+  addFile: ['id', 'data'],
+  removeData: ['id'],
+  removeFile: ['id'],
   getFileType: null,
   setFileType: ['fileTypes'],
   setContextMenu: ['show', 'x', 'y', 'overflow'],
   setContextMenuId: ['id'],
   setContextMenuFileType: ['show'],
+  setContextMenuRemove: ['show'],
 })
 
 export const DirectoryTypes = Types
@@ -28,6 +31,7 @@ const INITIAL_STATE = Immutable({
     overflow: false,
     id: null,
     showFileType: false,
+    showRemove: false,
   },
 })
 
@@ -84,6 +88,22 @@ const addData = (parents, id, data) => {
   return [...parents]
 }
 
+const addSave = (parents, id, data) => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
+    if (child.id === id) {
+      child.save = data
+      break
+    }
+    else {
+      if (child.isDir && id.search(child.id) !== -1) {
+        addSave(child.data, id, data)
+      }
+    }
+  }
+  return [...parents]
+}
+
 const createFile = (parents, id, data) => {
   for (let i = 0; i < parents.length; i++) {
     const child = parents[i]
@@ -103,16 +123,16 @@ const createFile = (parents, id, data) => {
   return [...parents]
 }
 
-const addSave = (parents, id, data) => {
+const deleteFile = (parents, id) => {
   for (let i = 0; i < parents.length; i++) {
     const child = parents[i]
     if (child.id === id) {
-      child.save = data
+      parents.splice(i, 1)
       break
     }
     else {
       if (child.isDir && id.search(child.id) !== -1) {
-        addSave(child.data, id, data)
+        deleteFile(child.data, id)
       }
     }
   }
@@ -137,6 +157,11 @@ const setData = (state = INITIAL_STATE, { id, data }) => ({
   directory: addData(state.directory, id, data),
 })
 
+const setSave = (state = INITIAL_STATE, { id, save }) => ({
+  ...state,
+  directory: addSave(state.directory, id, save),
+})
+
 const addFile = (state = INITIAL_STATE, { id, data }) => {
   if (id === 'playground/') {
     return {
@@ -153,11 +178,10 @@ const addFile = (state = INITIAL_STATE, { id, data }) => {
   }
 }
 
-const setSave = (state = INITIAL_STATE, { id, save }) => ({
+const removeFile = (state = INITIAL_STATE, { id }) => ({
   ...state,
-  directory: addSave(state.directory, id, save),
+  directory: deleteFile(state.directory, id),
 })
-
 
 const setFileType = (state = INITIAL_STATE, { fileTypes }) => ({
   ...state,
@@ -191,13 +215,23 @@ const setContextMenuFileType = (state = INITIAL_STATE, { show }) => ({
   },
 })
 
+const setContextMenuRemove = (state = INITIAL_STATE, { show }) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    showRemove: show,
+  },
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
   [Types.SET_DATA]: setData,
-  [Types.ADD_FILE]: addFile,
   [Types.SET_SAVE]: setSave,
+  [Types.ADD_FILE]: addFile,
+  [Types.REMOVE_FILE]: removeFile,
   [Types.SET_FILE_TYPE]: setFileType,
   [Types.SET_CONTEXT_MENU]: setContextMenu,
   [Types.SET_CONTEXT_MENU_ID]: setContextMenuId,
   [Types.SET_CONTEXT_MENU_FILE_TYPE]: setContextMenuFileType,
+  [Types.SET_CONTEXT_MENU_REMOVE]: setContextMenuRemove,
 })
