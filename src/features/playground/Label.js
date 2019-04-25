@@ -16,16 +16,9 @@ const Container = styled.div`
 `
 
 class Label extends Component {
-  renderId() {
-    let id = this.props.id.split('/')
-    id[id.length - 1] = ''
-    id = id.join('/')
-    return id
-  }
-
   render() {
     return (
-      <Container onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, this.renderId())}>
+      <Container onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, this.props.id)}>
         <Styled.Idel dept={this.props.dept || 1} />
         <Styled.TitleWrapper
           onClick={e => {
