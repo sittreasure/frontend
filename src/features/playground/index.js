@@ -9,6 +9,7 @@ import Directory from './Directory'
 import Editor from './Editor'
 import ContextMenu from './ContextMenu'
 import FileType from './FileType'
+import Remove from './Remove'
 
 const Wrappper = styled.div`
   display: flex;
@@ -52,6 +53,7 @@ class Playground extends Component {
         </Container>
         <ContextMenu />
         <FileType />
+        <Remove />
       </Wrappper>
     )
   }
