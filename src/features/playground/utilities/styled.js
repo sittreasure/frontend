@@ -27,11 +27,21 @@ const Icon = styled.img`
   margin-right: 10px;
 `
 
+const OverlayBackground = styled.div`
+  display: ${props => props.show ? 'block' : 'none'};
+  position: absolute;
+  z-index: 200;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+`
+
 const styleds = {
   TitleWrapper,
   Title,
   Idel,
   Icon,
+  OverlayBackground,
 }
 
 export default styleds
