@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import DirectoryActions from '../../redux/directoryStore'
+import { Styled } from './utilities'
 
 const Background = styled.div`
   display: ${props => props.show ? 'block' : 'none'};
@@ -17,17 +18,24 @@ const Background = styled.div`
 
 const Container = styled.div`
   display: ${props => props.show ? 'block' : 'none'};
+  width: 150px;
+  height: 108px;
+  background-color: #1B1B1B;
+
   position: absolute;
   left: ${props => `${props.x}px`};
   top: ${props => props.isOverflow ? 'auto' : `${props.y}px`};
   bottom: ${props => props.isOverflow ? `${props.y}px` : 'auto'};
   z-index: 201;
-  background-color: #FFF;
 `
 
-const Option = styled.div`
-  width: 100%;
-  height: auto;
+const Option = styled(Styled.Title)`
+  width: 100px;
+  height: 28px;
+  line-height: 27px;
+  padding-left: 50px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   cursor: pointer;
 `
 
