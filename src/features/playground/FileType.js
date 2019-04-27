@@ -158,7 +158,7 @@ class FileType extends Component {
                 <Name
                   value={this.state.name}
                   onChange={e => this.setName(e)}
-                  pattern={this.state.type ? this.state.type.regularExpression : '*'}
+                  pattern={this.state.type ? this.state.type.regularExpression : '^[a-zA-Z][0-9a-zA-Z-_]*'}
                 />
               </NameContainer>
             </InputContainer>
