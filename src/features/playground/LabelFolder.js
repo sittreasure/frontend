@@ -20,6 +20,10 @@ const TitleWrapper = styled.div`
   height: 40px;
   padding-top: 2px;
   padding-bottom: 2px;
+
+  &:hover {
+    background-color: #483D3D;
+  }
 `
 
 class LabelFolder extends Component {

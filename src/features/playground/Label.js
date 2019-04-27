@@ -13,6 +13,10 @@ const Container = styled.div`
   height: 36px;
   padding-top: 2px;
   padding-bottom: 2px;
+
+  &:hover {
+    background-color: #483D3D;
+  }
 `
 
 class Label extends Component {
