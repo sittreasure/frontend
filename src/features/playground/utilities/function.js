@@ -24,7 +24,7 @@ const openContextMenu = (event, dispatch, id) => {
   const clickX = event.clientX
   const clickY = event.clientY
   const windowHeight = window.innerHeight
-  const overflow = clickY + 100 >= windowHeight
+  const overflow = clickY + 120 >= windowHeight
   
   let x = clickX + 5
   let y
