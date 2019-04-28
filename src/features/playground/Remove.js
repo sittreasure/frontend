@@ -38,7 +38,7 @@ const Button = styled.button`
 class Remove extends Component {
   close(event) {
     event.preventDefault()
-    this.props.dispatch(DirectoryActions.setContextMenuRemove(false))
+    this.props.dispatch(DirectoryActions.toggleContextMenuRemove())
   }
 
   remove(event) {
