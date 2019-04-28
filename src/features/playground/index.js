@@ -8,7 +8,8 @@ import { SideTab, Tab, Nav } from '../../utilities'
 import Directory from './Directory'
 import Editor from './Editor'
 import ContextMenu from './ContextMenu'
-import FileType from './FileType'
+import NewFolder from './NewFolder'
+import NewFile from './NewFile'
 import Remove from './Remove'
 
 const Wrappper = styled.div`
@@ -52,7 +53,8 @@ class Playground extends Component {
           <Editor />
         </Container>
         <ContextMenu />
-        <FileType />
+        <NewFolder />
+        <NewFile />
         <Remove />
       </Wrappper>
     )
