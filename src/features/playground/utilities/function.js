@@ -18,7 +18,7 @@ const showIcon = type => {
   }
 }
 
-const openContextMenu = (event, dispatch, id) => {
+const openContextMenu = (event, dispatch, id, isDir) => {
   const DirectoryActions = require('../../../redux/directoryStore').default
   event.preventDefault()
   const clickX = event.clientX
@@ -33,7 +33,7 @@ const openContextMenu = (event, dispatch, id) => {
   } else {
     y = clickY + 5
   }
-  dispatch(DirectoryActions.setContextMenu(true, x, y, overflow))
+  dispatch(DirectoryActions.setContextMenu(true, x, y, overflow, isDir))
   dispatch(DirectoryActions.setContextMenuId(id))
 }
 
