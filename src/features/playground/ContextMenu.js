@@ -19,7 +19,7 @@ const Background = styled.div`
 const Container = styled.div`
   display: ${props => props.show ? 'block' : 'none'};
   width: 150px;
-  height: 108px;
+  height: auto;
   background-color: #1B1B1B;
 
   position: absolute;
@@ -45,15 +45,21 @@ class ContextMenu extends Component {
     this.props.dispatch(DirectoryActions.setContextMenu(false, 0, 0, false))
   }
 
-  openFileType(event) {
+  openNewFolder(event) {
     this.closeContextMenu(event)
     this.changeId()
-    this.props.dispatch(DirectoryActions.setContextMenuFileType(true))
+    this.props.dispatch(DirectoryActions.toggleContextMenuNewFolder())
+  }
+
+  openNewFile(event) {
+    this.closeContextMenu(event)
+    this.changeId()
+    this.props.dispatch(DirectoryActions.toggleContextMenuNewFile())
   }
 
   openRemove(event) {
     this.closeContextMenu(event)
-    this.props.dispatch(DirectoryActions.setContextMenuRemove(true))
+    this.props.dispatch(DirectoryActions.toggleContextMenuRemove())
   }
 
   changeId() {
@@ -67,7 +73,7 @@ class ContextMenu extends Component {
   }
 
   render() {
-    const { show, x, y, overflow } = this.props.contextMenu
+    const { show, x, y, overflow, isDir } = this.props.contextMenu
     return (
       <Fragment>
         <Background
@@ -80,9 +86,14 @@ class ContextMenu extends Component {
           y={y}
           isOverflow={overflow}
         >
-          <Option>New Folder</Option>
-          <Option onClick={e => this.openFileType(e)}>New File</Option>
-          <Option onClick={e => this.openRemove(e)}>Remove</Option>
+          <Option onClick={e => this.openNewFolder(e)}>New Folder</Option>
+          <Option onClick={e => this.openNewFile(e)}>New File</Option>
+          {!isDir
+            ? (
+              <Option onClick={e => this.openRemove(e)}>Remove</Option>
+            )
+            : ''
+          }
         </Container>
       </Fragment>
     )
