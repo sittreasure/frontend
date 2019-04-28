@@ -44,7 +44,7 @@ class LabelFolder extends Component {
   render() {
     return (
       <Container show={this.state.show} className="transition">
-        <TitleWrapper>
+        <TitleWrapper onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, this.props.id, true)}>
           <Styled.Idel dept={this.props.dept || 1} />
           <Styled.TitleWrapper
             onClick={e => {
