@@ -4,6 +4,7 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   getMetadata: ['prefix'],
   setMetadata: ['datas'],
+  addFolder: ['id', 'data'],
   getData: ['id'],
   setData: ['id', 'data'],
   setSave: ['id', 'save'],
@@ -12,10 +13,11 @@ const { Types, Creators } = createActions({
   removeFile: ['id'],
   getFileType: null,
   setFileType: ['fileTypes'],
-  setContextMenu: ['show', 'x', 'y', 'overflow'],
+  setContextMenu: ['show', 'x', 'y', 'overflow', 'isDir'],
   setContextMenuId: ['id'],
-  setContextMenuFileType: ['show'],
-  setContextMenuRemove: ['show'],
+  toggleContextMenuNewFolder: null,
+  toggleContextMenuNewFile: null,
+  toggleContextMenuRemove: null,
 })
 
 export const DirectoryTypes = Types
@@ -29,8 +31,10 @@ const INITIAL_STATE = Immutable({
     x: 0,
     y: 0,
     overflow: false,
+    isDir: false,
     id: null,
-    showFileType: false,
+    showNewFolder: false,
+    showNewFile: false,
     showRemove: false,
   },
 })
@@ -69,6 +73,25 @@ const addMetadata = (parents, metadatas) => {
       }
     }
   })
+  return [...parents]
+}
+
+const createFolder = (parents, id, data) => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
+    if (child.isDir && child.id === id) {
+      child.data = [
+        ...child.data,
+        data,
+      ]
+      break
+    }
+    else {
+      if (child.isDir && id.search(child.id) !== -1) {
+        createFolder(child.data, id, data)
+      }
+    }
+  }
   return [...parents]
 }
 
@@ -152,6 +175,22 @@ const setMetadata = (state = INITIAL_STATE, { datas }) => {
   }
 }
 
+const addFolder = (state = INITIAL_STATE, { id, data }) => {
+  if (id === 'playground/') {
+    return {
+      ...state,
+      directory: [
+        ...state.directory,
+        data,
+      ],
+    }
+  }
+  return {
+    ...state,
+    directory: createFolder(state.directory, id, data),
+  }
+}
+
 const setData = (state = INITIAL_STATE, { id, data }) => ({
   ...state,
   directory: addData(state.directory, id, data),
@@ -188,7 +227,7 @@ const setFileType = (state = INITIAL_STATE, { fileTypes }) => ({
   fileType: fileTypes,
 })
 
-const setContextMenu = (state = INITIAL_STATE, { show, x, y, overflow }) => ({
+const setContextMenu = (state = INITIAL_STATE, { show, x, y, overflow, isDir }) => ({
   ...state,
   contextMenu: {
     ...state.contextMenu,
@@ -196,6 +235,7 @@ const setContextMenu = (state = INITIAL_STATE, { show, x, y, overflow }) => ({
     x,
     y,
     overflow,
+    isDir,
   },
 })
 
@@ -207,24 +247,33 @@ const setContextMenuId = (state = INITIAL_STATE, { id }) => ({
   },
 })
 
-const setContextMenuFileType = (state = INITIAL_STATE, { show }) => ({
+const toggleContextMenuNewFolder = (state = INITIAL_STATE) => ({
   ...state,
   contextMenu: {
     ...state.contextMenu,
-    showFileType: show,
+    showNewFolder: !state.contextMenu.showNewFolder,
   },
 })
 
-const setContextMenuRemove = (state = INITIAL_STATE, { show }) => ({
+const toggleContextMenuNewFile = (state = INITIAL_STATE) => ({
   ...state,
   contextMenu: {
     ...state.contextMenu,
-    showRemove: show,
+    showNewFile: !state.contextMenu.showNewFile,
+  },
+})
+
+const toggleContextMenuRemove = (state = INITIAL_STATE) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    showRemove: !state.contextMenu.showRemove,
   },
 })
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
+  [Types.ADD_FOLDER]: addFolder,
   [Types.SET_DATA]: setData,
   [Types.SET_SAVE]: setSave,
   [Types.ADD_FILE]: addFile,
@@ -232,6 +281,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_FILE_TYPE]: setFileType,
   [Types.SET_CONTEXT_MENU]: setContextMenu,
   [Types.SET_CONTEXT_MENU_ID]: setContextMenuId,
-  [Types.SET_CONTEXT_MENU_FILE_TYPE]: setContextMenuFileType,
-  [Types.SET_CONTEXT_MENU_REMOVE]: setContextMenuRemove,
+  [Types.TOGGLE_CONTEXT_MENU_NEW_FOLDER]: toggleContextMenuNewFolder,
+  [Types.TOGGLE_CONTEXT_MENU_NEW_FILE]: toggleContextMenuNewFile,
+  [Types.TOGGLE_CONTEXT_MENU_REMOVE]: toggleContextMenuRemove,
 })
