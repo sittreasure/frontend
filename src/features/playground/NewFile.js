@@ -75,7 +75,7 @@ const Button = styled.button`
   cursor: pointer;
 `
 
-class FileType extends Component {
+class NewFile extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -116,7 +116,7 @@ class FileType extends Component {
 
   close(event) {
     event.preventDefault()
-    this.props.dispatch(DirectoryActions.setContextMenuFileType(false))
+    this.props.dispatch(DirectoryActions.toggleContextMenuNewFile())
     this.setState({
       name: '',
       type: null,
@@ -146,11 +146,11 @@ class FileType extends Component {
   }
 
   render() {
-    const { showFileType } = this.props.contextMenu
+    const { showNewFile } = this.props.contextMenu
     return (
       <Fragment>
-        <Styled.OverlayBackground show={showFileType} />
-        <Wrapper show={showFileType}>
+        <Styled.OverlayBackground show={showNewFile} />
+        <Wrapper show={showNewFile}>
           <Container>
             <InputContainer>
               <NameContainer>
@@ -189,7 +189,7 @@ class FileType extends Component {
   }
 }
 
-FileType.propTypes = {
+NewFile.propTypes = {
   dispatch: PropTypes.func,
   fileType: PropTypes.array,
   contextMenu: PropTypes.object,
@@ -200,4 +200,4 @@ const mapStateToProps = state => ({
   contextMenu: state.directoryStore.contextMenu,
 })
 
-export default connect(mapStateToProps)(FileType)
+export default connect(mapStateToProps)(NewFile)
