@@ -17,8 +17,10 @@ const Title = styled.div`
 `
 
 const Idel = styled.div`
+  display: flex;
+  align-items: center;
   width: ${props => (props.dept * 17) + 17}px;
-  height: 1px;
+  height: 9px;
 `
 
 const Icon = styled.img`
