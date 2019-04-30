@@ -19,11 +19,26 @@ const Container = styled.div`
   }
 `
 
+const Unsave = styled.div`
+  background-color: rgba(255, 0, 0, 0.79);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-left: 18px;
+`
+
 class Label extends Component {
   render() {
     return (
       <Container onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, this.props.id, false)}>
-        <Styled.Idel dept={this.props.dept || 1} />
+        <Styled.Idel dept={this.props.dept || 1}>
+          {!this.props.save
+            ? (
+              <Unsave />
+            )
+            : ''
+          }
+        </Styled.Idel>
         <Styled.TitleWrapper
           onClick={e => {
             e.preventDefault()
@@ -46,6 +61,7 @@ Label.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   data: PropTypes.string,
+  save: PropTypes.bool,
   dept: PropTypes.number,
   dispatch: PropTypes.func,
 }
