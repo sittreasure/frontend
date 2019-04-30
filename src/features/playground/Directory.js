@@ -58,6 +58,20 @@ const Arrow = styled.img`
   transform: rotate(${props => props.show ? 90 : 0 }deg);
 `
 
+const Unsave = styled(Styled.Title)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: rgba(255, 0, 0, 0.79);
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  position: absolute;
+  top: 46px;
+  right: 20px;
+`
+
 const ContentContainer = styled.div`
   padding-top: 5px;
 `
@@ -82,11 +96,12 @@ class Directory extends Component {
         id={data.id}
         name={data.name}
         data={data.data}
+        save={data.save}
         dept={data.id.split('/').length}
       />
     )
   }
-
+  
   showLabelFolder(data) {
     let children = []
     let inside = data.data
@@ -112,8 +127,26 @@ class Directory extends Component {
       </LabelFolder>
     )
   }
+
+  checkUnsave(parents) {
+    const unsave = parents.reduce(
+      (sum, data) => {
+        if (!data.isDir) {
+          if (!data.save) {
+            sum += 1
+          }
+        } else {
+          sum += this.checkUnsave(data.data)          
+        }
+        return sum
+      },
+      0
+    )
+    return unsave
+  }
   
   render() {
+    const unsave = this.checkUnsave(this.props.directory)
     return (
       <DirectoryContainer show={this.props.show} className="transition">
         <Title>File Editor</Title>
@@ -121,6 +154,12 @@ class Directory extends Component {
           show={this.state.show}
           className="transition"
         >
+          {unsave
+            ? (
+              <Unsave>{unsave}</Unsave>
+            )
+            : ''
+          }
           <TitleWrapper onClick={e => functions.toggleShow(e, this)}>
             <ArrowWrapper>
               <Arrow
