@@ -124,7 +124,7 @@ class Editor extends Component {
     }
     else {
       clearInterval(this.checkCompileId)
-      if (this.props.isCompile === false) {
+      if (this.props.isCompile === false && this.props.compileLog === '') {
         this.props.dispatch(PlaygroundActions.getCompileLog(name))
       }
     }
@@ -152,6 +152,7 @@ class Editor extends Component {
   compile(event) {
     event.preventDefault()
     const name = this.props.jobName
+    this.props.dispatch(PlaygroundActions.setCompileLog(''))
     this.props.dispatch(PlaygroundActions.compile(name))
   }
 
