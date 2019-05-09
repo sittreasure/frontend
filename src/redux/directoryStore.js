@@ -4,7 +4,6 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   getMetadata: ['prefix'],
   setMetadata: ['datas'],
-  addFolder: ['id', 'data'],
   getData: ['id'],
   setData: ['id', 'data'],
   setSave: ['id', 'save'],
@@ -18,6 +17,7 @@ const { Types, Creators } = createActions({
   toggleContextMenuNewFolder: null,
   toggleContextMenuNewFile: null,
   toggleContextMenuRemove: null,
+  setContextMenuCut: ['id'],
 })
 
 export const DirectoryTypes = Types
@@ -36,6 +36,7 @@ const INITIAL_STATE = Immutable({
     showNewFolder: false,
     showNewFile: false,
     showRemove: false,
+    cut: null,
   },
 })
 
@@ -73,25 +74,6 @@ const addMetadata = (parents, metadatas) => {
       }
     }
   })
-  return [...parents]
-}
-
-const createFolder = (parents, id, data) => {
-  for (let i = 0; i < parents.length; i++) {
-    const child = parents[i]
-    if (child.isDir && child.id === id) {
-      child.data = [
-        ...child.data,
-        data,
-      ]
-      break
-    }
-    else {
-      if (child.isDir && id.search(child.id) !== -1) {
-        createFolder(child.data, id, data)
-      }
-    }
-  }
   return [...parents]
 }
 
@@ -175,22 +157,6 @@ const setMetadata = (state = INITIAL_STATE, { datas }) => {
   }
 }
 
-const addFolder = (state = INITIAL_STATE, { id, data }) => {
-  if (id === 'playground/') {
-    return {
-      ...state,
-      directory: [
-        ...state.directory,
-        data,
-      ],
-    }
-  }
-  return {
-    ...state,
-    directory: createFolder(state.directory, id, data),
-  }
-}
-
 const setData = (state = INITIAL_STATE, { id, data }) => ({
   ...state,
   directory: addData(state.directory, id, data),
@@ -271,9 +237,16 @@ const toggleContextMenuRemove = (state = INITIAL_STATE) => ({
   },
 })
 
+const setContextMenuCut = (state = INITIAL_STATE, { id }) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    cut: id,
+  },
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
-  [Types.ADD_FOLDER]: addFolder,
   [Types.SET_DATA]: setData,
   [Types.SET_SAVE]: setSave,
   [Types.ADD_FILE]: addFile,
@@ -284,4 +257,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.TOGGLE_CONTEXT_MENU_NEW_FOLDER]: toggleContextMenuNewFolder,
   [Types.TOGGLE_CONTEXT_MENU_NEW_FILE]: toggleContextMenuNewFile,
   [Types.TOGGLE_CONTEXT_MENU_REMOVE]: toggleContextMenuRemove,
+  [Types.SET_CONTEXT_MENU_CUT]: setContextMenuCut,
 })
