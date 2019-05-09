@@ -91,7 +91,7 @@ class NewFolder extends Component {
       data: [],
       isDir: true,
     }
-    this.props.dispatch(DirectoryActions.addFolder(id, folder))
+    this.props.dispatch(DirectoryActions.addFile(id, folder))
     this.close(event)
   }
 
