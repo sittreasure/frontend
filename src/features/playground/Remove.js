@@ -6,33 +6,9 @@ import { connect } from 'react-redux'
 import { Styled } from './utilities'
 import DirectoryActions from '../../redux/directoryStore'
 
-const Wrapper = styled.div`
-  display: ${props => props.show ? 'flex' : 'none'};
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 201;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-`
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  height: 200px;
-  background-color: #000;
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const Button = styled.button`
-  cursor: pointer;
+const Content = styled(Styled.Title)`
+  font-size: 22px;
+  line-height: 29px;
 `
 
 class Remove extends Component {
@@ -52,14 +28,21 @@ class Remove extends Component {
     return (
       <Fragment>
         <Styled.OverlayBackground show={showRemove} />
-        <Wrapper show={showRemove}>
-          <Container>
-            <ButtonContainer>
-              <Button onClick={e => this.close(e)}>No</Button>
-              <Button onClick={e => this.remove(e)}>Yes</Button>
-            </ButtonContainer>
-          </Container>
-        </Wrapper>
+        <Styled.PopupContainer show={showRemove}>
+          <Styled.PopupBox width='355px'>
+            <Styled.PopupHeader>Remove File</Styled.PopupHeader>
+            <Styled.PopupBody>
+              <Content>Do you want to remove this file?</Content>
+            </Styled.PopupBody>
+            <Styled.PopupFooter>
+              <Styled.Button onClick={e => this.close(e)} />
+              <Styled.Button
+                onClick={e => this.remove(e)}
+                yes
+              />
+            </Styled.PopupFooter>
+          </Styled.PopupBox>
+        </Styled.PopupContainer>
       </Fragment>
     )
   }
