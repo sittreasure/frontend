@@ -9,12 +9,20 @@ const showIcon = type => {
   switch (type) {
     case 'java':
       return require('../../../assets/images/java.png')
+    case 'jsp':
+      return require('../../../assets/images/jsp.png')
+    case 'tld':
+      return require('../../../assets/images/tld.png')
+    case 'tag':
+      return require('../../../assets/images/tag.png')
     case 'html':
       return require('../../../assets/images/html5.png')
+    case 'css':
+      return require('../../../assets/images/css.png')
+    case 'js':
+      return require('../../../assets/images/js.png')
     case 'xml':
       return require('../../../assets/images/xml.png')
-    default:
-      return require('../../../assets/images/info.png')
   }
 }
 
