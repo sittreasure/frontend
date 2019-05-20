@@ -1,58 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { Styled } from './utilities'
 import DirectoryActions from '../../redux/directoryStore'
-
-const Wrapper = styled.div`
-  display: ${props => props.show ? 'flex' : 'none'};
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 201;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-`
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  height: 200px;
-  background-color: #000;
-`
-
-const InputContainer = styled.div`
-  display: flex;
-  flex: 1;
-`
-
-const NameContainer = styled.div`
-  display: flex;
-  color:  #fff;
-  width: 100%;
-`
-
-const Name = styled.input`
-  width: 100%;
-  &:invalid {
-    color: #fff;
-    background-color: #f00;
-  }
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const Button = styled.button`
-  cursor: pointer;
-`
 
 class NewFolder extends Component {
   constructor(props) {
@@ -100,29 +51,33 @@ class NewFolder extends Component {
     return (
       <Fragment>
         <Styled.OverlayBackground show={showNewFolder} />
-        <Wrapper show={showNewFolder}>
-          <Container>
-            <InputContainer>
-              <NameContainer>
-                Name:
-                <Name
-                  value={this.state.name}
-                  onChange={e => this.setName(e)}
-                  pattern='^[a-zA-Z][0-9a-zA-Z-_]*'
-                />
-              </NameContainer>
-            </InputContainer>
-            <ButtonContainer>
-              <Button onClick={e => this.close(e)}>No</Button>
-              <Button
+        <Styled.PopupContainer show={showNewFolder}>
+          <Styled.PopupBox width='382px'>
+            <Styled.PopupHeader>New Folder</Styled.PopupHeader>
+            <Styled.PopupBody>
+              <Styled.NameContainer>
+                <Styled.Label>Name:</Styled.Label>
+                <Styled.InputContainer>
+                  <Styled.Input
+                    value={this.state.name}
+                    onChange={e => this.setName(e)}
+                    pattern='^[a-zA-Z][0-9a-zA-Z-_]*'
+                    placeholder='folder name'
+                  />
+                  <Styled.InputError>Please start with letters (A-Z or a-z)</Styled.InputError>
+                </Styled.InputContainer>  
+              </Styled.NameContainer>
+            </Styled.PopupBody>
+            <Styled.PopupFooter>
+              <Styled.Button onClick={e => this.close(e)} />
+              <Styled.Button
                 disabled={!this.state.valid}
-                onClick={e => this.create(e)}
-              >
-                Yes
-              </Button>
-            </ButtonContainer>
-          </Container>
-        </Wrapper>
+                onClick={e => this.remove(e)}
+                yes
+              />
+            </Styled.PopupFooter>
+          </Styled.PopupBox>
+        </Styled.PopupContainer>
       </Fragment>
     )
   }
