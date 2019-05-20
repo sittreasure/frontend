@@ -21,6 +21,7 @@ const Container = styled.div`
   width: 150px;
   height: auto;
   background-color: #1B1B1B;
+  padding-top: 7px;
 
   position: absolute;
   left: ${props => `${props.x}px`};
@@ -30,14 +31,35 @@ const Container = styled.div`
 `
 
 const Option = styled(Styled.Title)`
-  width: 100px;
+  width: 100%;
   height: 28px;
-  line-height: 27px;
-  padding-left: 50px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  font-size: 18px;
+  line-height: 23px;
+  padding: 4px 0px;
+  border-top: ${props => props.splitter ? 1 : 0}px solid #483D3D;
   cursor: ${props => props.disable ? 'not-allowed' : 'pointer'};
   opacity: ${props => props.disable ? 0.5 : 1};
+
+  &:hover {
+    background-color: #393939;
+    color: ${props => props.disable
+      ? '#C4C4C4'
+      : props.remove ? '#EC172C' : '#61D0FF'
+    };
+  }
+`
+
+const Icon = styled.i`
+  display: inline-block;
+  width: 13px;
+  height: 15px;
+  margin: 0px 17px;
+  background-image: url(${props => props.icon});
+  background-repeat: no-repeat;
+
+  ${Option}:hover & {
+    background-image: url(${props => props.disable ? props.icon : props.iconColor});
+  }
 `
 
 class ContextMenu extends Component {
@@ -82,8 +104,11 @@ class ContextMenu extends Component {
   }
 
   openRemove(event) {
-    this.closeContextMenu(event)
-    this.props.dispatch(DirectoryActions.toggleContextMenuRemove())
+    const { isDir } = this.props.contextMenu
+    if (!isDir) {
+      this.closeContextMenu(event)
+      this.props.dispatch(DirectoryActions.toggleContextMenuRemove())
+    }
   }
 
   changeId() {
@@ -125,26 +150,56 @@ class ContextMenu extends Component {
           y={y}
           isOverflow={overflow}
         >
-          <Option onClick={e => this.openNewFolder(e)}>New Folder</Option>
-          <Option onClick={e => this.openNewFile(e)}>New File</Option>
+          <Option onClick={e => this.openNewFolder(e)}>
+            <Icon
+              icon={require('../../assets/images/context/folder.png')}
+              iconColor={require('../../assets/images/context/folder-color.png')}
+            />
+            New Folder
+          </Option>
+          <Option onClick={e => this.openNewFile(e)}>
+            <Icon
+              icon={require('../../assets/images/context/file.png')}
+              iconColor={require('../../assets/images/context/file-color.png')}
+            />
+            New File
+          </Option>
           <Option
             onClick={e => this.cutFile(e)}
             disable={isDir}
+            splitter
           >
+            <Icon
+              icon={require('../../assets/images/context/cut.png')}
+              iconColor={require('../../assets/images/context/cut-color.png')}
+              disable={isDir}
+            />
             Cut
           </Option>
           <Option
             onClick={e => this.pasteFile(e)}
             disable={!cut}
           >
+            <Icon
+              icon={require('../../assets/images/context/paste.png')}
+              iconColor={require('../../assets/images/context/paste-color.png')}
+              disable={!cut}
+            />
             Paste
           </Option>
-          {!isDir
-            ? (
-              <Option onClick={e => this.openRemove(e)}>Remove</Option>
-            )
-            : ''
-          }
+          <Option
+            onClick={e => this.openRemove(e)}
+            disable={isDir}
+            splitter
+            remove
+          >
+            <Icon
+              icon={require('../../assets/images/context/remove.png')}
+              iconColor={require('../../assets/images/context/remove-color.png')}
+              disable={isDir}
+            />
+            Remove
+          </Option>
         </Container>
       </Fragment>
     )
