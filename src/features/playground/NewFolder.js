@@ -52,8 +52,8 @@ class NewFolder extends Component {
       <Fragment>
         <Styled.OverlayBackground show={showNewFolder} />
         <Styled.PopupContainer show={showNewFolder}>
-          <Styled.PopupBox width='382px'>
-            <Styled.PopupHeader>New Folder</Styled.PopupHeader>
+          <Styled.PopupBox width='494px'>
+            <Styled.PopupHeader>Create Folder</Styled.PopupHeader>
             <Styled.PopupBody>
               <Styled.NameContainer>
                 <Styled.Label>Name:</Styled.Label>
@@ -64,15 +64,15 @@ class NewFolder extends Component {
                     pattern='^[a-zA-Z][0-9a-zA-Z-_]*'
                     placeholder='folder name'
                   />
-                  <Styled.InputError>Please start with letters (A-Z or a-z)</Styled.InputError>
-                </Styled.InputContainer>  
+                  <Styled.InputError>Please start with letter (A-Z or a-z) and next with letter (A-Z or a-z) or number (0-9) or symbol (- _)</Styled.InputError>
+                </Styled.InputContainer>
               </Styled.NameContainer>
             </Styled.PopupBody>
             <Styled.PopupFooter>
               <Styled.Button onClick={e => this.close(e)} />
               <Styled.Button
                 disabled={!this.state.valid}
-                onClick={e => this.remove(e)}
+                onClick={e => this.create(e)}
                 yes
               />
             </Styled.PopupFooter>
