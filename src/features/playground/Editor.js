@@ -192,7 +192,7 @@ class Editor extends Component {
           {this.props.openFile.id
             ? (
               <Name>
-                <Styled.Icon src={functions.showIcon(this.props.openFile.name)} />
+                <Styled.Icon src={functions.showIcon(this.props.openFile.name.split('.')[1])} />
                 <Styled.Title>{this.props.openFile.name}</Styled.Title>
               </Name>
             )
