@@ -7,72 +7,27 @@ import { Styled } from './utilities'
 import DirectoryActions from '../../redux/directoryStore'
 import PlaygroundActions from '../../redux/playgroundStore'
 
-const Wrapper = styled.div`
-  display: ${props => props.show ? 'flex' : 'none'};
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 201;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-`
-
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  height: 200px;
-  background-color: #000;
-`
-
-const InputContainer = styled.div`
-  display: flex;
-  flex: 1;
-`
-
-const NameContainer = styled.div`
-  display: flex;
-  color:  #fff;
-  width: 100%;
-`
-
-const Name = styled.input`
-  width: 100%;
-  &:invalid {
-    color: #fff;
-    background-color: #f00;
-  }
-`
-
-const TypeContainer = styled.div`
   display: flex;
   flex: 1;
   flex-wrap: wrap;
 `
 
-const Type = styled.div`
+const FileType = styled.i`
   display: flex;
-  width: 125px;
+  width: 203px;
   height: 70px;
   color: #fff;
-  background-color: #f00;
-  opacity: ${props => props.choose ? 1 : 0.5 };
   cursor: pointer;
+  margin: 0px ${props => props.center ? 22 : 0}px;
+  margin-top: ${props => props.firstRow ? 15 : 27}px;
+  background-image: url(${props => props.choose ? props.iconColor : props.icon});
+  background-size: cover;
+  background-repeat: no-repeat;
 
   &:hover {
-    opacity: 1;
+    background-image: url(${props => props.iconColor});
   }
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const Button = styled.button`
-  cursor: pointer;
 `
 
 class NewFile extends Component {
@@ -145,45 +100,61 @@ class NewFile extends Component {
     this.close(event)
   }
 
+  renderError() {
+    const { regularExpression } = this.state.type
+    if (regularExpression === '^[A-Z][0-9A-Za-z]*') {
+      return 'Please start with capital letter (A-Z) and next with letter (A-Z or a-z) or number (0-9)'
+    }
+    else {
+      return 'Please start with letter (A-Z or a-z) and next with letter (A-Z or a-z) or number (0-9) or symbol (- _)'
+    }
+  }
+
   render() {
     const { showNewFile } = this.props.contextMenu
     return (
       <Fragment>
         <Styled.OverlayBackground show={showNewFile} />
-        <Wrapper show={showNewFile}>
-          <Container>
-            <InputContainer>
-              <NameContainer>
-                Name:
-                <Name
-                  value={this.state.name}
-                  onChange={e => this.setName(e)}
-                  pattern={this.state.type ? this.state.type.regularExpression : '^[a-zA-Z][0-9a-zA-Z-_]*'}
-                />
-              </NameContainer>
-            </InputContainer>
-            <TypeContainer>
-              {this.props.fileType.map(type => (
-                <Type
-                  choose={this.state.type && this.state.type.id === type.id}
-                  key={type.id}
-                  onClick={e => this.setType(e, type)}
-                >
-                  {type.name}
-                </Type>
-              ))}
-            </TypeContainer>
-            <ButtonContainer>
-              <Button onClick={e => this.close(e)}>No</Button>
-              <Button
+        <Styled.PopupContainer show={showNewFile}>
+          <Styled.PopupBox width='687px'>
+            <Styled.PopupHeader>Create File</Styled.PopupHeader>
+            <Styled.PopupBody>
+              <Styled.NameContainer>
+                <Styled.Label>Name:</Styled.Label>
+                <Styled.InputContainer>
+                  <Styled.Input
+                    value={this.state.name}
+                    onChange={e => this.setName(e)}
+                    pattern={this.state.type ? this.state.type.regularExpression : '^[a-zA-Z][0-9a-zA-Z-_]*'}
+                    placeholder='file name'
+                  />
+                  <Styled.InputError>{this.state.type ? this.renderError() : ''}</Styled.InputError>
+                </Styled.InputContainer>
+              </Styled.NameContainer>
+              <Container>
+                {this.props.fileType.map((type, index) => (
+                  <FileType
+                    key={type.id}
+                    onClick={e => this.setType(e, type)}
+                    choose={this.state.type && this.state.type.id === type.id}
+                    firstRow={index === 0 || index === 1 || index === 2}
+                    center={index % 3 === 1}
+                    icon={require(`../../assets/images/newfile/${type.name.replace(' ', '').toLowerCase()}-unclick.png`)}
+                    iconColor={require(`../../assets/images/newfile/${type.name.replace(' ', '').toLowerCase()}.png`)}
+                  />
+                ))}
+              </Container>
+            </Styled.PopupBody>
+            <Styled.PopupFooter>
+              <Styled.Button onClick={e => this.close(e)} />
+              <Styled.Button
                 disabled={!this.state.valid}
                 onClick={e => this.create(e)}
-              >
-                Yes
-              </Button>
-            </ButtonContainer>
-          </Container>
-        </Wrapper>
+                yes
+              />
+            </Styled.PopupFooter>
+          </Styled.PopupBox>
+        </Styled.PopupContainer>
       </Fragment>
     )
   }
