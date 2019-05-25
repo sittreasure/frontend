@@ -20,6 +20,10 @@ const TitleWrapper = styled.div`
   height: 40px;
   padding-top: 2px;
   padding-bottom: 2px;
+
+  &:hover {
+    background-color: #483D3D;
+  }
 `
 
 class LabelFolder extends Component {
@@ -40,7 +44,7 @@ class LabelFolder extends Component {
   render() {
     return (
       <Container show={this.state.show} className="transition">
-        <TitleWrapper>
+        <TitleWrapper onContextMenu={e => functions.openContextMenu(e, this.props.dispatch, this.props.id, true)}>
           <Styled.Idel dept={this.props.dept || 1} />
           <Styled.TitleWrapper
             onClick={e => {

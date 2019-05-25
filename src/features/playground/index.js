@@ -7,6 +7,10 @@ import PlaygroundActions from '../../redux/playgroundStore'
 import { SideTab, Tab, Nav } from '../../utilities'
 import Directory from './Directory'
 import Editor from './Editor'
+import ContextMenu from './ContextMenu'
+import NewFolder from './NewFolder'
+import NewFile from './NewFile'
+import Remove from './Remove'
 
 const Wrappper = styled.div`
   display: flex;
@@ -48,6 +52,10 @@ class Playground extends Component {
           <Nav title="Playground" />
           <Editor />
         </Container>
+        <ContextMenu />
+        <NewFolder />
+        <NewFile />
+        <Remove />
       </Wrappper>
     )
   }

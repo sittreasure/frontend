@@ -7,6 +7,17 @@ const { Types, Creators } = createActions({
   getData: ['id'],
   setData: ['id', 'data'],
   setSave: ['id', 'save'],
+  addFile: ['id', 'data'],
+  removeData: ['id'],
+  removeFile: ['id'],
+  getFileType: null,
+  setFileType: ['fileTypes'],
+  setContextMenu: ['show', 'x', 'y', 'overflow', 'isDir'],
+  setContextMenuId: ['id'],
+  toggleContextMenuNewFolder: null,
+  toggleContextMenuNewFile: null,
+  toggleContextMenuRemove: null,
+  setContextMenuCut: ['id'],
 })
 
 export const DirectoryTypes = Types
@@ -14,6 +25,19 @@ export default Creators
 
 const INITIAL_STATE = Immutable({
   directory: [],
+  fileType: [],
+  contextMenu: {
+    show: false,
+    x: 0,
+    y: 0,
+    overflow: false,
+    isDir: false,
+    id: null,
+    showNewFolder: false,
+    showNewFile: false,
+    showRemove: false,
+    cut: null,
+  },
 })
 
 const patternMetadatas = (datas, prefixName) => {
@@ -26,13 +50,13 @@ const patternMetadatas = (datas, prefixName) => {
     let metadata = {
       id: data.name,
       name: name.join('/'),
-      isDir: false,
       data: null,
       save: true,
     }
     if (data.isDir) {
       metadata.isDir = true
       metadata.data = []
+      delete metadata.save
     }
     directory.push(metadata)
   })
@@ -85,6 +109,41 @@ const addSave = (parents, id, data) => {
   return [...parents]
 }
 
+const createFile = (parents, id, data) => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
+    if (child.isDir && child.id === id) {
+      child.data = [
+        ...child.data,
+        data,
+      ]
+      break
+    }
+    else {
+      if (child.isDir && id.search(child.id) !== -1) {
+        createFile(child.data, id, data)
+      }
+    }
+  }
+  return [...parents]
+}
+
+const deleteFile = (parents, id) => {
+  for (let i = 0; i < parents.length; i++) {
+    const child = parents[i]
+    if (child.id === id) {
+      parents.splice(i, 1)
+      break
+    }
+    else {
+      if (child.isDir && id.search(child.id) !== -1) {
+        deleteFile(child.data, id)
+      }
+    }
+  }
+  return [...parents]
+}
+
 const setMetadata = (state = INITIAL_STATE, { datas }) => {
   if (state.directory.length === 0) {
     return {
@@ -108,8 +167,95 @@ const setSave = (state = INITIAL_STATE, { id, save }) => ({
   directory: addSave(state.directory, id, save),
 })
 
+const addFile = (state = INITIAL_STATE, { id, data }) => {
+  if (id === 'playground/') {
+    return {
+      ...state,
+      directory: [
+        ...state.directory,
+        data,
+      ],
+    }
+  }
+  return {
+    ...state,
+    directory: createFile(state.directory, id, data),
+  }
+}
+
+const removeFile = (state = INITIAL_STATE, { id }) => ({
+  ...state,
+  directory: deleteFile(state.directory, id),
+})
+
+const setFileType = (state = INITIAL_STATE, { fileTypes }) => ({
+  ...state,
+  fileType: fileTypes,
+})
+
+const setContextMenu = (state = INITIAL_STATE, { show, x, y, overflow, isDir }) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    show,
+    x,
+    y,
+    overflow,
+    isDir,
+  },
+})
+
+const setContextMenuId = (state = INITIAL_STATE, { id }) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    id,
+  },
+})
+
+const toggleContextMenuNewFolder = (state = INITIAL_STATE) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    showNewFolder: !state.contextMenu.showNewFolder,
+  },
+})
+
+const toggleContextMenuNewFile = (state = INITIAL_STATE) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    showNewFile: !state.contextMenu.showNewFile,
+  },
+})
+
+const toggleContextMenuRemove = (state = INITIAL_STATE) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    showRemove: !state.contextMenu.showRemove,
+  },
+})
+
+const setContextMenuCut = (state = INITIAL_STATE, { id }) => ({
+  ...state,
+  contextMenu: {
+    ...state.contextMenu,
+    cut: id,
+  },
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
   [Types.SET_DATA]: setData,
   [Types.SET_SAVE]: setSave,
+  [Types.ADD_FILE]: addFile,
+  [Types.REMOVE_FILE]: removeFile,
+  [Types.SET_FILE_TYPE]: setFileType,
+  [Types.SET_CONTEXT_MENU]: setContextMenu,
+  [Types.SET_CONTEXT_MENU_ID]: setContextMenuId,
+  [Types.TOGGLE_CONTEXT_MENU_NEW_FOLDER]: toggleContextMenuNewFolder,
+  [Types.TOGGLE_CONTEXT_MENU_NEW_FILE]: toggleContextMenuNewFile,
+  [Types.TOGGLE_CONTEXT_MENU_REMOVE]: toggleContextMenuRemove,
+  [Types.SET_CONTEXT_MENU_CUT]: setContextMenuCut,
 })
