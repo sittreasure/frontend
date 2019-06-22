@@ -6,7 +6,7 @@ import AceEditor from 'react-ace'
 import 'brace/theme/monokai'
 import 'brace/ext/language_tools'
 
-import { Styled, functions } from './utilities'
+import { Styled, functions } from './utils'
 import PlaygroundActions from '../../redux/playgroundStore'
 import DirectoryActions from '../../redux/directoryStore'
 import '../../assets/css/theme.css'

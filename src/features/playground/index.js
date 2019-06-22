@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import PlaygroundActions from '../../redux/playgroundStore'
-import { SideTab, Tab, Nav } from '../../utilities'
+import { SideTab, Tab, Nav } from '../common'
 import Directory from './Directory'
 import Editor from './Editor'
 import ContextMenu from './ContextMenu'

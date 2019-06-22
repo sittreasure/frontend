@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import { Styled } from './utilities'
+import { Styled } from './utils'
 import DirectoryActions from '../../redux/directoryStore'
 
 const Content = styled(Styled.Title)`

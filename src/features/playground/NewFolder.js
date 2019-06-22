@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { Styled } from './utilities'
+import { Styled } from './utils'
 import DirectoryActions from '../../redux/directoryStore'
 
 class NewFolder extends Component {

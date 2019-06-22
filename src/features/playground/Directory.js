@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Label from './Label'
 import LabelFolder from './LabelFolder'
 import DirectoryActions from '../../redux/directoryStore'
-import { Styled, functions } from './utilities'
+import { Styled, functions } from './utils'
 
 const DirectoryContainer = styled.div`
   display: flex;

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import DirectoryActions from '../../redux/directoryStore'
-import { Styled } from './utilities'
+import { Styled } from './utils'
 
 const Background = styled.div`
   display: ${props => props.show ? 'block' : 'none'};
