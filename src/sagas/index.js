@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects'
 
+import loginFacebook from './loginFacebook'
 import directoryMetadata from './directoryMetadata'
 import directoryData from './directoryData'
 import directoryRemoveData from './directoryRemoveData'
@@ -11,6 +12,7 @@ import playgroundSave from './playgroundSave'
 
 export default function* () {
   yield all([
+    loginFacebook(),
     directoryMetadata(),
     directoryData(),
     directoryRemoveData(),
