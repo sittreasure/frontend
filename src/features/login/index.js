@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import FacebookLogin from 'react-facebook-login'
 import { Redirect } from 'react-router'
+import { connect } from 'react-redux'
+
+import LoginActions from '../../redux/loginStore'
+import { accessToken } from '../../utils'
 
 const Container = styled.div`
   display: flex;
@@ -19,10 +24,15 @@ class Login extends Component {
   }
 
   facebookCallback(result) {
-    console.log('>>> [index.js:14] result : ', result)
-    this.setState({
-      success: true,
-    })
+    const { id, name, picture: { data: { url } } } = result
+    const idInt = parseInt(id)
+    const [firstname, lastname] = name.split(' ')
+    this.props.dispatch(LoginActions.loginFacebook(idInt, firstname, lastname, url))
+    if (accessToken.getToken()) {
+      this.setState({
+        success: true,
+      })
+    }
   }
 
   render() {
@@ -44,4 +54,8 @@ class Login extends Component {
   }
 }
 
-export default Login
+Login.propTypes = {
+  dispatch: PropTypes.func,
+}
+
+export default connect()(Login)
