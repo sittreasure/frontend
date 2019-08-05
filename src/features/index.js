@@ -5,8 +5,8 @@ import FacebookLogin from 'react-facebook-login'
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 
-import LoginActions from '../../redux/loginStore'
-import { accessToken } from '../../utils'
+import UserActions from '../redux/userStore'
+import { accessToken } from '../utils'
 
 const Container = styled.div`
   display: flex;
@@ -23,11 +23,30 @@ class Login extends Component {
     }
   }
 
+  componentDidMount() {
+    this.checkAuth()
+  }
+
   facebookCallback(result) {
-    const { id, name, picture: { data: { url } } } = result
+    const {
+      id,
+      name,
+      picture: {
+        data: { url },
+      },
+    } = result
     const idInt = parseInt(id)
     const [firstname, lastname] = name.split(' ')
-    this.props.dispatch(LoginActions.loginFacebook(idInt, firstname, lastname, url))
+    this.props.dispatch(
+      UserActions.loginFacebook(idInt, firstname, lastname, url)
+    )
+    setTimeout(() => {
+      this.props.dispatch(UserActions.me())
+      this.checkAuth()
+    }, 500)
+  }
+
+  checkAuth() {
     if (accessToken.getToken()) {
       this.setState({
         success: true,
@@ -45,10 +64,7 @@ class Login extends Component {
           icon="fa-facebook"
           callback={response => this.facebookCallback(response)}
         />
-        {this.state.success
-          ? <Redirect to='/playground' />
-          : null
-        }
+        {this.state.success ? <Redirect to="/playground" /> : null}
       </Container>
     )
   }
