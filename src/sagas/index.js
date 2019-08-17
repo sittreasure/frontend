@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects'
 
 import userLoginFacebook from './userLoginFacebook'
 import userMe from './userMe'
+import directoryCreateBucket from './directoryCreateBucket'
 import directoryMetadata from './directoryMetadata'
 import directoryData from './directoryData'
 import directoryRemoveData from './directoryRemoveData'
@@ -15,6 +16,7 @@ export default function*() {
   yield all([
     userLoginFacebook(),
     userMe(),
+    directoryCreateBucket(),
     directoryMetadata(),
     directoryData(),
     directoryRemoveData(),
