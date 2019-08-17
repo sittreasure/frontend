@@ -1,30 +1,29 @@
 import { call, put, fork, takeEvery } from 'redux-saga/effects'
 
 import axios from '../libs/axios'
-import { PlaygroundTypes } from '../redux/playgroundStore'
-import DirectoryActions from '../redux/directoryStore'
+import DirectoryActions, { DirectoryTypes } from '../redux/directoryStore'
 
-function* save({ id, objectData }) {
+function* saveData({ id, objectData }) {
   try {
     let response
     yield call(async () => {
       const body = {
         name: id,
-        objectData: objectData,
+        objectData,
       }
       const { data } = await axios.post('/fileapi/v1/minios/file', body)
       response = data
     })
     yield put(DirectoryActions.setSave(id, response.result))
   } catch (error) {
-    console.log('>>> [playgroundSave.js:20] error : ', error)
+    console.log('>>> [playgroundSave.js:19] error : ', error)
   }
 }
 
-function* saveListener() {
-  yield takeEvery(PlaygroundTypes.SAVE, save)
+function* saveDataListener() {
+  yield takeEvery(DirectoryTypes.SAVE_DATA, saveData)
 }
 
-export default function* savesaga() {
-  yield fork(saveListener)
+export default function* savedatasaga() {
+  yield fork(saveDataListener)
 }

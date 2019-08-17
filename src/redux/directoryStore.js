@@ -9,6 +9,7 @@ const { Types, Creators } = createActions({
   setData: ['id', 'data'],
   setSave: ['id', 'save'],
   addFile: ['id', 'data'],
+  saveData: ['id', 'objectData'],
   removeData: ['id'],
   removeFile: ['id'],
   getFileType: null,

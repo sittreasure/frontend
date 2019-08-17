@@ -6,11 +6,11 @@ import directoryCreateBucket from './directoryCreateBucket'
 import directoryMetadata from './directoryMetadata'
 import directoryData from './directoryData'
 import directoryRemoveData from './directoryRemoveData'
+import directorySaveData from './directorySaveData'
 import directoryFileType from './directoryFileType'
 import playgroundCompile from './playgroundCompile'
 import playgroundCheckCompile from './playgroundCheckCompile'
 import playgroundCompileLog from './playgroundCompileLog'
-import playgroundSave from './playgroundSave'
 
 export default function*() {
   yield all([
@@ -20,10 +20,10 @@ export default function*() {
     directoryMetadata(),
     directoryData(),
     directoryRemoveData(),
+    directorySaveData(),
     directoryFileType(),
     playgroundCompile(),
     playgroundCheckCompile(),
     playgroundCompileLog(),
-    playgroundSave(),
   ])
 }
