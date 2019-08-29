@@ -33,6 +33,10 @@ const Icon = styled.img`
 `
 
 class Playground extends Component {
+  componentDidMount() {
+    console.log('>>> [index.js:37] Mount Playground ')
+  }
+
   render() {
     return (
       <Wrappper>
@@ -40,10 +44,12 @@ class Playground extends Component {
           <Tab>
             <Icon src={require('../../assets/images/info.png')} />
           </Tab>
-          <Tab onClick={e => {
-            e.preventDefault()
-            this.props.dispatch(PlaygroundActions.toggleDirectory())
-          }}>
+          <Tab
+            onClick={e => {
+              e.preventDefault()
+              this.props.dispatch(PlaygroundActions.toggleDirectory())
+            }}
+          >
             <Icon src={require('../../assets/images/folder.png')} />
           </Tab>
         </SideTab>
