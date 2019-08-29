@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import PlaygroundActions from '../../redux/playgroundStore'
+import DirectoryActions from '../../redux/directoryStore'
 import { SideTab, Tab, Nav } from '../common'
 import Directory from './Directory'
 import Editor from './Editor'
@@ -34,7 +35,8 @@ const Icon = styled.img`
 
 class Playground extends Component {
   componentDidMount() {
-    console.log('>>> [index.js:37] Mount Playground ')
+    this.props.dispatch(DirectoryActions.getMetadata('playground/'))
+    this.props.dispatch(DirectoryActions.getFileType())
   }
 
   render() {
