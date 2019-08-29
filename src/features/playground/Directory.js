@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 
 import Label from './Label'
 import LabelFolder from './LabelFolder'
-import DirectoryActions from '../../redux/directoryStore'
 import { Styled, functions } from './utils'
 
 const DirectoryContainer = styled.div`
@@ -17,16 +16,16 @@ const DirectoryContainer = styled.div`
   position: absolute;
   z-index: 10;
   top: 0px;
-  left: ${props => props.show ? 53 : -350}px;
+  left: ${props => (props.show ? 53 : -350)}px;
 `
 
 const Title = styled.div`
-  font-family: "ThaiSans Neue";
+  font-family: 'ThaiSans Neue';
   font-style: normal;
   font-weight: bold;
   font-size: 23px;
   line-height: normal;
-  color: #61D0FF;
+  color: #61d0ff;
   margin-top: 12px;
   margin-left: 17px;
   cursor: default;
@@ -34,7 +33,7 @@ const Title = styled.div`
 
 const GroupContainer = styled.div`
   width: 100%;
-  height: ${props => props.show ? '100%' : '28px'};
+  height: ${props => (props.show ? '100%' : '28px')};
   margin-top: 2px;
   overflow: hidden;
 `
@@ -55,7 +54,7 @@ const ArrowWrapper = styled.div`
 const Arrow = styled.img`
   width: 6px;
   height: 12px;
-  transform: rotate(${props => props.show ? 90 : 0 }deg);
+  transform: rotate(${props => (props.show ? 90 : 0)}deg);
 `
 
 const Unsave = styled(Styled.Title)`
@@ -84,11 +83,6 @@ class Directory extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.dispatch(DirectoryActions.getMetadata('playground/'))
-    this.props.dispatch(DirectoryActions.getFileType())
-  }
-  
   showLabel(data) {
     return (
       <Label
@@ -101,7 +95,7 @@ class Directory extends Component {
       />
     )
   }
-  
+
   showLabelFolder(data) {
     let children = []
     let inside = data.data
@@ -109,8 +103,7 @@ class Directory extends Component {
     inside.map(data => {
       if (data.isDir) {
         element = this.showLabelFolder(data)
-      }
-      else {
+      } else {
         element = this.showLabel(data)
       }
       children = [...children, element]
@@ -129,37 +122,26 @@ class Directory extends Component {
   }
 
   checkUnsave(parents) {
-    const unsave = parents.reduce(
-      (sum, data) => {
-        if (!data.isDir) {
-          if (!data.save) {
-            sum += 1
-          }
-        } else {
-          sum += this.checkUnsave(data.data)          
+    const unsave = parents.reduce((sum, data) => {
+      if (!data.isDir) {
+        if (!data.save) {
+          sum += 1
         }
-        return sum
-      },
-      0
-    )
+      } else {
+        sum += this.checkUnsave(data.data)
+      }
+      return sum
+    }, 0)
     return unsave
   }
-  
+
   render() {
     const unsave = this.checkUnsave(this.props.directory)
     return (
       <DirectoryContainer show={this.props.show} className="transition">
         <Title>File Editor</Title>
-        <GroupContainer
-          show={this.state.show}
-          className="transition"
-        >
-          {unsave
-            ? (
-              <Unsave>{unsave}</Unsave>
-            )
-            : ''
-          }
+        <GroupContainer show={this.state.show} className="transition">
+          {unsave ? <Unsave>{unsave}</Unsave> : ''}
           <TitleWrapper onClick={e => functions.toggleShow(e, this)}>
             <ArrowWrapper>
               <Arrow
@@ -172,7 +154,7 @@ class Directory extends Component {
           </TitleWrapper>
           <ContentContainer>
             {this.props.directory.map(data => {
-              if(data.isDir) {
+              if (data.isDir) {
                 return this.showLabelFolder(data)
               }
               return this.showLabel(data)
@@ -186,7 +168,6 @@ class Directory extends Component {
 
 Directory.propTypes = {
   show: PropTypes.bool,
-  dispatch: PropTypes.func,
   directory: PropTypes.array,
 }
 
