@@ -6,6 +6,7 @@ import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 
 import UserActions from '../redux/userStore'
+import DirectoryActions from '../redux/directoryStore'
 import { accessToken } from '../utils'
 
 const Container = styled.div`
@@ -24,6 +25,10 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    this.checkAuth()
+  }
+
+  componentDidUpdate() {
     this.checkAuth()
   }
 
@@ -48,6 +53,9 @@ class Login extends Component {
 
   checkAuth() {
     if (accessToken.getToken()) {
+      if (!this.props.hasBucket) {
+        this.props.dispatch(DirectoryActions.createBucket())
+      }
       this.setState({
         success: true,
       })
@@ -72,6 +80,11 @@ class Login extends Component {
 
 Login.propTypes = {
   dispatch: PropTypes.func,
+  hasBucket: PropTypes.bool,
 }
 
-export default connect()(Login)
+const mapStateToProps = state => ({
+  hasBucket: state.directoryStore.hasBucket,
+})
+
+export default connect(mapStateToProps)(Login)
