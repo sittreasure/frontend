@@ -16,11 +16,33 @@ function* getMetadata({ prefix = '' }) {
           Authorization: `Bearer ${accessToken.getToken()}`,
         },
       })
-      metadata = data
+      if (data.length === 0) {
+        const { data } = await axios.get('/fileapi/v1/minios/folder/', {
+          params: {
+            folder_name: prefix,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken.getToken()}`,
+          },
+        })
+        if (data.result) {
+          const { data } = await axios.get('/fileapi/v1/minios/file/', {
+            params: {
+              prefix_name: prefix,
+            },
+            headers: {
+              Authorization: `Bearer ${accessToken.getToken()}`,
+            },
+          })
+          metadata = data
+        }
+      } else {
+        metadata = data
+      }
     })
     yield put(DirectoryActions.setMetadata(metadata))
   } catch (error) {
-    console.log('>>> [directoryMetadata.js:23] error : ', error)
+    console.log('>>> [directoryMetadata.js:45] error : ', error)
   }
 }
 
