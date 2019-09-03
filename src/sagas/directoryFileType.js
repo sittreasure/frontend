@@ -8,14 +8,11 @@ function* getFileType() {
   try {
     let fileType
     yield call(async () => {
-      const { data } = await axios.get(
-        '/fileapi/v1/file/',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken.getToken()}`,
-          },
-        }
-      )
+      const { data } = await axios.get('/fileapi/v1/file/', {
+        headers: {
+          Authorization: `Bearer ${accessToken.getToken()}`,
+        },
+      })
       fileType = data
     })
     yield put(DirectoryActions.setFileType(fileType))

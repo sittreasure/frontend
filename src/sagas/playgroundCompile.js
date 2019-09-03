@@ -1,6 +1,7 @@
 import { call, put, fork, takeEvery } from 'redux-saga/effects'
 
 import axios from '../libs/axios'
+import { accessToken } from '../utils'
 import PlaygroundActions, { PlaygroundTypes } from '../redux/playgroundStore'
 
 function* compile({ name }) {
@@ -10,7 +11,11 @@ function* compile({ name }) {
       const body = {
         jobName: name,
       }
-      const { data } = await axios.post('/mainapi/v1/jenkins/', body)
+      const { data } = await axios.post('/mainapi/v1/jenkins/', body, {
+        headers: {
+          Authorization: `Bearer ${accessToken.getToken()}`,
+        },
+      })
       jenkinsResult = data
     })
     yield put(PlaygroundActions.setIsCompile(jenkinsResult.result))
