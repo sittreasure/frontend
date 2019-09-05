@@ -11,15 +11,7 @@ import PlaygroundActions from '../../redux/playgroundStore'
 import DirectoryActions from '../../redux/directoryStore'
 import '../../assets/css/theme.css'
 
-const languages = [
-  'java',
-  'jsp',
-  'html',
-  'css',
-  'javascript',
-  'xml',
-  'text',
-]
+const languages = ['java', 'jsp', 'html', 'css', 'javascript', 'xml', 'text']
 
 languages.map(language => {
   require(`brace/mode/${language}`)
@@ -30,7 +22,7 @@ const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: #1B1B1B;
+  background-color: #1b1b1b;
 `
 
 const Header = styled.div`
@@ -45,7 +37,7 @@ const Name = styled.div`
   align-items: center;
   width: auto;
   height: 100%;
-  background-color: #1F1F1F;
+  background-color: #1f1f1f;
   padding: 0px 17px;
 `
 
@@ -77,7 +69,8 @@ const Console = styled.div`
   display: flex;
   flex: 0.3;
   flex-direction: column;
-  background-color: #1B1B1B;
+  background-color: #1b1b1b;
+  max-height: 300px;
 `
 
 const ConsoleTitle = styled.div`
@@ -91,7 +84,7 @@ const ConsoleTitle = styled.div`
 const Log = styled(Styled.Title)`
   display: flex;
   flex: 1;
-  background-color: #1F1F1F;
+  background-color: #1f1f1f;
   padding: 0px 17px;
   overflow: scroll;
 `
@@ -101,8 +94,7 @@ const findData = (parents, id) => {
     const child = parents[i]
     if (child.id === id) {
       return child.data
-    }
-    else {
+    } else {
       if (child.isDir && id.search(child.id) !== -1) {
         return findData(child.data, id)
       }
@@ -111,18 +103,16 @@ const findData = (parents, id) => {
 }
 
 class Editor extends Component {
-  componentDidMount() {
-    if (!this.props.jobName) {
-      this.props.dispatch(PlaygroundActions.setName('playground'))
-    }
-  }
-
   componentDidUpdate() {
     const name = this.props.jobName
+
+    if (!name && this.props.user) {
+      this.props.dispatch(PlaygroundActions.setName(`${this.props.user.id}`))
+    }
+
     if (this.props.isCompile) {
       this.checkCompile()
-    }
-    else {
+    } else {
       clearInterval(this.checkCompileId)
       if (this.props.isCompile === false && this.props.compileLog === '') {
         this.props.dispatch(PlaygroundActions.getCompileLog(name))
@@ -158,12 +148,9 @@ class Editor extends Component {
 
   checkCompile() {
     const name = this.props.jobName
-    this.checkCompileId = setInterval(
-      () => {
-        this.props.dispatch(PlaygroundActions.checkCompile(name))
-      },
-      5000
-    )
+    this.checkCompileId = setInterval(() => {
+      this.props.dispatch(PlaygroundActions.checkCompile(name))
+    }, 5000)
   }
 
   openWeb(event) {
@@ -180,7 +167,10 @@ class Editor extends Component {
 
   saveCode(event) {
     event.preventDefault()
-    const { directory, openFile: { id } } = this.props
+    const {
+      directory,
+      openFile: { id },
+    } = this.props
     const data = findData(directory, id)
     this.props.dispatch(PlaygroundActions.save(id, data))
   }
@@ -189,15 +179,16 @@ class Editor extends Component {
     return (
       <Container>
         <Header>
-          {this.props.openFile.id
-            ? (
-              <Name>
-                <Styled.Icon src={functions.showIcon(this.props.openFile.name.split('.')[1])} />
-                <Styled.Title>{this.props.openFile.name}</Styled.Title>
-              </Name>
-            )
-            : <div />
-          }
+          {this.props.openFile.id ? (
+            <Name>
+              <Styled.Icon
+                src={functions.showIcon(this.props.openFile.name.split('.')[1])}
+              />
+              <Styled.Title>{this.props.openFile.name}</Styled.Title>
+            </Name>
+          ) : (
+            <div />
+          )}
           <ButtonContainer>
             <ButtonWrapper onClick={e => this.openWeb(e)}>
               <Button src={require('../../assets/images/preview.png')} />
@@ -214,31 +205,32 @@ class Editor extends Component {
           </ButtonContainer>
         </Header>
         <TextEditor>
-          {this.props.openFile.id
-            ? (
-              <AceEditor
-                mode={this.renderMode(this.props.openFile.name.split('.')[1])}
-                value={this.props.openFile.id
-                  ? findData(this.props.directory, this.props.openFile.id) || 'loading...'
+          {this.props.openFile.id ? (
+            <AceEditor
+              mode={this.renderMode(this.props.openFile.name.split('.')[1])}
+              value={
+                this.props.openFile.id
+                  ? findData(this.props.directory, this.props.openFile.id) ||
+                    'loading...'
                   : ''
-                }
-                onChange={value => this.changeCode(value)}
-                theme='monokai'
-                fontSize={15}
-                tabSize={2}
-                width='100%'
-                height='100%'
-                setOptions={{
-                  enableBasicAutocompletion: true,
-                  enableLiveAutocompletion: true,
-                }}
-                editorProps={{
-                  $blockScrolling: Infinity,
-                }}
-              />
-            )
-            : ''
-          }
+              }
+              onChange={value => this.changeCode(value)}
+              theme="monokai"
+              fontSize={15}
+              tabSize={2}
+              width="100%"
+              height="100%"
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+              }}
+              editorProps={{
+                $blockScrolling: Infinity,
+              }}
+            />
+          ) : (
+            ''
+          )}
         </TextEditor>
         <Console>
           <Header>
@@ -260,6 +252,7 @@ Editor.propTypes = {
   isCompile: PropTypes.bool,
   compileLog: PropTypes.string,
   directory: PropTypes.array,
+  user: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
@@ -268,6 +261,7 @@ const mapStateToProps = state => ({
   isCompile: state.playgroundStore.isCompile,
   compileLog: state.playgroundStore.compileLog,
   directory: state.directoryStore.directory,
+  user: state.userStore.user,
 })
 
 export default connect(mapStateToProps)(Editor)
