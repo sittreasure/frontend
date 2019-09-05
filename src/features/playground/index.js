@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import PlaygroundActions from '../../redux/playgroundStore'
-import { SideTab, Tab, Nav } from '../../utilities'
+import DirectoryActions from '../../redux/directoryStore'
+import UserActions from '../../redux/userStore'
+import { SideTab, Tab, Nav } from '../common'
 import Directory from './Directory'
 import Editor from './Editor'
 import ContextMenu from './ContextMenu'
@@ -33,6 +35,12 @@ const Icon = styled.img`
 `
 
 class Playground extends Component {
+  componentDidMount() {
+    this.props.dispatch(UserActions.me())
+    this.props.dispatch(DirectoryActions.getMetadata('playground/'))
+    this.props.dispatch(DirectoryActions.getFileType())
+  }
+
   render() {
     return (
       <Wrappper>
@@ -40,10 +48,12 @@ class Playground extends Component {
           <Tab>
             <Icon src={require('../../assets/images/info.png')} />
           </Tab>
-          <Tab onClick={e => {
-            e.preventDefault()
-            this.props.dispatch(PlaygroundActions.toggleDirectory())
-          }}>
+          <Tab
+            onClick={e => {
+              e.preventDefault()
+              this.props.dispatch(PlaygroundActions.toggleDirectory())
+            }}
+          >
             <Icon src={require('../../assets/images/folder.png')} />
           </Tab>
         </SideTab>

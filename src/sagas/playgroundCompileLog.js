@@ -1,13 +1,21 @@
 import { call, put, fork, takeEvery } from 'redux-saga/effects'
 
 import axios from '../libs/axios'
+import { accessToken } from '../utils'
 import PlaygroundActions, { PlaygroundTypes } from '../redux/playgroundStore'
 
 function* getCompileLog({ name }) {
   try {
     let jenkinsResult
     yield call(async () => {
-      const { data } = await axios.get(`/mainapi/v1/jenkins/log/?job_name=${name}`)
+      const { data } = await axios.get('/mainapi/v1/jenkins/log/', {
+        params: {
+          job_name: name,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken.getToken()}`,
+        },
+      })
       jenkinsResult = data
     })
     yield put(PlaygroundActions.setCompileLog(jenkinsResult.log))

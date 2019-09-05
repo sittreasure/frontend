@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import { Styled, functions } from './utilities'
+import { Styled, functions } from './utils'
 import DirectoryActions from '../../redux/directoryStore'
 import PlaygroundActions from '../../redux/playgroundStore'
 

@@ -2,12 +2,14 @@ import { createActions, createReducer } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 
 const { Types, Creators } = createActions({
+  createBucket: null,
   getMetadata: ['prefix'],
   setMetadata: ['datas'],
   getData: ['id'],
   setData: ['id', 'data'],
   setSave: ['id', 'save'],
   addFile: ['id', 'data'],
+  saveData: ['id', 'objectData'],
   removeData: ['id'],
   removeFile: ['id'],
   getFileType: null,
@@ -18,6 +20,7 @@ const { Types, Creators } = createActions({
   toggleContextMenuNewFile: null,
   toggleContextMenuRemove: null,
   setContextMenuCut: ['id'],
+  setHasBucket: ['has'],
 })
 
 export const DirectoryTypes = Types
@@ -38,6 +41,7 @@ const INITIAL_STATE = Immutable({
     showRemove: false,
     cut: null,
   },
+  hasBucket: false,
 })
 
 const patternMetadatas = (datas, prefixName) => {
@@ -68,8 +72,7 @@ const addMetadata = (parents, metadatas) => {
     if (metadatas[0].name.search(data.id) !== -1) {
       if (data.data.length === 0) {
         data.data = patternMetadatas(metadatas, data.id)
-      }
-      else {
+      } else {
         addMetadata(data.data, metadatas)
       }
     }
@@ -83,8 +86,7 @@ const addData = (parents, id, data) => {
     if (child.id === id) {
       child.data = data
       break
-    }
-    else {
+    } else {
       if (child.isDir && id.search(child.id) !== -1) {
         addData(child.data, id, data)
       }
@@ -99,8 +101,7 @@ const addSave = (parents, id, data) => {
     if (child.id === id) {
       child.save = data
       break
-    }
-    else {
+    } else {
       if (child.isDir && id.search(child.id) !== -1) {
         addSave(child.data, id, data)
       }
@@ -113,13 +114,9 @@ const createFile = (parents, id, data) => {
   for (let i = 0; i < parents.length; i++) {
     const child = parents[i]
     if (child.isDir && child.id === id) {
-      child.data = [
-        ...child.data,
-        data,
-      ]
+      child.data = [...child.data, data]
       break
-    }
-    else {
+    } else {
       if (child.isDir && id.search(child.id) !== -1) {
         createFile(child.data, id, data)
       }
@@ -134,8 +131,7 @@ const deleteFile = (parents, id) => {
     if (child.id === id) {
       parents.splice(i, 1)
       break
-    }
-    else {
+    } else {
       if (child.isDir && id.search(child.id) !== -1) {
         deleteFile(child.data, id)
       }
@@ -171,10 +167,7 @@ const addFile = (state = INITIAL_STATE, { id, data }) => {
   if (id === 'playground/') {
     return {
       ...state,
-      directory: [
-        ...state.directory,
-        data,
-      ],
+      directory: [...state.directory, data],
     }
   }
   return {
@@ -193,7 +186,10 @@ const setFileType = (state = INITIAL_STATE, { fileTypes }) => ({
   fileType: fileTypes,
 })
 
-const setContextMenu = (state = INITIAL_STATE, { show, x, y, overflow, isDir }) => ({
+const setContextMenu = (
+  state = INITIAL_STATE,
+  { show, x, y, overflow, isDir }
+) => ({
   ...state,
   contextMenu: {
     ...state.contextMenu,
@@ -245,6 +241,11 @@ const setContextMenuCut = (state = INITIAL_STATE, { id }) => ({
   },
 })
 
+const setHasBucket = (state = INITIAL_STATE, { has }) => ({
+  ...state,
+  hasBucket: has,
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_METADATA]: setMetadata,
   [Types.SET_DATA]: setData,
@@ -258,4 +259,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.TOGGLE_CONTEXT_MENU_NEW_FILE]: toggleContextMenuNewFile,
   [Types.TOGGLE_CONTEXT_MENU_REMOVE]: toggleContextMenuRemove,
   [Types.SET_CONTEXT_MENU_CUT]: setContextMenuCut,
+  [Types.SET_HAS_BUCKET]: setHasBucket,
 })
