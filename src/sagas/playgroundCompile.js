@@ -10,6 +10,7 @@ function* compile({ name }) {
     yield call(async () => {
       const body = {
         jobName: name,
+        folder: 'playground',
       }
       const { data } = await axios.post('/mainapi/v1/jenkins/', body, {
         headers: {
