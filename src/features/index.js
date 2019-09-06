@@ -72,7 +72,7 @@ class Login extends Component {
           icon="fa-facebook"
           callback={response => this.facebookCallback(response)}
         />
-        {this.state.success ? <Redirect to="/playground" /> : null}
+        {this.state.success ? <Redirect to="/home" /> : null}
       </Container>
     )
   }
