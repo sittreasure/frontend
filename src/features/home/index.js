@@ -9,6 +9,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+`
+
+const Row = styled.div`
+  display: flex;
 `
 
 const Link = styled.a`
@@ -26,7 +31,10 @@ class Home extends Component {
     return (
       <Container>
         <h1>Home</h1>
-        <Link href="/playground">Playground</Link>
+        <Row>
+          <Link href="/playground">Playground</Link>
+          <Link href="/logout">Logout</Link>
+        </Row>
       </Container>
     )
   }
