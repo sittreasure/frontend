@@ -33,6 +33,7 @@ class Home extends Component {
         <h1>Home</h1>
         <Row>
           <Link href="/playground">Playground</Link>
+          <Link href="/lesson">Lesson</Link>
           <Link href="/logout">Logout</Link>
         </Row>
       </Container>
