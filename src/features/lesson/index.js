@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { SideTab, Tab, Nav } from '../common'
+import Content from './Content'
 import LessonActions from '../../redux/lessonStore'
 
 const Wrappper = styled.div`
@@ -45,6 +46,7 @@ class Lesson extends Component {
         </SideTab>
         <Container>
           <Nav title="Lesson" />
+          <Content />
         </Container>
       </Wrappper>
     )
