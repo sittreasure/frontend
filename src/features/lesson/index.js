@@ -31,6 +31,7 @@ const Container = styled.div`
 class Lesson extends Component {
   componentDidMount() {
     this.props.dispatch(LessonActions.getLessonGroup())
+    this.props.dispatch(LessonActions.getLesson())
     this.props.dispatch(LessonActions.getLessonLearning())
   }
 
