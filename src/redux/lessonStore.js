@@ -6,6 +6,7 @@ const { Types, Creators } = createActions({
   setLessonGroup: ['group'],
   getLessonLearning: null,
   setLessonLearning: ['learned'],
+  toggleLessonList: null,
 })
 
 export const LessonTypes = Types
@@ -14,6 +15,7 @@ export default Creators
 const INITIAL_STATE = Immutable({
   group: [],
   learned: [],
+  openList: false,
 })
 
 const setLessonGroup = (state = INITIAL_STATE, { group }) => ({
@@ -26,7 +28,13 @@ const setLessonLearning = (state = INITIAL_STATE, { learned }) => ({
   learned,
 })
 
+const toggleLessonList = (state = INITIAL_STATE) => ({
+  ...state,
+  openList: !state.openList,
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_LESSON_GROUP]: setLessonGroup,
   [Types.SET_LESSON_LEARNING]: setLessonLearning,
+  [Types.TOGGLE_LESSON_LIST]: toggleLessonList,
 })
