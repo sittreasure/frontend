@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import { SideTab, Tab, Nav } from '../common'
+import LessonActions from '../../redux/lessonStore'
 
 const Wrappper = styled.div`
   display: flex;
@@ -24,6 +27,10 @@ const Container = styled.div`
 `
 
 class Lesson extends Component {
+  componentDidMount() {
+    this.props.dispatch(LessonActions.getLessonGroup())
+  }
+
   render() {
     return (
       <Wrappper>
@@ -43,4 +50,8 @@ class Lesson extends Component {
   }
 }
 
-export default Lesson
+Lesson.propTypes = {
+  dispatch: PropTypes.func,
+}
+
+export default connect()(Lesson)
