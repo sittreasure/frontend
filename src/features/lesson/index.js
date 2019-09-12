@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { SideTab, Tab, Nav } from '../common'
+import LessonList from './LessonList'
 import Content from './Content'
 import LessonActions from '../../redux/lessonStore'
 
@@ -37,7 +38,12 @@ class Lesson extends Component {
     return (
       <Wrappper>
         <SideTab>
-          <Tab>
+          <Tab
+            onClick={e => {
+              e.preventDefault()
+              this.props.dispatch(LessonActions.toggleLessonList())
+            }}
+          >
             <Icon src={require('../../assets/images/book.png')} />
           </Tab>
           <Tab>
@@ -45,6 +51,7 @@ class Lesson extends Component {
           </Tab>
         </SideTab>
         <Container>
+          <LessonList show={this.props.openList} />
           <Nav title="Lesson" />
           <Content />
         </Container>
@@ -55,6 +62,11 @@ class Lesson extends Component {
 
 Lesson.propTypes = {
   dispatch: PropTypes.func,
+  openList: PropTypes.bool,
 }
 
-export default connect()(Lesson)
+const mapStateToProps = state => ({
+  openList: state.lessonStore.openList,
+})
+
+export default connect(mapStateToProps)(Lesson)
