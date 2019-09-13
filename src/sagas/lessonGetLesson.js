@@ -15,9 +15,10 @@ function* getLesson() {
       })
       lessons = data
     })
+    lessons.map((lesson, index) => (lesson.index = index))
     yield put(LessonActions.setLesson(lessons))
   } catch (error) {
-    console.log('>>> [lessonGetLesson.js:20] error : ', error)
+    console.log('>>> [lessonGetLesson.js:21] error : ', error)
   }
 }
 
