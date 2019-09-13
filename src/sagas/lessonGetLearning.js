@@ -18,8 +18,9 @@ function* getLessonLearning() {
     const learned = []
     learnings.map(learning => learned.push(learning.lesson))
     yield put(LessonActions.setLessonLearning(learned))
+    yield put(LessonActions.setCurrentLesson(learned[learned.length - 1]))
   } catch (error) {
-    console.log('>>> [lessonGetLearning.js:22] error : ', error)
+    console.log('>>> [lessonGetLearning.js:23] error : ', error)
   }
 }
 
