@@ -9,6 +9,7 @@ const { Types, Creators } = createActions({
   getLessonLearning: null,
   setLessonLearning: ['learned'],
   toggleLessonList: null,
+  setCurrentLesson: ['id'],
 })
 
 export const LessonTypes = Types
@@ -19,6 +20,7 @@ const INITIAL_STATE = Immutable({
   group: [],
   learned: [],
   openList: false,
+  currentLesson: null,
 })
 
 const setLesson = (state = INITIAL_STATE, { lessons }) => ({
@@ -41,9 +43,15 @@ const toggleLessonList = (state = INITIAL_STATE) => ({
   openList: !state.openList,
 })
 
+const setCurrentLesson = (state = INITIAL_STATE, { id }) => ({
+  ...state,
+  currentLesson: id,
+})
+
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_LESSON]: setLesson,
   [Types.SET_LESSON_GROUP]: setLessonGroup,
   [Types.SET_LESSON_LEARNING]: setLessonLearning,
   [Types.TOGGLE_LESSON_LIST]: toggleLessonList,
+  [Types.SET_CURRENT_LESSON]: setCurrentLesson,
 })
