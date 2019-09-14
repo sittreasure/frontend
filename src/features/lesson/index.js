@@ -52,7 +52,7 @@ class Lesson extends Component {
           </Tab>
         </SideTab>
         <Container>
-          <LessonList show={this.props.openList} />
+          <LessonList />
           <Nav title="Lesson" />
           <Content />
         </Container>
@@ -63,11 +63,6 @@ class Lesson extends Component {
 
 Lesson.propTypes = {
   dispatch: PropTypes.func,
-  openList: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
-  openList: state.lessonStore.openList,
-})
-
-export default connect(mapStateToProps)(Lesson)
+export default connect()(Lesson)
