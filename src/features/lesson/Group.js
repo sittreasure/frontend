@@ -30,9 +30,13 @@ class Group extends Component {
         {this.props.lessons &&
           this.props.lessons.map(lesson => {
             if (
-              !(this.props.show || this.props.nextLessonIndex === lesson.index)
+              !(
+                this.props.show ||
+                this.props.nextLessonIndex === lesson.index ||
+                this.props.learnedLesson.includes(lesson.id)
+              )
             ) {
-              return null
+              return
             }
             return (
               <Label
@@ -52,6 +56,7 @@ class Group extends Component {
 Group.propTypes = {
   title: PropTypes.string,
   lessons: PropTypes.array,
+  learnedLesson: PropTypes.array,
   currentLesson: PropTypes.number,
   nextLessonIndex: PropTypes.number,
   show: PropTypes.bool,
