@@ -33,7 +33,8 @@ class LessonList extends Component {
     const groups = []
     if (this.props.currentLesson) {
       const currentLesson = this.props.lessons.filter(lesson => {
-        return lesson.id === this.props.currentLesson
+        const { learned } = this.props
+        return lesson.id === learned[learned.length - 1]
       })[0]
       if (this.props.lessons.length !== 0) {
         this.props.group.map(group => {
