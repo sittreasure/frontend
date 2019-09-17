@@ -111,10 +111,23 @@ class Content extends Component {
               Previous lesson
             </BackButton>
           ) : null}
-          <NextButton>
-            Next lesson
-            <SkipIcon />
-          </NextButton>
+          {lesson.index !== this.props.lessons.length - 1 ? (
+            <NextButton
+              onClick={() => {
+                const nextLesson = this.props.lessons[lesson.index + 1]
+                if (this.props.learned.includes(nextLesson.id)) {
+                  this.props.dispatch(
+                    LessonActions.setCurrentLesson(nextLesson.id)
+                  )
+                  return
+                }
+                this.props.dispatch(LessonActions.learnLesson(nextLesson.id))
+              }}
+            >
+              Next lesson
+              <SkipIcon />
+            </NextButton>
+          ) : null}
         </ButtonContainer>
       </Container>
     )
@@ -125,12 +138,14 @@ Content.propTypes = {
   dispatch: PropTypes.func,
   group: PropTypes.array,
   lessons: PropTypes.array,
+  learned: PropTypes.array,
   currentLesson: PropTypes.number,
 }
 
 const mapStateToProps = state => ({
   group: state.lessonStore.group,
   lessons: state.lessonStore.lessons,
+  learned: state.lessonStore.learned,
   currentLesson: state.lessonStore.currentLesson,
 })
 
