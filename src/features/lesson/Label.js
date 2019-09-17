@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+
+import LessonActions from '../../redux/lessonStore'
 
 const Title = styled.div`
   font-family: 'ThaiSans Neue';
@@ -26,6 +29,15 @@ class Label extends Component {
         learned={this.props.learned}
         isCurrentLesson={this.props.isCurrentLesson}
         isNextLesson={this.props.isNextLesson}
+        onClick={() => {
+          if (this.props.isNextLesson) {
+            return
+          }
+          this.props.dispatch(
+            LessonActions.setCurrentLesson(this.props.lessonId)
+          )
+          this.props.dispatch(LessonActions.toggleLessonList())
+        }}
       >
         - {this.props.title}
       </Title>
@@ -34,10 +46,12 @@ class Label extends Component {
 }
 
 Label.propTypes = {
+  dispatch: PropTypes.func,
+  lessonId: PropTypes.number,
   title: PropTypes.string,
   learned: PropTypes.bool,
   isCurrentLesson: PropTypes.bool,
   isNextLesson: PropTypes.bool,
 }
 
-export default Label
+export default connect()(Label)

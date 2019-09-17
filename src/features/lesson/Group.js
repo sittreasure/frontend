@@ -36,6 +36,7 @@ class Group extends Component {
             }
             return (
               <Label
+                lessonId={lesson.id}
                 title={lesson.topic}
                 isCurrentLesson={this.props.currentLesson === lesson.id}
                 isNextLesson={this.props.nextLessonIndex === lesson.index}
