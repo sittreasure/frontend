@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 
+import LessonActions from '../../redux/lessonStore'
 import { ReactComponent as SkipIcon } from '../../assets/images/skip.svg'
 
 const Container = styled.div`
@@ -59,6 +60,7 @@ const Button = styled.div`
 
 const BackButton = styled(Button)`
   color: #61d0ff;
+  margin-right: 10px;
 
   & svg {
     margin-right: 8px;
@@ -72,7 +74,6 @@ const BackButton = styled(Button)`
 const NextButton = styled(Button)`
   color: #272727;
   background-color: #61d0ff;
-  margin-left: 10px;
 
   & svg {
     margin-left: 8px;
@@ -97,10 +98,19 @@ class Content extends Component {
           <ReactMarkdown source={lesson.description} />
         </MarkdownContainer>
         <ButtonContainer>
-          <BackButton>
-            <SkipIcon />
-            Previous lesson
-          </BackButton>
+          {lesson.index > 0 ? (
+            <BackButton
+              onClick={() => {
+                const prevLesson = this.props.lessons[lesson.index - 1]
+                this.props.dispatch(
+                  LessonActions.setCurrentLesson(prevLesson.id)
+                )
+              }}
+            >
+              <SkipIcon />
+              Previous lesson
+            </BackButton>
+          ) : null}
           <NextButton>
             Next lesson
             <SkipIcon />
@@ -112,6 +122,7 @@ class Content extends Component {
 }
 
 Content.propTypes = {
+  dispatch: PropTypes.func,
   group: PropTypes.array,
   lessons: PropTypes.array,
   currentLesson: PropTypes.number,
