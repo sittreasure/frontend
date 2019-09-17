@@ -4,12 +4,16 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import UserActions from '../../redux/userStore'
+import background from '../../assets/images/main-background.png'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  background-image: url(${background});
+  background-size: cover;
+  color: #fff;
 `
 
 const Row = styled.div`
