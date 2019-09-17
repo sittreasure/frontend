@@ -70,6 +70,7 @@ class LessonList extends Component {
           <Group
             title={title}
             lessons={group.lessons}
+            learnedLesson={this.props.learned}
             currentLesson={this.props.currentLesson}
             nextLessonIndex={currentLesson.index + 1}
             show={group.show}
