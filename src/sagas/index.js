@@ -14,6 +14,7 @@ import playgroundCompileLog from './playgroundCompileLog'
 import lessonGetGroup from './lessonGetGroup'
 import lessonGetLearning from './lessonGetLearning'
 import lessonGetLesson from './lessonGetLesson'
+import lessonLearnLesson from './lessonLearnLesson'
 
 export default function*() {
   yield all([
@@ -31,5 +32,6 @@ export default function*() {
     lessonGetGroup(),
     lessonGetLearning(),
     lessonGetLesson(),
+    lessonLearnLesson(),
   ])
 }
