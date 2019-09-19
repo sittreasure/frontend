@@ -11,6 +11,10 @@ import directoryFileType from './directoryFileType'
 import playgroundCompile from './playgroundCompile'
 import playgroundCheckCompile from './playgroundCheckCompile'
 import playgroundCompileLog from './playgroundCompileLog'
+import lessonGetGroup from './lessonGetGroup'
+import lessonGetLearning from './lessonGetLearning'
+import lessonGetLesson from './lessonGetLesson'
+import lessonLearnLesson from './lessonLearnLesson'
 
 export default function*() {
   yield all([
@@ -25,5 +29,9 @@ export default function*() {
     playgroundCompile(),
     playgroundCheckCompile(),
     playgroundCompileLog(),
+    lessonGetGroup(),
+    lessonGetLearning(),
+    lessonGetLesson(),
+    lessonLearnLesson(),
   ])
 }
