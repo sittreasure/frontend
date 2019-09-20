@@ -11,6 +11,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "antd": "^3.23.3",
     "axios": "^0.18.0",
     "react": "^16.8.4",
     "react-ace": "^6.4.0",
