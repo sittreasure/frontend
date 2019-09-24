@@ -5,6 +5,7 @@ import Login from './features'
 import Home from './features/home'
 import Playground from './features/playground'
 import Lesson from './features/lesson'
+import EditLesson from './features/editLesson'
 import Logout from './features/logout'
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
         <Route path="/home" exact component={Home} />
         <Route path="/playground" exact component={Playground} />
         <Route path="/lesson" exact component={Lesson} />
+        <Route path="/editLesson" exact component={EditLesson} />
         <Route path="/logout" exact component={Logout} />
       </Router>
     )
