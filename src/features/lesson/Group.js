@@ -10,9 +10,21 @@ const Container = styled.div`
   padding-left: 17px;
   margin: 5px 0;
   cursor: pointer;
+  position: relative;
+  height: ${props => (props.show ? 'auto' : '27px')};
+  overflow: hidden;
+`
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
 `
 
 const Title = styled.div`
+  display: flex;
+  flex: 1;
   font-family: 'ThaiSans Neue';
   font-style: normal;
   font-weight: bold;
@@ -22,11 +34,37 @@ const Title = styled.div`
   cursor: pointer;
 `
 
+const Arrow = styled.img`
+  width: 6px;
+  height: 12px;
+  transform: rotate(${props => (props.show ? 90 : 0)}deg);
+`
+
 class Group extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      show: true,
+    }
+  }
+
   render() {
     return (
-      <Container>
-        <Title>{this.props.title}</Title>
+      <Container show={this.state.show} className="transition">
+        <TitleContainer
+          onClick={() => {
+            this.setState({
+              show: !this.state.show,
+            })
+          }}
+        >
+          <Title>{this.props.title}</Title>
+          <Arrow
+            src={require('../../assets/images/next.png')}
+            show={this.state.show}
+            className="transition"
+          />
+        </TitleContainer>
         {this.props.lessons &&
           this.props.lessons.map(lesson => {
             if (
