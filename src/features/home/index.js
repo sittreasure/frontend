@@ -191,17 +191,6 @@ class Home extends Component {
               this.props.user && this.props.user.isAdmin ? 'admin' : 'general'
             ].map((menu, index) => {
               return menu.link ? (
-                <Button
-                  onMouseEnter={() => this.setHover(menu.hover)}
-                  onMouseLeave={() => this.setHover(null)}
-                  key={index}
-                >
-                  <Icon
-                    type={menu.icon}
-                    style={{ fontSize: '60px', color: '#fff' }}
-                  />
-                </Button>
-              ) : (
                 <Link to={menu.link} key={index}>
                   <Button
                     onMouseEnter={() => this.setHover(menu.hover)}
@@ -214,6 +203,17 @@ class Home extends Component {
                     />
                   </Button>
                 </Link>
+              ) : (
+                <Button
+                  onMouseEnter={() => this.setHover(menu.hover)}
+                  onMouseLeave={() => this.setHover(null)}
+                  key={index}
+                >
+                  <Icon
+                    type={menu.icon}
+                    style={{ fontSize: '60px', color: '#fff' }}
+                  />
+                </Button>
               )
             })}
           </ButtonRow>
