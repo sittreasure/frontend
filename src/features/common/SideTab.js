@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+import LogoImg from '../../assets/images/logo.png'
+
 const Container = styled.div`
   height: 100%;
   width: 53px;
@@ -15,10 +17,9 @@ const Container = styled.div`
   z-index: 100;
 `
 
-const Logo = styled.div`
+const Logo = styled.img`
   height: 40px;
   width: 40px;
-  background-color: #c4c4c4;
   margin-top: 9px;
 `
 
@@ -27,7 +28,7 @@ class SideTab extends Component {
     return (
       <Container>
         <Link to="/home">
-          <Logo />
+          <Logo src={LogoImg} />
         </Link>
         {this.props.children}
       </Container>
