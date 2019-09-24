@@ -1,3 +1,4 @@
+/* eslint-disable standard/computed-property-even-spacing */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -54,6 +55,7 @@ const DescriptionText = styled.div`
   line-height: 84px;
   color: #c4c4c4;
   text-transform: uppercase;
+  text-align: center;
   transform: rotate(-45deg);
 `
 
@@ -105,10 +107,50 @@ const Button = styled.div`
 `
 
 const menu = {
-  profile: 'edit profile',
-  playground: 'playground',
-  lesson: 'lesson',
-  logout: 'logout',
+  general: [
+    {
+      icon: 'user',
+      hover: 'edit profile',
+      link: '',
+    },
+    {
+      icon: 'code',
+      hover: 'playground',
+      link: '/playground',
+    },
+    {
+      icon: 'read',
+      hover: 'lesson',
+      link: '/lesson',
+    },
+    {
+      icon: 'logout',
+      hover: 'logout',
+      link: '/logout',
+    },
+  ],
+  admin: [
+    {
+      icon: 'user',
+      hover: 'edit profile',
+      link: '',
+    },
+    {
+      icon: 'code',
+      hover: 'edit playground',
+      link: '',
+    },
+    {
+      icon: 'read',
+      hover: 'edit lesson',
+      link: '/editLesson',
+    },
+    {
+      icon: 'logout',
+      hover: 'logout',
+      link: '/logout',
+    },
+  ],
 }
 
 class Home extends Component {
@@ -138,44 +180,42 @@ class Home extends Component {
           <DescriptionRow>
             <Description>
               {this.state.hover ? (
-                <DescriptionText>{menu[this.state.hover]}</DescriptionText>
-              ) : null}
+                <DescriptionText>{this.state.hover}</DescriptionText>
+              ) : (
+                <DescriptionText>Logo</DescriptionText>
+              )}
             </Description>
           </DescriptionRow>
           <ButtonRow>
-            <Button
-              onMouseEnter={() => this.setHover('profile')}
-              onMouseLeave={() => this.setHover(null)}
-            >
-              <Icon type="user" style={{ fontSize: '60px', color: '#fff' }} />
-            </Button>
-            <Link to="/playground">
-              <Button
-                onMouseEnter={() => this.setHover('playground')}
-                onMouseLeave={() => this.setHover(null)}
-              >
-                <Icon type="code" style={{ fontSize: '60px', color: '#fff' }} />
-              </Button>
-            </Link>
-            <Link to="/lesson">
-              <Button
-                onMouseEnter={() => this.setHover('lesson')}
-                onMouseLeave={() => this.setHover(null)}
-              >
-                <Icon type="read" style={{ fontSize: '60px', color: '#fff' }} />
-              </Button>
-            </Link>
-            <Link to="/logout">
-              <Button
-                onMouseEnter={() => this.setHover('logout')}
-                onMouseLeave={() => this.setHover(null)}
-              >
-                <Icon
-                  type="logout"
-                  style={{ fontSize: '60px', color: '#fff' }}
-                />
-              </Button>
-            </Link>
+            {menu[
+              this.props.user && this.props.user.isAdmin ? 'admin' : 'general'
+            ].map((menu, index) => {
+              return menu.link ? (
+                <Button
+                  onMouseEnter={() => this.setHover(menu.hover)}
+                  onMouseLeave={() => this.setHover(null)}
+                  key={index}
+                >
+                  <Icon
+                    type={menu.icon}
+                    style={{ fontSize: '60px', color: '#fff' }}
+                  />
+                </Button>
+              ) : (
+                <Link to={menu.link} key={index}>
+                  <Button
+                    onMouseEnter={() => this.setHover(menu.hover)}
+                    onMouseLeave={() => this.setHover(null)}
+                    key={index}
+                  >
+                    <Icon
+                      type={menu.icon}
+                      style={{ fontSize: '60px', color: '#fff' }}
+                    />
+                  </Button>
+                </Link>
+              )
+            })}
           </ButtonRow>
         </ButtonWrapper>
       </Container>
@@ -185,6 +225,11 @@ class Home extends Component {
 
 Home.propTypes = {
   dispatch: PropTypes.func,
+  user: PropTypes.object,
 }
 
-export default connect()(Home)
+const mapStateToProps = state => ({
+  user: state.userStore.user,
+})
+
+export default connect(mapStateToProps)(Home)
