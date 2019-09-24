@@ -9,6 +9,7 @@ import { Icon } from 'antd'
 import UserActions from '../../redux/userStore'
 import background from '../../assets/images/main-background.png'
 import button from '../../assets/images/square.png'
+import LogoImg from '../../assets/images/logo.png'
 
 const Container = styled.div`
   display: flex;
@@ -56,6 +57,12 @@ const DescriptionText = styled.div`
   color: #c4c4c4;
   text-transform: uppercase;
   text-align: center;
+  transform: rotate(-45deg);
+`
+
+const Logo = styled.img`
+  width: 200px;
+  height: 200px;
   transform: rotate(-45deg);
 `
 
@@ -182,7 +189,7 @@ class Home extends Component {
               {this.state.hover ? (
                 <DescriptionText>{this.state.hover}</DescriptionText>
               ) : (
-                <DescriptionText>Logo</DescriptionText>
+                <Logo src={LogoImg} />
               )}
             </Description>
           </DescriptionRow>
