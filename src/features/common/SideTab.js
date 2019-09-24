@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Container = styled.div`
   height: 100%;
@@ -17,7 +18,7 @@ const Container = styled.div`
 const Logo = styled.div`
   height: 40px;
   width: 40px;
-  background-color: #C4C4C4;
+  background-color: #c4c4c4;
   margin-top: 9px;
 `
 
@@ -25,7 +26,9 @@ class SideTab extends Component {
   render() {
     return (
       <Container>
-        <Logo />
+        <Link to="/home">
+          <Logo />
+        </Link>
         {this.props.children}
       </Container>
     )
@@ -33,10 +36,7 @@ class SideTab extends Component {
 }
 
 SideTab.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.element,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
 }
 
 export default SideTab
