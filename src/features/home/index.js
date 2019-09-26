@@ -150,7 +150,7 @@ const menu = {
     {
       icon: 'read',
       hover: 'edit lesson',
-      link: '/editLesson',
+      link: '/editLessonList',
     },
     {
       icon: 'logout',
