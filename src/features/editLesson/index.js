@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { SideTab, Tab, Nav } from '../common'
 import Content from './Content'
-import LessonActions from '../../redux/lessonStore'
 
 const Wrappper = styled.div`
   display: flex;
@@ -41,33 +41,33 @@ class EditLesson extends Component {
     })
   }
 
-  componentDidMount() {
-    this.props.dispatch(LessonActions.getLessonGroup())
-    this.props.dispatch(LessonActions.getLesson())
-  }
-
   render() {
-    const lesson = this.props.lessons[0]
+    const { lessons, group, match } = this.props
+    const lesson = lessons[match.params.index]
     if (lesson === undefined) {
       return null
     }
-    const group = this.props.group.filter(group => {
+    const lessonGroup = group.filter(group => {
       return group.id === lesson.lessonGroup
     })[0]
+
     return (
       <Wrappper>
         <SideTab>
-          <Tab>
-            <Icon src={require('../../assets/images/book.png')} />
-          </Tab>
+          <Link to="/editLessonList">
+            <Tab>
+              <Icon src={require('../../assets/images/book.png')} />
+            </Tab>
+          </Link>
         </SideTab>
         <Container>
           <Nav
-            title={`${this.state.isEditorMode ? 'Edit' : 'Preview'} / ${group &&
-              group.name} - ${lesson.topic}`}
+            title={`${
+              this.state.isEditorMode ? 'Edit' : 'Preview'
+            } / ${lessonGroup && lessonGroup.name} - ${lesson.topic}`}
           />
           <Content
-            group={group}
+            group={lessonGroup}
             lesson={lesson}
             editorMode={this.state.isEditorMode}
             switchMode={() => this.switchMode()}
@@ -79,9 +79,10 @@ class EditLesson extends Component {
 }
 
 EditLesson.propTypes = {
-  dispatch: PropTypes.func,
+  // dispatch: PropTypes.func,
   group: PropTypes.array,
   lessons: PropTypes.array,
+  match: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
