@@ -6,6 +6,7 @@ import 'brace/theme/monokai'
 import 'brace/ext/language_tools'
 
 import { Markdown } from '../common'
+import LessonActions from '../../redux/lessonStore'
 
 require('brace/mode/markdown')
 require('brace/snippets/markdown')
@@ -104,7 +105,16 @@ class Content extends Component {
                   }.png`)}
                 />
               </ButtonWrapper>
-              <ButtonWrapper>
+              <ButtonWrapper
+                onClick={() =>
+                  this.props.dispatch(
+                    LessonActions.editLesson(
+                      this.props.lesson.id,
+                      this.state.description
+                    )
+                  )
+                }
+              >
                 <Button src={require('../../assets/images/save.png')} />
               </ButtonWrapper>
             </ButtonContainer>
@@ -145,6 +155,7 @@ Content.propTypes = {
   lesson: PropTypes.object,
   editorMode: PropTypes.bool,
   switchMode: PropTypes.func,
+  dispatch: PropTypes.func,
 }
 
 export default Content
