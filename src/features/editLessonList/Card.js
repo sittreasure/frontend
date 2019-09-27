@@ -26,6 +26,7 @@ const Banner = styled.div`
   background-image: url(${BannerImg});
   background-size: cover;
   border-bottom: 2px solid #61d0ff;
+  border-radius: 10px 10px 0 0;
 `
 
 const Content = styled.div`
@@ -151,7 +152,15 @@ class Card extends Component {
               <Link to={`/editLesson/${lesson.index}`}>
                 <Icon src={Pen} />
               </Link>
-              <Icon src={Bin} />
+              <Icon
+                src={Bin}
+                onClick={() => {
+                  this.props.selectLesson({
+                    ...this.props.lesson,
+                    admin: this.state.admin,
+                  })
+                }}
+              />
             </IconContainer>
           </Footer>
         </Content>
@@ -163,6 +172,7 @@ class Card extends Component {
 Card.propTypes = {
   group: PropTypes.object,
   lesson: PropTypes.object,
+  selectLesson: PropTypes.func,
 }
 
 export default Card
