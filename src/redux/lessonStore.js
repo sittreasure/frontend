@@ -11,6 +11,7 @@ const { Types, Creators } = createActions({
   toggleLessonList: null,
   setCurrentLesson: ['id'],
   learnLesson: ['id'],
+  editLesson: ['id', 'data'],
 })
 
 export const LessonTypes = Types
