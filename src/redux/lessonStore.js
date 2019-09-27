@@ -12,6 +12,7 @@ const { Types, Creators } = createActions({
   setCurrentLesson: ['id'],
   learnLesson: ['id'],
   editLesson: ['id', 'data'],
+  deleteLesson: ['id'],
 })
 
 export const LessonTypes = Types
