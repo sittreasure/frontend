@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { Link as RouterLink } from 'react-router-dom'
 
 import { Nav } from '../common'
 import Card from './Card'
@@ -45,10 +44,6 @@ const LessonContainer = styled.div`
   max-height: 700px;
 `
 
-const Link = styled(RouterLink)`
-  text-decoration: none;
-`
-
 class EditLessonList extends Component {
   componentDidMount() {
     this.props.dispatch(LessonActions.getLessonGroup())
@@ -68,11 +63,7 @@ class EditLessonList extends Component {
               const group = this.props.group.filter(group => {
                 return group.id === lesson.lessonGroup
               })[0]
-              return (
-                <Link to={`/editLesson/${lesson.index}`} key={index}>
-                  <Card lesson={lesson} group={group} />
-                </Link>
-              )
+              return <Card key={index} lesson={lesson} group={group} />
             })}
           </LessonContainer>
         </Container>
