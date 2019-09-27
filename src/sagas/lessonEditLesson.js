@@ -12,7 +12,6 @@ function* editLesson({ id, data }) {
         description: data,
         addedBy: user.id,
       }
-      console.log('>>> [lessonEditLesson.js:15] data : ', data)
       await axios.patch(`/mainapi/v1/lessons/${id}/`, body, {
         headers: {
           Authorization: `Bearer ${accessToken.getToken()}`,
