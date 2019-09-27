@@ -71,6 +71,7 @@ class EditLesson extends Component {
             lesson={lesson}
             editorMode={this.state.isEditorMode}
             switchMode={() => this.switchMode()}
+            dispatch={this.props.dispatch}
           />
         </Container>
       </Wrappper>
@@ -79,7 +80,7 @@ class EditLesson extends Component {
 }
 
 EditLesson.propTypes = {
-  // dispatch: PropTypes.func,
+  dispatch: PropTypes.func,
   group: PropTypes.array,
   lessons: PropTypes.array,
   match: PropTypes.object,
