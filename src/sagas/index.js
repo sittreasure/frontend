@@ -15,6 +15,8 @@ import lessonGetGroup from './lessonGetGroup'
 import lessonGetLearning from './lessonGetLearning'
 import lessonGetLesson from './lessonGetLesson'
 import lessonLearnLesson from './lessonLearnLesson'
+import lessonEditLesson from './lessonEditLesson'
+import lessonDeleteLesson from './lessonDeleteLesson'
 
 export default function*() {
   yield all([
@@ -33,5 +35,7 @@ export default function*() {
     lessonGetLearning(),
     lessonGetLesson(),
     lessonLearnLesson(),
+    lessonEditLesson(),
+    lessonDeleteLesson(),
   ])
 }

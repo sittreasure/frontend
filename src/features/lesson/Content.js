@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import ReactMarkdown from 'react-markdown'
 
+import { Markdown } from '../common'
 import LessonActions from '../../redux/lessonStore'
 import { ReactComponent as SkipIcon } from '../../assets/images/skip.svg'
 
@@ -95,7 +95,7 @@ class Content extends Component {
       <Container>
         <Title>{`${group && group.name} - ${lesson.topic}`}</Title>
         <MarkdownContainer>
-          <ReactMarkdown source={lesson.description} />
+          <Markdown data={lesson.description} />
         </MarkdownContainer>
         <ButtonContainer>
           {lesson.index > 0 ? (
