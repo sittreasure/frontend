@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import { Nav } from '../common'
 import Card from './Card'
+import Remove from './Remove'
 import LessonActions from '../../redux/lessonStore'
 
 const Wrappper = styled.div`
@@ -45,9 +46,30 @@ const LessonContainer = styled.div`
 `
 
 class EditLessonList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showRemove: false,
+      select: null,
+    }
+  }
+
   componentDidMount() {
     this.props.dispatch(LessonActions.getLessonGroup())
     this.props.dispatch(LessonActions.getLesson())
+  }
+
+  toggleShowRemove() {
+    this.setState({
+      showRemove: !this.state.showRemove,
+    })
+  }
+
+  selectLesson(lesson) {
+    this.setState({
+      select: lesson,
+    })
+    this.toggleShowRemove()
   }
 
   render() {
@@ -63,10 +85,23 @@ class EditLessonList extends Component {
               const group = this.props.group.filter(group => {
                 return group.id === lesson.lessonGroup
               })[0]
-              return <Card key={index} lesson={lesson} group={group} />
+              return (
+                <Card
+                  key={index}
+                  lesson={lesson}
+                  group={group}
+                  selectLesson={lesson => this.selectLesson(lesson)}
+                />
+              )
             })}
           </LessonContainer>
         </Container>
+        <Remove
+          showRemove={this.state.showRemove}
+          toggleShowRemove={() => this.toggleShowRemove()}
+          lesson={this.state.select}
+          groups={this.props.group}
+        />
       </Wrappper>
     )
   }
