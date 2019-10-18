@@ -6,6 +6,7 @@ import App from './App'
 import reduxStore from './redux'
 import './assets/css/font.css'
 import './assets/css/styles.css'
+import 'antd/dist/antd.css'
 
 const store = reduxStore()
 
