@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import ReactEcharts from 'echarts-for-react'
-import { Icon } from 'antd'
+import { Icon, Table as AntTable, Avatar } from 'antd'
 
 import { Nav } from '../common'
 import Card from './Card'
 import Label from './Label'
+import Remove from './Remove'
+
+import Arrow from '../../assets/images/next.png'
+import Bin from '../../assets/images/context/remove.png'
 
 const Wrappper = styled.div`
   display: flex;
@@ -70,6 +74,56 @@ const LabelContainer = styled.div`
   flex-wrap: wrap;
 `
 
+const Table = styled(AntTable)`
+  table {
+    color: #c4c4c4;
+  }
+
+  .ant-table-thead,
+  th {
+    background-color: #272727 !important;
+    font-family: 'ThaiSans Neue';
+    font-style: normal;
+    font-weight: 800 !important;
+    font-size: 20px;
+    line-height: 26px;
+    color: #5d5d5d !important;
+  }
+
+  th,
+  td {
+    border-bottom-width: 0px !important;
+  }
+
+  .ant-table-tbody > tr.ant-table-row-hover > td,
+  .ant-table-tbody > tr:hover > td,
+  .ant-table-thead > tr.ant-table-row-hover > td,
+  .ant-table-thead > tr:hover > td {
+    background-color: transparent !important;
+  }
+
+  .ant-table-placeholder {
+    text-align: center;
+    background-color: transparent !important;
+    border-color: transparent !important;
+
+    .ant-empty-normal {
+      color: #c4c4c4;
+    }
+  }
+`
+
+const Role = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+`
+
+const RemoveIcon = styled.img`
+  cursor: pointer;
+`
+
 const colors = ['#205072', '#329D9C', '#56C596', '#7BE495', '#CFF4D2']
 const renderData = () => {
   const result = []
@@ -81,7 +135,22 @@ const renderData = () => {
   )
   return result
 }
+
 class EditUser extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      userId: null,
+      showRemove: false,
+    }
+  }
+
+  toggleShowRemove() {
+    this.setState({
+      showRemove: !this.state.showRemove,
+    })
+  }
+
   render() {
     return (
       <Wrappper>
@@ -153,9 +222,81 @@ class EditUser extends Component {
                 ))}
               </LabelContainer>
             </Section>
-            <Section width={660} />
+            <Section width={660}>
+              <TitleWrapper>
+                <TitleContainer>
+                  <Icon
+                    type="user"
+                    style={{ color: '#C4C4C4', fontSize: 13 }}
+                  />{' '}
+                  Manage Users
+                </TitleContainer>
+              </TitleWrapper>
+              <Table
+                columns={[
+                  {
+                    title: 'User',
+                    colSpan: 2,
+                    dataIndex: 'avatar',
+                    render: value => <Avatar src={value} size={25} />,
+                  },
+                  {
+                    title: 'name',
+                    colSpan: 0,
+                    dataIndex: 'name',
+                  },
+                  {
+                    title: 'Status',
+                    dataIndex: 'lesson',
+                    render: value => <>{value ? value : '-'}</>,
+                  },
+                  {
+                    title: 'Role',
+                    dataIndex: 'isAdmin',
+                    render: value => (
+                      <Role>
+                        <span>{value ? 'Administrator' : 'General User'}</span>
+                        <img
+                          src={Arrow}
+                          style={{ transform: 'rotate(90deg)' }}
+                        />
+                      </Role>
+                    ),
+                  },
+                  {
+                    title: '',
+                    dataIndex: 'id',
+                    render: value => (
+                      <RemoveIcon
+                        src={Bin}
+                        onClick={() => {
+                          this.toggleShowRemove()
+                          this.setState({
+                            userId: value,
+                          })
+                        }}
+                      />
+                    ),
+                  },
+                ]}
+                dataSource={[
+                  {
+                    id: 2421164057945625,
+                    name: 'Puripat Arayasirikul',
+                    avatar:
+                      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
+                    isAdmin: true,
+                    lesson: null,
+                  },
+                ]}
+              />
+            </Section>
           </Row>
         </Container>
+        <Remove
+          showRemove={this.state.showRemove}
+          toggleShowRemove={() => this.toggleShowRemove()}
+        />
       </Wrappper>
     )
   }
