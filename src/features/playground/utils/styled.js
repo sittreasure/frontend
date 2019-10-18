@@ -8,18 +8,18 @@ const TitleWrapper = styled.div`
 `
 
 const Title = styled.div`
-  font-family: "ThaiSans Neue";
+  font-family: 'ThaiSans Neue';
   font-style: normal;
   font-weight: bold;
   font-size: 21px;
   line-height: 27px;
-  color: #C4C4C4;
+  color: #c4c4c4;
 `
 
 const Idel = styled.div`
   display: flex;
   align-items: center;
-  width: ${props => (props.dept * 17) + 17}px;
+  width: ${props => props.dept * 17 + 17}px;
   height: 9px;
 `
 
@@ -30,7 +30,7 @@ const Icon = styled.img`
 `
 
 const OverlayBackground = styled.div`
-  display: ${props => props.show ? 'block' : 'none'};
+  display: ${props => (props.show ? 'block' : 'none')};
   position: absolute;
   z-index: 200;
   width: 100%;
@@ -39,7 +39,7 @@ const OverlayBackground = styled.div`
 `
 
 const PopupContainer = styled.div`
-  display: ${props => props.show ? 'flex' : 'none'};
+  display: ${props => (props.show ? 'flex' : 'none')};
   flex: 1;
   align-items: center;
   justify-content: center;
@@ -55,7 +55,7 @@ const PopupBox = styled.div`
   flex-direction: column;
   width: ${props => props.width};
   height: auto;
-  background-color: #24282A;
+  background-color: #24282a;
 `
 
 const PopupHeader = styled(Title)`
@@ -65,8 +65,8 @@ const PopupHeader = styled(Title)`
   display: flex;
   align-items: center;
   padding-left: 16px;
-  color: #61D0FF;
-  background-color: #1B1D1F;
+  color: #61d0ff;
+  background-color: #1b1d1f;
 `
 
 const PopupBody = styled.div`
@@ -95,20 +95,20 @@ const InputContainer = styled(Title)`
 const Input = styled.input`
   width: 100%;
   height: 22px;
-  font-family: "ThaiSans Neue";
+  font-family: 'ThaiSans Neue';
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   line-height: 26px;
-  color: #8F9192;
+  color: #8f9192;
   background-color: transparent;
   padding-left: 10px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 3px;
 
   &:invalid {
-    border: 1px solid #EC172C;
+    border: 1px solid #ec172c;
   }
 
   &::placeholder {
@@ -126,7 +126,7 @@ const InputError = styled.div`
   height: 22px;
   font-size: 17px;
   line-height: 22px;
-  color: #EC172C;
+  color: #ec172c;
   position: relative;
   top: -1px;
 
@@ -146,18 +146,18 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   width: 64px;
-  height: 25px;
-  color: ${props => props.disable ? '#141414' : '#C4C4C4'};
+  height: auto;
+  color: ${props => (props.disable ? '#141414' : '#C4C4C4')};
   background-color: transparent;
-  border: 1px solid ${props => props.yes ? '#75FF00' : '#EC172C'};
+  border: 1px solid ${props => (props.yes ? '#75FF00' : '#EC172C')};
   box-sizing: border-box;
   border-radius: 3px;
-  opacity: ${props => props.disable ? 0.45 : 1};
+  opacity: ${props => (props.disable ? 0.45 : 1)};
   margin-left: 9px;
-  cursor: ${props => props.disable ? 'not-allowed' : 'pointer'};
+  cursor: ${props => (props.disable ? 'not-allowed' : 'pointer')};
 
   &::after {
-    content: '${props => props.yes ? 'OK' : 'Cancel'}';
+    content: '${props => (props.yes ? 'OK' : 'Cancel')}';
   }
 `
 
