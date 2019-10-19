@@ -8,6 +8,7 @@ import Card from './Card'
 import Label from './Label'
 import Role from './Role'
 import ChangeRole from './ChangeRole'
+import RoleModal from './RoleModal'
 import Remove from './Remove'
 
 import Bin from '../../assets/images/context/remove.png'
@@ -188,6 +189,7 @@ class EditUser extends Component {
       user: null,
       showRemove: false,
       showRole: false,
+      showRoleModal: false,
       roleBox: null,
     }
   }
@@ -195,6 +197,12 @@ class EditUser extends Component {
   toggleShowRole() {
     this.setState({
       showRole: !this.state.showRole,
+    })
+  }
+
+  toggleShowRoleModal() {
+    this.setState({
+      showRoleModal: !this.state.showRoleModal,
     })
   }
 
@@ -351,6 +359,12 @@ class EditUser extends Component {
           user={this.state.user}
           roleBox={this.state.roleBox}
           toggleShow={() => this.toggleShowRole()}
+          toggleModal={() => this.toggleShowRoleModal()}
+        />
+        <RoleModal
+          show={this.state.showRoleModal}
+          user={this.state.user}
+          toggleShow={() => this.toggleShowRoleModal()}
         />
         <Remove
           showRemove={this.state.showRemove}
