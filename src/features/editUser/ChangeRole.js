@@ -94,6 +94,15 @@ class ChangeRow extends Component {
     this.props.toggleShow()
   }
 
+  openModal(event, call) {
+    event.preventDefault()
+    event.stopPropagation()
+    if (call) {
+      this.close(event)
+      this.props.toggleModal()
+    }
+  }
+
   render() {
     const { show, roleBox, user } = this.props
 
@@ -109,14 +118,20 @@ class ChangeRow extends Component {
           right={roleBox && window.innerWidth - roleBox.right}
         >
           <Title>Role</Title>
-          <Row select={user && user.isAdmin}>
+          <Row
+            select={user && user.isAdmin}
+            onClick={e => this.openModal(e, !user.isAdmin)}
+          >
             <TextTop select={user && user.isAdmin}>Administrator</TextTop>
             <TextSub>
               Manage role and remove user. Enter content manage mpde.
             </TextSub>
             {user && user.isAdmin && <Check src={CheckMark} />}
           </Row>
-          <Row select={user && !user.isAdmin}>
+          <Row
+            select={user && !user.isAdmin}
+            onClick={e => this.openModal(e, user.isAdmin)}
+          >
             <TextTop select={user && !user.isAdmin}>General User</TextTop>
             <TextSub>
               Learn lesson and create JSP project in Playground feature.
@@ -134,6 +149,7 @@ ChangeRow.propTypes = {
   roleBox: PropTypes.object,
   user: PropTypes.object,
   toggleShow: PropTypes.func,
+  toggleModal: PropTypes.func,
 }
 
 export default ChangeRow
