@@ -30,9 +30,13 @@ const Container = styled.div`
 
 class Lesson extends Component {
   componentDidMount() {
-    this.props.dispatch(LessonActions.getLessonGroup())
-    this.props.dispatch(LessonActions.getLesson())
-    this.props.dispatch(LessonActions.getLessonLearning())
+    const { dispatch, currentLesson, lessons } = this.props
+    dispatch(LessonActions.getLessonGroup())
+    dispatch(LessonActions.getLesson())
+    dispatch(LessonActions.getLessonLearning())
+    if (currentLesson === undefined) {
+      dispatch(LessonActions.learnLesson(lessons[0].id))
+    }
   }
 
   render() {
@@ -63,6 +67,13 @@ class Lesson extends Component {
 
 Lesson.propTypes = {
   dispatch: PropTypes.func,
+  lessons: PropTypes.array,
+  currentLesson: PropTypes.number,
 }
 
-export default connect()(Lesson)
+const mapStateToProps = state => ({
+  lessons: state.lessonStore.lessons,
+  currentLesson: state.lessonStore.currentLesson,
+})
+
+export default connect(mapStateToProps)(Lesson)
