@@ -6,9 +6,10 @@ import { Icon, Table as AntTable, Avatar } from 'antd'
 import { Nav } from '../common'
 import Card from './Card'
 import Label from './Label'
+import Role from './Role'
+import ChangeRole from './ChangeRole'
 import Remove from './Remove'
 
-import Arrow from '../../assets/images/next.png'
 import Bin from '../../assets/images/context/remove.png'
 
 const Wrappper = styled.div`
@@ -113,13 +114,6 @@ const Table = styled(AntTable)`
   }
 `
 
-const Role = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-`
-
 const RemoveIcon = styled.img`
   cursor: pointer;
 `
@@ -136,13 +130,72 @@ const renderData = () => {
   return result
 }
 
+const mockData = [
+  {
+    id: 2421164057945625,
+    name: 'Puripat Arayasirikul',
+    avatar:
+      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
+    isAdmin: true,
+    lesson: null,
+  },
+  {
+    id: 1,
+    name: 'Puripat Arayasirikul',
+    avatar:
+      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
+    isAdmin: false,
+    lesson: null,
+  },
+  {
+    id: 2,
+    name: 'Puripat Arayasirikul',
+    avatar:
+      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
+    isAdmin: false,
+    lesson: null,
+  },
+  {
+    id: 3,
+    name: 'Puripat Arayasirikul',
+    avatar:
+      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
+    isAdmin: false,
+    lesson: null,
+  },
+  {
+    id: 4,
+    name: 'Puripat Arayasirikul',
+    avatar:
+      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
+    isAdmin: false,
+    lesson: null,
+  },
+  {
+    id: 5,
+    name: 'Puripat Arayasirikul',
+    avatar:
+      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
+    isAdmin: false,
+    lesson: null,
+  },
+]
+
 class EditUser extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userId: null,
+      user: null,
       showRemove: false,
+      showRole: false,
+      roleBox: null,
     }
+  }
+
+  toggleShowRole() {
+    this.setState({
+      showRole: !this.state.showRole,
+    })
   }
 
   toggleShowRemove() {
@@ -233,6 +286,9 @@ class EditUser extends Component {
                 </TitleContainer>
               </TitleWrapper>
               <Table
+                dataSource={mockData}
+                rowKey="id"
+                pagination={{ pageSize: 5 }}
                 columns={[
                   {
                     title: 'User',
@@ -253,14 +309,19 @@ class EditUser extends Component {
                   {
                     title: 'Role',
                     dataIndex: 'isAdmin',
-                    render: value => (
-                      <Role>
-                        <span>{value ? 'Administrator' : 'General User'}</span>
-                        <img
-                          src={Arrow}
-                          style={{ transform: 'rotate(90deg)' }}
-                        />
-                      </Role>
+                    render: (value, row) => (
+                      <Role
+                        isAdmin={value}
+                        setBox={box => this.setState({ roleBox: box })}
+                        toggleShowRole={() => this.toggleShowRole()}
+                        setUser={() =>
+                          this.setState({
+                            user: mockData.filter(data => {
+                              return data.id === row.id
+                            })[0],
+                          })
+                        }
+                      />
                     ),
                   },
                   {
@@ -272,27 +333,25 @@ class EditUser extends Component {
                         onClick={() => {
                           this.toggleShowRemove()
                           this.setState({
-                            userId: value,
+                            user: mockData.filter(data => {
+                              return data.id === value
+                            })[0],
                           })
                         }}
                       />
                     ),
                   },
                 ]}
-                dataSource={[
-                  {
-                    id: 2421164057945625,
-                    name: 'Puripat Arayasirikul',
-                    avatar:
-                      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
-                    isAdmin: true,
-                    lesson: null,
-                  },
-                ]}
               />
             </Section>
           </Row>
         </Container>
+        <ChangeRole
+          show={this.state.showRole}
+          user={this.state.user}
+          roleBox={this.state.roleBox}
+          toggleShow={() => this.toggleShowRole()}
+        />
         <Remove
           showRemove={this.state.showRemove}
           toggleShowRemove={() => this.toggleShowRemove()}
