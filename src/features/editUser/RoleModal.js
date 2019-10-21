@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Avatar } from 'antd'
+import { connect } from 'react-redux'
 
+import AdminActions from '../../redux/adminStore'
 import { Styled } from '../playground/utils'
 
 const Text = styled(Styled.Title)`
@@ -44,6 +46,8 @@ class RoleModal extends Component {
   }
 
   changeRole(event) {
+    const { dispatch, user } = this.props
+    dispatch(AdminActions.changeRoleUser(user.id, !user.isAdmin))
     this.close(event)
   }
 
@@ -85,9 +89,10 @@ class RoleModal extends Component {
 }
 
 RoleModal.propTypes = {
+  dispatch: PropTypes.func,
   show: PropTypes.bool,
   user: PropTypes.object,
   toggleShow: PropTypes.func,
 }
 
-export default RoleModal
+export default connect()(RoleModal)
