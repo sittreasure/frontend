@@ -17,6 +17,11 @@ import lessonGetLesson from './lessonGetLesson'
 import lessonLearnLesson from './lessonLearnLesson'
 import lessonEditLesson from './lessonEditLesson'
 import lessonDeleteLesson from './lessonDeleteLesson'
+import adminGetCardStat from './adminGetCardStat'
+import adminGetChartStat from './adminGetChartStat'
+import adminGetUsers from './adminGetUsers'
+import adminChangeUserRole from './adminChangeUserRole'
+import adminDeleteUser from './adminDeleteUser'
 
 export default function*() {
   yield all([
@@ -37,5 +42,10 @@ export default function*() {
     lessonLearnLesson(),
     lessonEditLesson(),
     lessonDeleteLesson(),
+    adminGetCardStat(),
+    adminGetChartStat(),
+    adminGetUsers(),
+    adminChangeUserRole(),
+    adminDeleteUser(),
   ])
 }

@@ -140,7 +140,7 @@ const menu = {
     {
       icon: 'user',
       hover: 'edit profile',
-      link: '',
+      link: '/editUser',
     },
     {
       icon: 'code',
