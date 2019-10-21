@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ReactEcharts from 'echarts-for-react'
 import { Icon, Table as AntTable, Avatar } from 'antd'
+import { connect } from 'react-redux'
+import { get } from 'lodash'
 
+import AdminActions from '../../redux/adminStore'
 import { Nav } from '../common'
 import Card from './Card'
 import Label from './Label'
@@ -120,67 +124,17 @@ const RemoveIcon = styled.img`
 `
 
 const colors = ['#205072', '#329D9C', '#56C596', '#7BE495', '#CFF4D2']
-const renderData = () => {
+const renderData = stat => {
+  const keys = Object.keys(stat)
   const result = []
-  colors.map(color =>
+  colors.map((color, index) =>
     result.push({
-      value: Math.round(Math.random() * 200),
+      value: stat[keys[index]],
       itemStyle: { color },
     })
   )
   return result
 }
-
-const mockData = [
-  {
-    id: 2421164057945625,
-    name: 'Puripat Arayasirikul',
-    avatar:
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
-    isAdmin: true,
-    lesson: null,
-  },
-  {
-    id: 1,
-    name: 'Puripat Arayasirikul',
-    avatar:
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
-    isAdmin: false,
-    lesson: null,
-  },
-  {
-    id: 2,
-    name: 'Puripat Arayasirikul',
-    avatar:
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
-    isAdmin: false,
-    lesson: null,
-  },
-  {
-    id: 3,
-    name: 'Puripat Arayasirikul',
-    avatar:
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
-    isAdmin: false,
-    lesson: null,
-  },
-  {
-    id: 4,
-    name: 'Puripat Arayasirikul',
-    avatar:
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
-    isAdmin: false,
-    lesson: null,
-  },
-  {
-    id: 5,
-    name: 'Puripat Arayasirikul',
-    avatar:
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2421164057945625&height=100&width=100&ext=1573923088&hash=AeR_807UfbpSLL35',
-    isAdmin: false,
-    lesson: null,
-  },
-]
 
 class EditUser extends Component {
   constructor(props) {
@@ -192,6 +146,13 @@ class EditUser extends Component {
       showRoleModal: false,
       roleBox: null,
     }
+  }
+
+  async componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(AdminActions.getCardStat())
+    dispatch(AdminActions.getChartStat())
+    dispatch(AdminActions.getUsers())
   }
 
   toggleShowRole() {
@@ -213,6 +174,9 @@ class EditUser extends Component {
   }
 
   render() {
+    const { cardStat, chartStat, users } = this.props
+    const keys = Object.keys(get(chartStat, 'data', {}))
+
     return (
       <Wrappper>
         <Nav title="Edit User" />
@@ -223,19 +187,19 @@ class EditUser extends Component {
               bg={require('../../assets/images/box-bg1.png')}
               icon={require('../../assets/images/stat-icon.png')}
               title="Number of Users"
-              value={1290}
+              value={get(cardStat, 'allUser', 0)}
             />
             <Card
               bg={require('../../assets/images/box-bg2.png')}
               icon={require('../../assets/images/users-icon.png')}
               title="New Users"
-              value={90}
+              value={get(cardStat, 'newUser', 0)}
             />
             <Card
               bg={require('../../assets/images/box-bg3.png')}
               icon={require('../../assets/images/book-icon.png')}
               title="Most Access Lesson"
-              value={1}
+              value={get(cardStat, 'lesson', 0)}
             />
           </Row>
           <Row padding="28px 0 0 0" flex={1}>
@@ -267,7 +231,7 @@ class EditUser extends Component {
                           show: false,
                         },
                       },
-                      data: renderData(),
+                      data: renderData(get(chartStat, 'data', {})),
                     },
                   ],
                 }}
@@ -275,9 +239,13 @@ class EditUser extends Component {
               <LabelContainer>
                 {colors.map((color, index) => (
                   <Label
-                    percent={Math.round(Math.random() * 100)}
+                    percent={
+                      (get(chartStat, 'data', {})[keys[index]] /
+                        get(chartStat, 'count', 1)) *
+                      100
+                    }
                     color={color}
-                    sub={`Lesson ${index + 1}`}
+                    sub={`Lesson ${keys[index]}`}
                     key={index}
                   />
                 ))}
@@ -294,7 +262,7 @@ class EditUser extends Component {
                 </TitleContainer>
               </TitleWrapper>
               <Table
-                dataSource={mockData}
+                dataSource={users}
                 rowKey="id"
                 pagination={{ pageSize: 5 }}
                 columns={[
@@ -312,7 +280,7 @@ class EditUser extends Component {
                   {
                     title: 'Status',
                     dataIndex: 'lesson',
-                    render: value => <>{value ? value : '-'}</>,
+                    render: value => <>{value ? `lesson ${value}` : '-'}</>,
                   },
                   {
                     title: 'Role',
@@ -324,7 +292,7 @@ class EditUser extends Component {
                         toggleShowRole={() => this.toggleShowRole()}
                         setUser={() =>
                           this.setState({
-                            user: mockData.filter(data => {
+                            user: users.filter(data => {
                               return data.id === row.id
                             })[0],
                           })
@@ -341,7 +309,7 @@ class EditUser extends Component {
                         onClick={() => {
                           this.toggleShowRemove()
                           this.setState({
-                            user: mockData.filter(data => {
+                            user: users.filter(data => {
                               return data.id === value
                             })[0],
                           })
@@ -367,12 +335,26 @@ class EditUser extends Component {
           toggleShow={() => this.toggleShowRoleModal()}
         />
         <Remove
-          showRemove={this.state.showRemove}
-          toggleShowRemove={() => this.toggleShowRemove()}
+          show={this.state.showRemove}
+          user={this.state.user}
+          toggleShow={() => this.toggleShowRemove()}
         />
       </Wrappper>
     )
   }
 }
 
-export default EditUser
+EditUser.propTypes = {
+  dispatch: PropTypes.func,
+  cardStat: PropTypes.object,
+  chartStat: PropTypes.object,
+  users: PropTypes.array,
+}
+
+const mapStateToProps = state => ({
+  cardStat: state.adminStore.cardStat,
+  chartStat: state.adminStore.chartStat,
+  users: state.adminStore.users,
+})
+
+export default connect(mapStateToProps)(EditUser)
