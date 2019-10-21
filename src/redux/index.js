@@ -9,6 +9,7 @@ const createRedux = () => {
     playgroundStore: require('./playgroundStore').reducer,
     userStore: require('./userStore').reducer,
     lessonStore: require('./lessonStore').reducer,
+    adminStore: require('./adminStore').reducer,
   })
 
   return createStore(rootReducer, rootSaga)
