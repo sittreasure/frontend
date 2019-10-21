@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { Styled } from '../playground/utils'
-// import LessonActions from '../../redux/lessonStore'
+import AdminActions from '../../redux/adminStore'
 
 const Text = styled(Styled.Title)`
   font-size: 22px;
@@ -14,19 +14,20 @@ const Text = styled(Styled.Title)`
 class Remove extends Component {
   close(event) {
     event.preventDefault()
-    this.props.toggleShowRemove()
+    this.props.toggleShow()
   }
 
   remove(event) {
-    // this.props.dispatch(LessonActions.deleteLesson(this.props.lesson.id))
+    const { dispatch, user } = this.props
+    dispatch(AdminActions.deleteUser(user.id))
     this.close(event)
   }
 
   render() {
     return (
       <Fragment>
-        <Styled.OverlayBackground show={this.props.showRemove} />
-        <Styled.PopupContainer show={this.props.showRemove}>
+        <Styled.OverlayBackground show={this.props.show} />
+        <Styled.PopupContainer show={this.props.show}>
           <Styled.PopupBox width="362px">
             <Styled.PopupHeader>Remove User</Styled.PopupHeader>
             <Styled.PopupBody>
@@ -44,9 +45,10 @@ class Remove extends Component {
 }
 
 Remove.propTypes = {
-  // dispatch: PropTypes.func,
-  showRemove: PropTypes.bool,
-  toggleShowRemove: PropTypes.func,
+  dispatch: PropTypes.func,
+  show: PropTypes.bool,
+  user: PropTypes.object,
+  toggleShow: PropTypes.func,
 }
 
 export default connect()(Remove)
