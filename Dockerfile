@@ -4,15 +4,21 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-ENV REACT_APP_API_URL=https://api-gateway-dev.treasure-hunter.dev
+ARG REACT_APP_API_URL
 
-ENV REACT_APP_TOMCAT_URL=http://10.4.56.86:8080
+ARG REACT_APP_TOMCAT_URL
+
+ARG REACT_APP_FACEBOOK_ID
 
 COPY package.json .
 
 COPY yarn.lock .
 
 RUN yarn install
+
+RUN yarn add increase-memory-limit
+
+RUN node --max-old-space-size=1024
 
 COPY . .
 
