@@ -4,16 +4,36 @@ import styled from 'styled-components'
 import FacebookLogin from 'react-facebook-login'
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
+import { Carousel } from 'antd'
 
 import UserActions from '../redux/userStore'
 import DirectoryActions from '../redux/directoryStore'
 import { accessToken } from '../utils'
 
 const Container = styled.div`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  .ant-carousel .slick-slide {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .ant-carousel .slick-slide div {
+    height: 100vh;
+  }
+`
+
+const Banner = styled.div`
+  background-image: url(${props => props.image});
+  background-size: cover;
+`
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 145px;
+  box-sizing: border-box;
 `
 
 class Login extends Component {
@@ -65,13 +85,23 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <FacebookLogin
-          appId={process.env.REACT_APP_FACEBOOK_ID}
-          scope="public_profile, email"
-          fields="name, email, picture.type(normal)"
-          icon="fa-facebook"
-          callback={response => this.facebookCallback(response)}
-        />
+        <Carousel autoplay autoplaySpeed={1000}>
+          <Banner image={require('../assets/images/banner/home1.jpg')} />
+          <Banner image={require('../assets/images/banner/home2.jpg')} />
+          <Banner image={require('../assets/images/banner/home3.jpg')} />
+          <Banner image={require('../assets/images/banner/home4.jpg')} />
+          <Banner image={require('../assets/images/banner/home5.jpg')} />
+        </Carousel>
+        <ButtonContainer>
+          <FacebookLogin
+            appId={process.env.REACT_APP_FACEBOOK_ID}
+            scope="public_profile, email"
+            fields="name, email, picture.type(normal)"
+            icon="fa-facebook"
+            callback={response => this.facebookCallback(response)}
+            size="small"
+          />
+        </ButtonContainer>
         {this.state.success ? <Redirect to="/home" /> : null}
       </Container>
     )
