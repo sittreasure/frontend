@@ -63,7 +63,7 @@ class Layout extends Component {
         {this.props.icon}
         <Title>{this.props.title}</Title>
         <Description>{this.props.description}</Description>
-        <Link to="/home">
+        <Link to="/">
           <Button>
             <BackIcon src={Back} />
             Back to main menu
