@@ -86,11 +86,11 @@ class Login extends Component {
     return (
       <Container>
         <Carousel autoplay autoplaySpeed={1000}>
-          <Banner image={require('../assets/images/banner/home1.jpg')} />
-          <Banner image={require('../assets/images/banner/home2.jpg')} />
-          <Banner image={require('../assets/images/banner/home3.jpg')} />
-          <Banner image={require('../assets/images/banner/home4.jpg')} />
-          <Banner image={require('../assets/images/banner/home5.jpg')} />
+          <Banner image={require('../assets/images/banner/home1.svg')} />
+          <Banner image={require('../assets/images/banner/home2.svg')} />
+          <Banner image={require('../assets/images/banner/home3.svg')} />
+          <Banner image={require('../assets/images/banner/home4.svg')} />
+          <Banner image={require('../assets/images/banner/home5.svg')} />
         </Carousel>
         <ButtonContainer>
           <FacebookLogin
