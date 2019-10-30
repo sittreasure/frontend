@@ -118,7 +118,7 @@ const menu = {
     {
       icon: 'user',
       hover: 'edit profile',
-      link: '',
+      link: '/comingsoon',
     },
     {
       icon: 'code',
@@ -145,7 +145,7 @@ const menu = {
     {
       icon: 'code',
       hover: 'edit playground',
-      link: '',
+      link: '/comingsoon',
     },
     {
       icon: 'read',
@@ -196,21 +196,8 @@ class Home extends Component {
           <ButtonRow>
             {menu[
               this.props.user && this.props.user.isAdmin ? 'admin' : 'general'
-            ].map((menu, index) => {
-              return menu.link ? (
-                <Link to={menu.link} key={index}>
-                  <Button
-                    onMouseEnter={() => this.setHover(menu.hover)}
-                    onMouseLeave={() => this.setHover(null)}
-                    key={index}
-                  >
-                    <Icon
-                      type={menu.icon}
-                      style={{ fontSize: '60px', color: '#fff' }}
-                    />
-                  </Button>
-                </Link>
-              ) : (
+            ].map((menu, index) => (
+              <Link to={menu.link} key={index}>
                 <Button
                   onMouseEnter={() => this.setHover(menu.hover)}
                   onMouseLeave={() => this.setHover(null)}
@@ -221,8 +208,8 @@ class Home extends Component {
                     style={{ fontSize: '60px', color: '#fff' }}
                   />
                 </Button>
-              )
-            })}
+              </Link>
+            ))}
           </ButtonRow>
         </ButtonWrapper>
       </Container>

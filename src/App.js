@@ -9,6 +9,7 @@ import EditUser from './features/editUser'
 import EditLessonList from './features/editLessonList'
 import EditLesson from './features/editLesson'
 import Logout from './features/logout'
+import ComingSoon from './features/notices/ComingSoon'
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
         <Route path="/editLessonList" exact component={EditLessonList} />
         <Route path="/editLesson/:index" exact component={EditLesson} />
         <Route path="/logout" exact component={Logout} />
+        <Route path="/comingsoon" exact component={ComingSoon} />
       </Router>
     )
   }
