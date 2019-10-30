@@ -61,7 +61,7 @@ class Layout extends Component {
     return (
       <Container>
         {this.props.icon}
-        <Title>{this.props.title}</Title>
+        <Title style={this.props.titleStyle}>{this.props.title}</Title>
         <Description>{this.props.description}</Description>
         <Link to="/">
           <Button>
@@ -78,6 +78,7 @@ Layout.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   icon: PropTypes.element,
+  titleStyle: PropTypes.object,
 }
 
 export default Layout
