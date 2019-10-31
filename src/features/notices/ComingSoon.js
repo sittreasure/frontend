@@ -14,6 +14,9 @@ class ComingSoon extends Component {
     return (
       <Layout
         title="COMING SOON"
+        titleStyle={{
+          animation: 'changeColor 3s linear infinite',
+        }}
         description="This page is under construction. We are working to bring you new best experience. Stay tured for something amazing"
         icon={<Image src={Icon} />}
       />
