@@ -172,7 +172,7 @@ class Editor extends Component {
       openFile: { id },
     } = this.props
     const data = findData(directory, id)
-    this.props.dispatch(PlaygroundActions.save(id, data))
+    this.props.dispatch(DirectoryActions.saveData(id, data))
   }
 
   render() {
