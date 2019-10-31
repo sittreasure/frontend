@@ -8,7 +8,7 @@ function* removeData({ id }) {
   try {
     let response
     yield call(async () => {
-      const { data } = await axios.delete('/fileapi/v1/minios/file', {
+      const { data } = await axios.delete('/fileapi/v1/minios/file/', {
         params: {
           object_name: id,
         },

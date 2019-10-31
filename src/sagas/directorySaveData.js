@@ -12,7 +12,7 @@ function* saveData({ id, objectData }) {
         name: id,
         objectData,
       }
-      const { data } = await axios.post('/fileapi/v1/minios/file', body, {
+      const { data } = await axios.post('/fileapi/v1/minios/file/', body, {
         headers: {
           Authorization: `Bearer ${accessToken.getToken()}`,
         },
