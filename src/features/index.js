@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import FacebookLogin from 'react-facebook-login'
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
-import { Carousel } from 'antd'
 
 import UserActions from '../redux/userStore'
 import DirectoryActions from '../redux/directoryStore'
@@ -13,26 +12,23 @@ import { accessToken } from '../utils'
 const Container = styled.div`
   width: 100%;
   height: 100%;
-
-  .ant-carousel .slick-slide {
-    overflow: hidden;
-    height: 100vh;
-  }
-
-  .ant-carousel .slick-slide div {
-    height: 100vh;
-  }
 `
 
 const Banner = styled.div`
+  width: 100%;
+  height: 100%;
   background-image: url(${props => props.image});
   background-size: cover;
 `
 
-const ButtonContainer = styled.div`
-  position: absolute;
-  top: 40px;
-  right: 145px;
+const Navbar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  padding: 40px 145px 0 145px;
   box-sizing: border-box;
 `
 
@@ -85,14 +81,13 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Carousel autoplay autoplaySpeed={1000}>
-          <Banner image={require('../assets/images/banner/home1.svg')} />
-          <Banner image={require('../assets/images/banner/home2.svg')} />
-          <Banner image={require('../assets/images/banner/home3.svg')} />
-          <Banner image={require('../assets/images/banner/home4.svg')} />
-          <Banner image={require('../assets/images/banner/home5.svg')} />
-        </Carousel>
-        <ButtonContainer>
+        <Banner image={require('../assets/images/banner/home.jpg')} />
+        <Banner image={require('../assets/images/banner/home2.jpg')} />
+        <Banner image={require('../assets/images/banner/home3.jpg')} />
+        <Banner image={require('../assets/images/banner/home4.jpg')} />
+        <Banner image={require('../assets/images/banner/home5.jpg')} />
+        <Navbar>
+          <span />
           <FacebookLogin
             appId={process.env.REACT_APP_FACEBOOK_ID}
             scope="public_profile, email"
@@ -101,7 +96,7 @@ class Login extends Component {
             callback={response => this.facebookCallback(response)}
             size="small"
           />
-        </ButtonContainer>
+        </Navbar>
         {this.state.success ? <Redirect to="/home" /> : null}
       </Container>
     )
