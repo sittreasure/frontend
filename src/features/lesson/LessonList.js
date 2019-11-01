@@ -43,7 +43,7 @@ class LessonList extends Component {
           })
           const temp = {
             lessons,
-            groupId: lessons[0].lessonGroup,
+            groupId: lessons && lessons[0] && lessons[0].lessonGroup,
           }
           lessons.reduce((accumulator, currentValue) => {
             const learned = this.props.learned.indexOf(currentValue.id)
@@ -62,7 +62,8 @@ class LessonList extends Component {
         const titleIndex = this.props.group.findIndex(
           g => g.id === group.groupId
         )
-        const title = this.props.group[titleIndex].name
+        const title =
+          this.props.group[titleIndex] && this.props.group[titleIndex].name
         if (!(group.show || group.hasNaxtLesson)) {
           return null
         }
