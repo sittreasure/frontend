@@ -7,9 +7,17 @@ import { Link } from 'react-router-dom'
 import { Icon } from 'antd'
 
 import UserActions from '../../redux/userStore'
-import background from '../../assets/images/main-background.png'
+import background from '../../assets/videos/Comp.mp4'
 import button from '../../assets/images/square.png'
 import LogoImg from '../../assets/images/logo.png'
+
+const Video = styled.video`
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +25,6 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-image: url(${background});
   background-size: cover;
 `
 
@@ -178,41 +185,46 @@ class Home extends Component {
 
   render() {
     return (
-      <Container>
-        <ButtonWrapper>
-          <EffectRow>
-            <Effect />
-            <Effect />
-          </EffectRow>
-          <DescriptionRow>
-            <Description>
-              {this.state.hover ? (
-                <DescriptionText>{this.state.hover}</DescriptionText>
-              ) : (
-                <Logo src={LogoImg} />
-              )}
-            </Description>
-          </DescriptionRow>
-          <ButtonRow>
-            {menu[
-              this.props.user && this.props.user.isAdmin ? 'admin' : 'general'
-            ].map((menu, index) => (
-              <Link to={menu.link} key={index}>
-                <Button
-                  onMouseEnter={() => this.setHover(menu.hover)}
-                  onMouseLeave={() => this.setHover(null)}
-                  key={index}
-                >
-                  <Icon
-                    type={menu.icon}
-                    style={{ fontSize: '60px', color: '#fff' }}
-                  />
-                </Button>
-              </Link>
-            ))}
-          </ButtonRow>
-        </ButtonWrapper>
-      </Container>
+      <>
+        <Video autoPlay loop>
+          <source src={background} type="video/mp4" />
+        </Video>
+        <Container>
+          <ButtonWrapper>
+            <EffectRow>
+              <Effect />
+              <Effect />
+            </EffectRow>
+            <DescriptionRow>
+              <Description>
+                {this.state.hover ? (
+                  <DescriptionText>{this.state.hover}</DescriptionText>
+                ) : (
+                  <Logo src={LogoImg} />
+                )}
+              </Description>
+            </DescriptionRow>
+            <ButtonRow>
+              {menu[
+                this.props.user && this.props.user.isAdmin ? 'admin' : 'general'
+              ].map((menu, index) => (
+                <Link to={menu.link} key={index}>
+                  <Button
+                    onMouseEnter={() => this.setHover(menu.hover)}
+                    onMouseLeave={() => this.setHover(null)}
+                    key={index}
+                  >
+                    <Icon
+                      type={menu.icon}
+                      style={{ fontSize: '60px', color: '#fff' }}
+                    />
+                  </Button>
+                </Link>
+              ))}
+            </ButtonRow>
+          </ButtonWrapper>
+        </Container>
+      </>
     )
   }
 }
