@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { connect } from "react-redux"
 
-import { Markdown } from '../common'
-import LessonActions from '../../redux/lessonStore'
-import { ReactComponent as SkipIcon } from '../../assets/images/skip.svg'
+import { Markdown } from "../common"
+import LessonActions from "../../redux/lessonStore"
+import { ReactComponent as SkipIcon } from "../../assets/images/skip.svg"
 
 const Container = styled.div`
   height: 100%;
@@ -14,7 +14,7 @@ const Container = styled.div`
 
 const Title = styled.div`
   display: inline-block;
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: bold;
   font-size: 30px;
@@ -26,13 +26,13 @@ const Title = styled.div`
 `
 
 const MarkdownContainer = styled.div`
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   color: #c4c4c4;
   background-color: #202020;
   height: calc(100% - 20px - 51px - 29px - 40px);
   padding: 10px 30px;
   margin: 14px 0px;
-  overflow: scroll;
+  overflow: auto;
 `
 
 const ButtonContainer = styled.div`
@@ -41,7 +41,7 @@ const ButtonContainer = styled.div`
 `
 
 const Button = styled.div`
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: bold;
   font-size: 21px;

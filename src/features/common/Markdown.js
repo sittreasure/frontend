@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import ReactMarkdown from 'react-markdown'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import ReactMarkdown from "react-markdown"
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
 
   * {
-    font-family: 'ThaiSans Neue';
+    font-family: "ThaiSans Neue";
     color: #c4c4c4;
   }
 
