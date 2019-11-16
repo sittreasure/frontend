@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const Container = styled.div`
 const Top = styled.div`
   display: flex;
   align-items: center;
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: 800;
   font-size: 25px;
@@ -26,7 +26,7 @@ const Bar = styled.div`
 `
 
 const Bottom = styled.div`
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: bold;
   font-size: 15px;
@@ -40,7 +40,7 @@ class Label extends Component {
     return (
       <Container>
         <Top>
-          {`${percent} %`} <Bar color={color} />
+          {`${percent.toFixed(0)} %`} <Bar color={color} />
         </Top>
         <Bottom>{sub}</Bottom>
       </Container>

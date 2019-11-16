@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { Link } from "react-router-dom"
 
-import axios from '../../libs/axios'
-import { accessToken } from '../../utils'
-import BannerImg from '../../assets/images/banner-lesson.png'
-import Pen from '../../assets/images/pen.png'
-import Bin from '../../assets/images/context/remove.png'
+import axios from "../../libs/axios"
+import { accessToken } from "../../utils"
+import BannerImg from "../../assets/images/banner-lesson.png"
+import Pen from "../../assets/images/pen.png"
+import Bin from "../../assets/images/context/remove.png"
 
 const Container = styled.div`
   display: flex;
@@ -24,7 +24,8 @@ const Banner = styled.div`
   width: 100%;
   height: 150px;
   background-image: url(${BannerImg});
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   border-bottom: 2px solid #61d0ff;
   border-radius: 10px 10px 0 0;
 `
@@ -36,10 +37,11 @@ const Content = styled.div`
   width: 196px;
   height: 150px;
   padding: 0 17px;
+  padding-top: 5px;
 `
 
 const Group = styled.div`
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: bold;
   font-size: 23px;
@@ -48,7 +50,7 @@ const Group = styled.div`
 `
 
 const Title = styled.div`
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
@@ -81,11 +83,11 @@ const AdminImg = styled.div`
     background-image: url(${props.img});
     background-size: cover;
   `
-      : 'background-color: #c4c4c4;'}
+      : "background-color: #c4c4c4;"}
 `
 
 const AdminName = styled.div`
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: bold;
   font-size: 15px;
@@ -145,7 +147,7 @@ class Card extends Component {
             <AdminContaier>
               <AdminImg img={this.state.admin && this.state.admin.avatar} />
               <AdminName>
-                {this.state.admin ? this.state.admin.name : '-'}
+                {this.state.admin ? this.state.admin.name : "-"}
               </AdminName>
             </AdminContaier>
             <IconContainer>

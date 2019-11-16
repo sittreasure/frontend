@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { connect } from "react-redux"
 
-import { Nav } from '../common'
-import Card from './Card'
-import Remove from './Remove'
-import LessonActions from '../../redux/lessonStore'
+import { Nav } from "../common"
+import Card from "./Card"
+import Remove from "./Remove"
+import LessonActions from "../../redux/lessonStore"
 
 const Wrappper = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const HeaderContainer = styled.div`
 `
 
 const Header = styled.h1`
-  font-family: 'ThaiSans Neue';
+  font-family: "ThaiSans Neue";
   font-style: normal;
   font-weight: bold;
   font-size: 50px;
@@ -39,6 +39,7 @@ const Header = styled.h1`
 
 const LessonContainer = styled.div`
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   overflow: scroll;
   overflow-y: auto;

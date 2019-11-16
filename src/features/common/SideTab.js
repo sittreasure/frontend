@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { Link } from "react-router-dom"
 
-import LogoImg from '../../assets/images/logo.png'
+import LogoImg from "../../assets/images/logo.png"
 
 const Container = styled.div`
   height: 100%;
@@ -17,10 +17,18 @@ const Container = styled.div`
   z-index: 100;
 `
 
-const Logo = styled.img`
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 40px;
   width: 40px;
   margin-top: 9px;
+`
+
+const Logo = styled.img`
+  height: auto;
+  width: 40px;
 `
 
 class SideTab extends Component {
@@ -28,7 +36,9 @@ class SideTab extends Component {
     return (
       <Container>
         <Link to="/home">
-          <Logo src={LogoImg} />
+          <LogoContainer>
+            <Logo src={LogoImg} />
+          </LogoContainer>
         </Link>
         {this.props.children}
       </Container>
