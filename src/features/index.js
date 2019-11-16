@@ -1,13 +1,15 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import FacebookLogin from 'react-facebook-login'
-import { Redirect } from 'react-router'
-import { connect } from 'react-redux'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import FacebookLogin from "react-facebook-login"
+import { Redirect } from "react-router"
+import { connect } from "react-redux"
 
-import UserActions from '../redux/userStore'
-import DirectoryActions from '../redux/directoryStore'
-import { accessToken } from '../utils'
+import UserActions from "../redux/userStore"
+import DirectoryActions from "../redux/directoryStore"
+import { accessToken } from "../utils"
+
+import LogoImg from "../assets/images/logo-for-main.png"
 
 const Container = styled.div`
   width: 100%;
@@ -28,8 +30,14 @@ const Navbar = styled.div`
   width: 100%;
   position: fixed;
   top: 0;
-  padding: 40px 145px 0 145px;
+  padding: 10px 90px;
   box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.5);
+`
+
+const Logo = styled.img`
+  width: auto;
+  height: 80px;
 `
 
 class Login extends Component {
@@ -57,7 +65,7 @@ class Login extends Component {
       },
     } = result
     const idInt = parseInt(id)
-    const [firstname, lastname] = name.split(' ')
+    const [firstname, lastname] = name.split(" ")
     this.props.dispatch(
       UserActions.loginFacebook(idInt, firstname, lastname, url)
     )
@@ -81,13 +89,13 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Banner image={require('../assets/images/banner/home.jpg')} />
-        <Banner image={require('../assets/images/banner/home2.jpg')} />
-        <Banner image={require('../assets/images/banner/home3.jpg')} />
-        <Banner image={require('../assets/images/banner/home4.jpg')} />
-        <Banner image={require('../assets/images/banner/home5.jpg')} />
+        <Banner image={require("../assets/images/banner/home.jpg")} />
+        <Banner image={require("../assets/images/banner/home2.jpg")} />
+        <Banner image={require("../assets/images/banner/home3.jpg")} />
+        <Banner image={require("../assets/images/banner/home4.jpg")} />
+        <Banner image={require("../assets/images/banner/home5.jpg")} />
         <Navbar>
-          <span />
+          <Logo src={LogoImg} />
           <FacebookLogin
             appId={process.env.REACT_APP_FACEBOOK_ID}
             scope="public_profile, email"
